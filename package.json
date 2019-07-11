@@ -1,0 +1,23 @@
+{
+  "name": "lifeguard",
+  "version": "1.0.0",
+  "description": "Administration assistant for your Discord server!",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "lifeguard"
+  ],
+  "author": "Rauf",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "discord.js": "^11.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^12.6.2"
+  }
+}
