@@ -1,0 +1,29 @@
+{
+  "commands": {
+    "eval": {
+      "description": "Evaluates given code",
+      "failure": "Command execution failed due to {reason}",
+      "input": "Input:",
+      "output": "Output:",
+      "reasons": {
+        "parsingFailure": "regex failing to parse codeblock"
+      },
+      "timeTaken": "Command executed in {timeTaken}ms"
+    },
+    "help": {
+      "aliases": "Aliases",
+      "description": "Help Command",
+      "guildOnly": "Guild Only",
+      "options": "Options",
+      "usage": "Usage",
+      "usageLevel": "Usage Level"
+    },
+    "ping": {
+      "body": "Bot Ping: {ping}ms\nShard Latency: {latency}ms",
+      "description": "Check if the bot is alive"
+    },
+    "warn": {
+      "description": ""
+    }
+  }
+}
