@@ -1,19 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-const Infraction_1 = require("./Infraction");
-exports.User = new mongoose_1.Schema({
+exports.Guild = new mongoose_1.Schema({
     id: String,
-    infractions: [Infraction_1.Infraction]
+    locale: String,
+    modRole: String,
+    prefix: String
 });
-exports.UserModel = mongoose_1.model("users", exports.User);
-function createUser(user) {
-    return exports.UserModel.create(user);
+exports.GuildModel = mongoose_1.model("guilds", exports.Guild);
+function createGuild(guild) {
+    return exports.GuildModel.create(guild);
 }
-exports.createUser = createUser;
-function findUser(id) {
+exports.createGuild = createGuild;
+function findGuild(id) {
     return new Promise((res, rej) => {
-        exports.UserModel.findOne({
+        exports.GuildModel.findOne({
             id
         }, (err, doc) => {
             if (err) {
@@ -28,4 +29,4 @@ function findUser(id) {
         });
     });
 }
-exports.findUser = findUser;
+exports.findGuild = findGuild;

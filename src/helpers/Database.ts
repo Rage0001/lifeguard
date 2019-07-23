@@ -1,8 +1,8 @@
-import mongoose, { connect as mongoConnect } from "mongoose";
+import mongoose from "mongoose";
 import { config } from "../private/config";
 
 export function connect() {
-  mongoConnect(config.database.url, {
+  mongoose.connect(config.database.url, {
     dbName: config.database.name,
     useNewUrlParser: true
   });

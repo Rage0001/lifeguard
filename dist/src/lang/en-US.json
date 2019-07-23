@@ -22,6 +22,17 @@
       "body": "Bot Ping: {ping}ms\nShard Latency: {latency}ms",
       "description": "Check if the bot is alive"
     },
+    "setup": {
+      "collector": {
+        "end": "Thank you for setting up Lifeguard",
+        "localeCollected": "Collected locale: {locale}",
+        "modRoleCollected": "Collected mod role: {modRole}",
+        "prefixCollected": "Collected prefix: {prefix}",
+        "help": "end\nlocale [lang]\nmodRole [id]\nprefix [prefix]",
+        "start": "Starting message collector (binded to {user})"
+      },
+      "description": "Sets up guild for use with Lifeguard"
+    },
     "warn": {
       "description": ""
     }

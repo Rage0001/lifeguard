@@ -1,13 +1,21 @@
-import mongoose from "mongoose";
+import { Schema } from "mongoose";
 
-const infractionSchema = new mongoose.Schema({
+export const Infraction = new Schema({
   action: String,
   active: Boolean,
-  guild: Number,
-  moderator: Number,
+  guild: String,
+  moderator: String,
   reason: String,
   time: Date,
-  uid: Number
+  user: String
 });
 
-export default mongoose.model("Infraction", infractionSchema);
+export interface IInfraction {
+  action: string;
+  active: boolean;
+  guild: string;
+  moderator: string;
+  reason: string;
+  time: Date;
+  user: string;
+}
