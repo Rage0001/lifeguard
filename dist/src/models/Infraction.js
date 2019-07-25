@@ -5,8 +5,8 @@ exports.Infraction = new mongoose_1.Schema({
     action: String,
     active: Boolean,
     guild: String,
+    id: Number,
     moderator: String,
     reason: String,
-    time: Date,
-    user: String
+    time: Date
 });

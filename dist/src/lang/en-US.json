@@ -34,7 +34,30 @@
       "description": "Sets up guild for use with Lifeguard"
     },
     "warn": {
+      "description": "Appends a warning to the specified user",
+      "errors": {
+        "noUser": "The specified user has not been found"
+      },
+      "inf": {
+        "desc": "You have received a warning in {guild} for `{reason}`",
+        "title": "Warning"
+      }
+    },
+    "random": {
+      "description": "Flips a coin and selects a random number from given range.",
+      "errors": {
+        "argsNAN": "One of the given arguments is not a number."
+      },
+      "heads": "Heads",
+      "tails": "Tails"
+    },
+    "inf": {
       "description": ""
+    },
+    "remind": {
+      "failedTimestamp": "Couldn't parse `{arg}` into `timestamp`",
+      "body": "Okay, I will remind you at `{timestamp}` about `{text}`",
+      "reminder": ":alarm_clock: You asked me to remind you at `{timestamp}` about `{text}`"
     }
   }
 }

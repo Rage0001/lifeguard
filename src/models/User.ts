@@ -1,9 +1,11 @@
-import { model, Schema } from "mongoose";
+import { Document, model, Schema } from "mongoose";
+import { Job } from "node-schedule";
 import { IInfraction, Infraction } from "./Infraction";
 
 export const User = new Schema({
   id: String,
-  infractions: [Infraction]
+  infractions: [Infraction],
+  reminders: Array
 });
 
 export const UserModel = model("users", User);
@@ -11,6 +13,13 @@ export const UserModel = model("users", User);
 export interface IUser {
   id: string;
   infractions: IInfraction[];
+  reminders: Job[];
+}
+
+export interface IUserDoc extends Document {
+  id: string;
+  infractions: IInfraction[];
+  reminders: Job[];
 }
 
 export function createUser(user: IUser) {
@@ -18,12 +27,12 @@ export function createUser(user: IUser) {
 }
 
 export function findUser(id: string) {
-  return new Promise<IUser | undefined>((res, rej) => {
+  return new Promise<IUserDoc | undefined>((res, rej) => {
     UserModel.findOne(
       {
         id
       },
-      (err, doc: IUser) => {
+      (err, doc: IUserDoc) => {
         if (err) {
           return rej(err);
         }

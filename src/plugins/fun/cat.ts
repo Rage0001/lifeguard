@@ -21,8 +21,8 @@ export const command = new Command(
   },
   {
     guildOnly: true,
-    hidden: true,
-    level: 5,
-    usage: ["eval [thing to eval]"]
+    hidden: false,
+    level: 0,
+    usage: ["cat"]
   }
 );

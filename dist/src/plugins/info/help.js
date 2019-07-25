@@ -14,7 +14,7 @@ exports.command = new Command_1.Command("help", async (msg, args, bot) => {
     if (!args.length) {
         const embed = new discord_js_1.RichEmbed({
             description: commands
-                .map(command => `${command.name} - ${bot.langs["en-US"].commands[command.name].description}`)
+                .map(command => `${command.name} - ${bot.langs["en-US"].commands[command.name].description || ""}`)
                 .join("\n")
         });
         msg.channel.send(embed);

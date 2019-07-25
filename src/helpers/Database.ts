@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { config } from "../private/config";
+import Logger from "./Logger";
 
 export function connect() {
   mongoose.connect(config.database.url, {
@@ -11,7 +12,7 @@ export function connect() {
 
   db.on("error", console.error.bind(console, "Connection error:"));
   db.once("open", () => {
-    console.log("Connected to Database.");
+    Logger.info("Connected to Database.");
   });
 
   return db;

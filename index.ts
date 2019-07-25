@@ -1,6 +1,7 @@
 import { connect } from "./src/helpers/Database";
 import { loadEvents } from "./src/helpers/EventLoader";
 import { loadLangs } from "./src/helpers/LangLoader";
+import Logger from "./src/helpers/Logger";
 import { PluginClient } from "./src/helpers/PluginClient";
 import { loadPlugins } from "./src/helpers/PluginLoader";
 import { config } from "./src/private/config";
@@ -8,17 +9,17 @@ import { config } from "./src/private/config";
 async function runLoaders() {
   const langsErr = await loadLangs(bot);
   if (langsErr) {
-    console.error(langsErr);
+    Logger.error(langsErr.message);
   }
   const eventsErr = await loadEvents(bot);
   if (eventsErr) {
-    console.error(eventsErr);
+    Logger.error(eventsErr.message);
   }
   const plugins = await loadPlugins();
   if (Array.isArray(plugins)) {
     bot.plugins = plugins;
   } else {
-    console.error(plugins);
+    Logger.error(plugins.message);
   }
 }
 
@@ -40,7 +41,7 @@ bot.once("ready", async () => {
       type: "WATCHING"
     }
   });
-  console.log("Ready!");
+  Logger.info("Connected to Discord.");
 });
 
 bot.login(config.token);

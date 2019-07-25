@@ -1,26 +1,30 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const Database_1 = require("./src/helpers/Database");
 const EventLoader_1 = require("./src/helpers/EventLoader");
 const LangLoader_1 = require("./src/helpers/LangLoader");
+const Logger_1 = __importDefault(require("./src/helpers/Logger"));
 const PluginClient_1 = require("./src/helpers/PluginClient");
 const PluginLoader_1 = require("./src/helpers/PluginLoader");
 const config_1 = require("./src/private/config");
 async function runLoaders() {
     const langsErr = await LangLoader_1.loadLangs(bot);
     if (langsErr) {
-        console.error(langsErr);
+        Logger_1.default.error(langsErr.message);
     }
     const eventsErr = await EventLoader_1.loadEvents(bot);
     if (eventsErr) {
-        console.error(eventsErr);
+        Logger_1.default.error(eventsErr.message);
     }
     const plugins = await PluginLoader_1.loadPlugins();
     if (Array.isArray(plugins)) {
         bot.plugins = plugins;
     }
     else {
-        console.error(plugins);
+        Logger_1.default.error(plugins.message);
     }
 }
 const bot = new PluginClient_1.PluginClient(config_1.config.prefix, {
@@ -39,6 +43,6 @@ bot.once("ready", async () => {
             type: "WATCHING"
         }
     });
-    console.log("Ready!");
+    Logger_1.default.info("Connected to Discord.");
 });
 bot.login(config_1.config.token);

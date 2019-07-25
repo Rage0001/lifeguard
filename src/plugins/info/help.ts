@@ -19,7 +19,7 @@ export const command = new Command(
           .map(
             command =>
               `${command.name} - ${
-                bot.langs["en-US"].commands[command.name].description
+                bot.langs["en-US"].commands[command.name].description || ""
               }`
           )
           .join("\n")

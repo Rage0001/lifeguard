@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = require("../private/config");
+const Logger_1 = __importDefault(require("./Logger"));
 function connect() {
     mongoose_1.default.connect(config_1.config.database.url, {
         dbName: config_1.config.database.name,
@@ -13,7 +14,7 @@ function connect() {
     const db = mongoose_1.default.connection;
     db.on("error", console.error.bind(console, "Connection error:"));
     db.once("open", () => {
-        console.log("Connected to Database.");
+        Logger_1.default.info("Connected to Database.");
     });
     return db;
 }

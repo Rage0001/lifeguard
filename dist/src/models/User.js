@@ -4,7 +4,8 @@ const mongoose_1 = require("mongoose");
 const Infraction_1 = require("./Infraction");
 exports.User = new mongoose_1.Schema({
     id: String,
-    infractions: [Infraction_1.Infraction]
+    infractions: [Infraction_1.Infraction],
+    reminders: Array
 });
 exports.UserModel = mongoose_1.model("users", exports.User);
 function createUser(user) {

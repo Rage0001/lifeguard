@@ -19,7 +19,7 @@ exports.command = new Command_1.Command("eval", async (msg, args, bot) => {
     msg.channel.send(embed);
 }, {
     guildOnly: true,
-    hidden: true,
-    level: 5,
-    usage: ["eval [thing to eval]"]
+    hidden: false,
+    level: 0,
+    usage: ["cat"]
 });
