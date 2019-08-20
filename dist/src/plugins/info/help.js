@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const Command_1 = require("../Command");
 async function mapPrefixToUsage(prefix, usage) {
-    return usage.map(use => use + prefix);
+    return usage.map(use => prefix + use);
 }
 exports.command = new Command_1.Command("help", async (msg, args, bot) => {
     const lang = bot.langs["en-US"].commands.help;

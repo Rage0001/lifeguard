@@ -30,7 +30,8 @@ exports.event = new Event_1.Event("message", async (bot, msg) => {
         else {
             User_1.createUser({
                 id: msg.author.id,
-                infractions: []
+                infractions: [],
+                reminders: []
             });
         }
     }

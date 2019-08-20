@@ -1,4 +1,5 @@
-import { RichEmbed } from "discord.js";
+import { RichEmbed, TextChannel } from "discord.js";
+import { findGuild } from "../../models/Guild";
 import { findUser } from "../../models/User";
 import { Command } from "../Command";
 
@@ -31,8 +32,24 @@ export const command = new Command(
       const u = bot.users.get(user.id);
       if (u) {
         u.send(embed);
+
+        const guild = await findGuild(msg.guild.id);
+        if (guild) {
+          if (guild.modLog) {
+            const modLog = msg.guild.channels.get(guild.modLog);
+            if (modLog) {
+              const embed2 = new RichEmbed({
+                description: bot.format(lang.inf.modLog, {
+                  mod: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
+                  reason: args.slice(1).join(" "),
+                  user: `${u.username}#${u.discriminator} (${u.id})`
+                })
+              });
+              (modLog as TextChannel).send(embed2);
+            }
+          }
+        }
       }
-      // TODO: send to mod log
     } else {
       const embed = new RichEmbed({
         description: lang.errors.noUser
@@ -44,6 +61,6 @@ export const command = new Command(
     guildOnly: true,
     hidden: false,
     level: 2,
-    usage: ["warn [user] [reason]"]
+    usage: ["warn {user} [reason]"]
   }
 );

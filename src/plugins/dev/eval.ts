@@ -73,6 +73,6 @@ export const command = new Command(
     guildOnly: true,
     hidden: true,
     level: 5,
-    usage: ["eval [thing to eval]"]
+    usage: ["eval {code}"]
   }
 );

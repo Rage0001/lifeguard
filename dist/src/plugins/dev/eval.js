@@ -69,5 +69,5 @@ exports.command = new Command_1.Command("eval", async (msg, args, bot) => {
     guildOnly: true,
     hidden: true,
     level: 5,
-    usage: ["eval [thing to eval]"]
+    usage: ["eval {code}"]
 });

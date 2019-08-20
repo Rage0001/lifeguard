@@ -2,7 +2,7 @@ import { RichEmbed } from "discord.js";
 import { Command } from "../Command";
 
 async function mapPrefixToUsage(prefix: string, usage: string[]) {
-  return usage.map(use => use + prefix);
+  return usage.map(use => prefix + use);
 }
 
 export const command = new Command(

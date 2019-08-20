@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
+const Guild_1 = require("../../models/Guild");
 const User_1 = require("../../models/User");
 const Command_1 = require("../Command");
 exports.command = new Command_1.Command("warn", async (msg, args, bot) => {
@@ -30,8 +31,23 @@ exports.command = new Command_1.Command("warn", async (msg, args, bot) => {
         const u = bot.users.get(user.id);
         if (u) {
             u.send(embed);
+            const guild = await Guild_1.findGuild(msg.guild.id);
+            if (guild) {
+                if (guild.modLog) {
+                    const modLog = msg.guild.channels.get(guild.modLog);
+                    if (modLog) {
+                        const embed2 = new discord_js_1.RichEmbed({
+                            description: bot.format(lang.inf.modLog, {
+                                mod: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
+                                reason: args.slice(1).join(" "),
+                                user: `${u.username}#${u.discriminator} (${u.id})`
+                            })
+                        });
+                        modLog.send(embed2);
+                    }
+                }
+            }
         }
-        // TODO: send to mod log
     }
     else {
         const embed = new discord_js_1.RichEmbed({
@@ -43,5 +59,5 @@ exports.command = new Command_1.Command("warn", async (msg, args, bot) => {
     guildOnly: true,
     hidden: false,
     level: 2,
-    usage: ["warn [user] [reason]"]
+    usage: ["warn {user} [reason]"]
 });

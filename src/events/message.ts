@@ -28,7 +28,8 @@ export const event = new Event("message", async (bot, msg: Message) => {
     } else {
       createUser({
         id: msg.author.id,
-        infractions: []
+        infractions: [],
+        reminders: []
       });
     }
   } catch (err) {

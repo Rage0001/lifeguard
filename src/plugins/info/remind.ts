@@ -15,6 +15,7 @@ export const command = new Command(
       switch (args[0]) {
         case "add":
           const givenTimestamp = ms(args[1]);
+          const currentDate = Date.now();
           if (!givenTimestamp) {
             return msg.channel.send(bot.format(lang.failedTimestamp, {
               arg: args[1]
@@ -23,15 +24,15 @@ export const command = new Command(
           const text = args.slice(2).join(" ");
           msg.channel.send(bot.format(lang.body, {
             text,
-            timestamp: moment(givenTimestamp).format(),
+            timestamp: moment(currentDate + givenTimestamp).format(),
           }));
-          const currentDate = Date.now();
           const reminder = Schedule.scheduleJob(new Date(currentDate + givenTimestamp), () => {
             msg.author.send(bot.format(lang.reminder, {
               text,
-              timestamp: moment(givenTimestamp).format()
+              timestamp: moment(currentDate + givenTimestamp).format()
             }));
             delete reminders[reminders.indexOf(reminder)];
+            user.set("reminders", reminders.filter((reminder) => reminder !== null));
             user.markModified("reminders");
             user.save();
           });
@@ -47,6 +48,7 @@ export const command = new Command(
             }
           });
           reminders = [];
+          user.set("reminders", reminders);
           user.markModified("reminders");
           user.save();
           break;
@@ -57,6 +59,6 @@ export const command = new Command(
     guildOnly: false,
     hidden: false,
     level: 0,
-    usage: ["remind add [time] [text]", "remind clear"]
+    usage: ["remind add {time} [text]", "remind clear"]
   }
 );

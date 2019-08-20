@@ -1,5 +1,5 @@
 import { Message, MessageCollector, RichEmbed } from "discord.js";
-import { createGuild } from "../../models/Guild";
+import { findGuild } from "../../models/Guild";
 import { Command } from "../Command";
 
 export const command = new Command(
@@ -21,8 +21,10 @@ export const command = new Command(
     });
 
     interface IGuildData {
+      [k: string]: any;
       id: string;
       locale?: string;
+      modLog?: string;
       modRole?: string;
       prefix?: string;
     }
@@ -31,8 +33,16 @@ export const command = new Command(
 
     collector.once("end", async (coll) => {
       Array.from(coll.values()).map(msg => msg.delete(1000));
-      msgs.map(msg => msg.delete(1000));
+      msgs.map(msg => msg.delete(2000));
       console.log(guildData);
+      const guild = await findGuild(msg.guild.id);
+      if (guild) {
+        Object.keys(guildData).map((k) => {
+          guild.set(k, guildData[k]);
+          guild.markModified(k);
+        });
+        await guild.save();
+      }
       const m = await msg.channel.send(
         new RichEmbed({
           description: lang.collector.end
@@ -70,6 +80,21 @@ export const command = new Command(
             new RichEmbed({
               description: bot.format(lang.collector.localeCollected, {
                 locale: guildData.locale
+              })
+            })
+          );
+          if (!Array.isArray(botMsg)) {
+            msgs.push(botMsg);
+          }
+
+          break;
+
+        case "modLog":
+          guildData.modLog = args[0];
+          botMsg = await msg.channel.send(
+            new RichEmbed({
+              description: bot.format(lang.collector.modLogCollected, {
+                modLog: guildData.modLog
               })
             })
           );

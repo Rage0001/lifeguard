@@ -1,14 +1,17 @@
 {
+  "events": {
+    "guildCreate": "Thank You for adding Lifeguard to your server!\nTo begin using Lifeguard, visit https://url/{id}/settings"
+  },
   "commands": {
     "eval": {
-      "description": "Evaluates given code",
+      "description": "Evaluates given code.",
       "failure": "Command execution failed due to {reason}",
       "input": "Input:",
       "output": "Output:",
       "reasons": {
-        "parsingFailure": "regex failing to parse codeblock"
+        "parsingFailure": "regex failing to parse codeblock."
       },
-      "timeTaken": "Command executed in {timeTaken}ms"
+      "timeTaken": "Command executed in {timeTaken}ms."
     },
     "help": {
       "aliases": "Aliases",
@@ -19,27 +22,29 @@
       "usageLevel": "Usage Level"
     },
     "ping": {
-      "body": "Bot Ping: {ping}ms\nShard Latency: {latency}ms",
-      "description": "Check if the bot is alive"
+      "body": "Bot Ping: {ping}ms\nShard Latency: {latency}ms.",
+      "description": "Check if the bot is alive."
     },
     "setup": {
       "collector": {
-        "end": "Thank you for setting up Lifeguard",
+        "end": "Thank you for setting up Lifeguard.",
         "localeCollected": "Collected locale: {locale}",
+        "modLogCollected": "Collected mod log: {modLog}",
         "modRoleCollected": "Collected mod role: {modRole}",
         "prefixCollected": "Collected prefix: {prefix}",
         "help": "end\nlocale [lang]\nmodRole [id]\nprefix [prefix]",
         "start": "Starting message collector (binded to {user})"
       },
-      "description": "Sets up guild for use with Lifeguard"
+      "description": "Sets up guild for use with Lifeguard. Type `help` after the collecter has started to see more information!"
     },
     "warn": {
-      "description": "Appends a warning to the specified user",
+      "description": "Appends a warning to the specified user.",
       "errors": {
-        "noUser": "The specified user has not been found"
+        "noUser": "The specified user has not been found,"
       },
       "inf": {
-        "desc": "You have received a warning in {guild} for `{reason}`",
+        "desc": "You have received a warning in {guild} for `{reason}`.",
+        "modLog": "{mod} has warned {user} for `{reason}`.",
         "title": "Warning"
       }
     },
@@ -52,12 +57,13 @@
       "tails": "Tails"
     },
     "inf": {
-      "description": ""
+      "description": "Top-Level Infraction Command."
     },
     "remind": {
-      "failedTimestamp": "Couldn't parse `{arg}` into `timestamp`",
-      "body": "Okay, I will remind you at `{timestamp}` about `{text}`",
-      "reminder": ":alarm_clock: You asked me to remind you at `{timestamp}` about `{text}`"
+      "description": "Reminds you on whatever you need help remembering.",
+      "failedTimestamp": "Couldn't parse `{arg}` into `timestamp`.",
+      "body": "Okay, I will remind you at `{timestamp}` about `{text}`.",
+      "reminder": ":alarm_clock: You asked me to remind you at `{timestamp}` about `{text}`."
     }
   }
 }

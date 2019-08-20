@@ -4,6 +4,7 @@ const mongoose_1 = require("mongoose");
 exports.Guild = new mongoose_1.Schema({
     id: String,
     locale: String,
+    modLog: String,
     modRole: String,
     prefix: String
 });

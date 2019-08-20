@@ -1,13 +1,20 @@
-import { Guild, RichEmbed } from "discord.js";
+import { Guild, RichEmbed, TextChannel } from "discord.js";
+import { createGuild } from "../models/Guild";
 import { Event } from "./Event";
 
-export const event = new Event("guildCreate", async (bot, g: Guild) => {
+export const event = new Event("guildCreate", async (bot, guild: Guild) => {
+  const lang = bot.langs["en-US"].events.guildCreate;
   try {
+    await createGuild({
+      id: guild.id
+    });
     const embed = new RichEmbed({
       description:
-        "Thank You for adding Lifegaurd to your server! To begin using Lifeguard, run !setup"
+        bot.format(lang, {
+          id: guild.id
+        })
     });
-    g.defaultChannel.send(embed);
+    (guild.systemChannel as TextChannel).send(embed);
   } catch (err) {
     return {
       location: "GuildCreate Event",

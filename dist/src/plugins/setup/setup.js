@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
+const Guild_1 = require("../../models/Guild");
 const Command_1 = require("../Command");
 exports.command = new Command_1.Command("setup", async (msg, args, bot) => {
     const lang = bot.langs["en-US"].commands.setup;
@@ -19,8 +20,16 @@ exports.command = new Command_1.Command("setup", async (msg, args, bot) => {
     const msgs = [];
     collector.once("end", async (coll) => {
         Array.from(coll.values()).map(msg => msg.delete(1000));
-        msgs.map(msg => msg.delete(1000));
+        msgs.map(msg => msg.delete(2000));
         console.log(guildData);
+        const guild = await Guild_1.findGuild(msg.guild.id);
+        if (guild) {
+            Object.keys(guildData).map((k) => {
+                guild.set(k, guildData[k]);
+                guild.markModified(k);
+            });
+            await guild.save();
+        }
         const m = await msg.channel.send(new discord_js_1.RichEmbed({
             description: lang.collector.end
         }));
@@ -48,6 +57,17 @@ exports.command = new Command_1.Command("setup", async (msg, args, bot) => {
                 botMsg = await msg.channel.send(new discord_js_1.RichEmbed({
                     description: bot.format(lang.collector.localeCollected, {
                         locale: guildData.locale
+                    })
+                }));
+                if (!Array.isArray(botMsg)) {
+                    msgs.push(botMsg);
+                }
+                break;
+            case "modLog":
+                guildData.modLog = args[0];
+                botMsg = await msg.channel.send(new discord_js_1.RichEmbed({
+                    description: bot.format(lang.collector.modLogCollected, {
+                        modLog: guildData.modLog
                     })
                 }));
                 if (!Array.isArray(botMsg)) {

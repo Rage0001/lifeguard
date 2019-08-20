@@ -16,6 +16,7 @@ exports.command = new Command_1.Command("remind", async (msg, args, bot) => {
         switch (args[0]) {
             case "add":
                 const givenTimestamp = ms_1.default(args[1]);
+                const currentDate = Date.now();
                 if (!givenTimestamp) {
                     return msg.channel.send(bot.format(lang.failedTimestamp, {
                         arg: args[1]
@@ -24,15 +25,15 @@ exports.command = new Command_1.Command("remind", async (msg, args, bot) => {
                 const text = args.slice(2).join(" ");
                 msg.channel.send(bot.format(lang.body, {
                     text,
-                    timestamp: moment_1.default(givenTimestamp).format(),
+                    timestamp: moment_1.default(currentDate + givenTimestamp).format(),
                 }));
-                const currentDate = Date.now();
                 const reminder = node_schedule_1.default.scheduleJob(new Date(currentDate + givenTimestamp), () => {
                     msg.author.send(bot.format(lang.reminder, {
                         text,
-                        timestamp: moment_1.default(givenTimestamp).format()
+                        timestamp: moment_1.default(currentDate + givenTimestamp).format()
                     }));
                     delete reminders[reminders.indexOf(reminder)];
+                    user.set("reminders", reminders.filter((reminder) => reminder !== null));
                     user.markModified("reminders");
                     user.save();
                 });
@@ -48,6 +49,7 @@ exports.command = new Command_1.Command("remind", async (msg, args, bot) => {
                     }
                 });
                 reminders = [];
+                user.set("reminders", reminders);
                 user.markModified("reminders");
                 user.save();
                 break;
@@ -57,5 +59,5 @@ exports.command = new Command_1.Command("remind", async (msg, args, bot) => {
     guildOnly: false,
     hidden: false,
     level: 0,
-    usage: ["remind add [time] [text]", "remind clear"]
+    usage: ["remind add {time} [text]", "remind clear"]
 });
