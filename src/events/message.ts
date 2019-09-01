@@ -1,11 +1,13 @@
 import { Message } from "discord.js";
 import { calcLevel } from "../helpers/calcLevel";
 import { createUser, findUser } from "../models/User";
+import { findGuild } from "../models/Guild";
 import { Event } from "./Event";
 
 export const event = new Event("message", async (bot, msg: Message) => {
   try {
     const user = await findUser(msg.author.id);
+    const guildConfig = await findGuild(msg.guild.id);
     if (user) {
       if (msg.content.startsWith(bot.prefix)) {
         const split = msg.content.split(" ");
@@ -18,7 +20,7 @@ export const event = new Event("message", async (bot, msg: Message) => {
           const cmd = plugin.commands.get(name);
           if (cmd) {
             if (level >= cmd.options.level) {
-              cmd.func(msg, args, bot);
+              cmd.func(msg, args, bot, guildConfig);
             }
           }
         }

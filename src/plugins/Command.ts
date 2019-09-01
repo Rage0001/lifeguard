@@ -1,10 +1,12 @@
 import { Message, PermissionObject } from "discord.js";
 import { PluginClient } from "../helpers/PluginClient";
+import { IGuildDoc } from "../models/Guild";
 
 type CommandFunction = (
   msg: Message,
   args: string[],
-  bot: PluginClient
+  bot: PluginClient,
+  guildConfig: IGuildDoc | undefined
 ) => void;
 
 interface ICommandOptions {

@@ -2,10 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const calcLevel_1 = require("../helpers/calcLevel");
 const User_1 = require("../models/User");
+const Guild_1 = require("../models/Guild");
 const Event_1 = require("./Event");
 exports.event = new Event_1.Event("message", async (bot, msg) => {
     try {
         const user = await User_1.findUser(msg.author.id);
+        const guildConfig = await Guild_1.findGuild(msg.guild.id);
         if (user) {
             if (msg.content.startsWith(bot.prefix)) {
                 const split = msg.content.split(" ");
@@ -18,7 +20,7 @@ exports.event = new Event_1.Event("message", async (bot, msg) => {
                     const cmd = plugin.commands.get(name);
                     if (cmd) {
                         if (level >= cmd.options.level) {
-                            cmd.func(msg, args, bot);
+                            cmd.func(msg, args, bot, guildConfig);
                         }
                     }
                 }

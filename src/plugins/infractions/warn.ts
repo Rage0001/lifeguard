@@ -7,8 +7,10 @@ export const command = new Command(
   "warn",
   async (msg, args, bot) => {
     const lang = bot.langs["en-US"].commands.warn;
-    const user = await findUser(args[0]);
+    const userID = args[0];
+    const user = await findUser(userID);
     if (user) {
+      const reason = args.slice(1).join(" ");
       const infs = user.get("infractions");
       infs.push({
         action: "Warning",
@@ -16,7 +18,7 @@ export const command = new Command(
         guild: msg.guild.id,
         id: infs.length + 1,
         moderator: msg.author.id,
-        reason: args.slice(1).join(" "),
+        reason,
         time: Date.now()
       });
       user.set("infractions", infs);
@@ -25,11 +27,21 @@ export const command = new Command(
       const embed = new RichEmbed({
         description: bot.format(lang.inf.desc, {
           guild: msg.guild.name,
-          reason: args.slice(1).join(" ")
+          reason
         }),
         title: lang.inf.title
       });
+      embed.setTimestamp();
       const u = bot.users.get(user.id);
+
+      const responseEmbed = new RichEmbed({
+        description: bot.format(lang.inf.responseDesc, {
+          reason,
+          user: userID
+        })
+      });
+      msg.channel.send(responseEmbed);
+
       if (u) {
         u.send(embed);
 
@@ -41,7 +53,7 @@ export const command = new Command(
               const embed2 = new RichEmbed({
                 description: bot.format(lang.inf.modLog, {
                   mod: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
-                  reason: args.slice(1).join(" "),
+                  reason,
                   user: `${u.username}#${u.discriminator} (${u.id})`
                 })
               });
@@ -52,7 +64,7 @@ export const command = new Command(
       }
     } else {
       const embed = new RichEmbed({
-        description: lang.errors.noUser
+        description: lang.errors.noUser,
       });
       msg.channel.send(embed);
     }

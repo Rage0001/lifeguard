@@ -43,9 +43,10 @@
         "noUser": "The specified user has not been found,"
       },
       "inf": {
-        "desc": "You have received a warning in {guild} for `{reason}`.",
+        "desc": "You have received a warning in {guild} with reason: `{reason}`.",
         "modLog": "{mod} has warned {user} for `{reason}`.",
-        "title": "Warning"
+        "title": "Warning",
+        "responseDesc": "Warned {user} with reason: `{reason}`. (User has been notified)"
       }
     },
     "random": {
@@ -64,6 +65,13 @@
       "failedTimestamp": "Couldn't parse `{arg}` into `timestamp`.",
       "body": "Okay, I will remind you at `{timestamp}` about `{text}`.",
       "reminder": ":alarm_clock: You asked me to remind you at `{timestamp}` about `{text}`."
+    },
+    "announce": {
+      "notValidChannel": "Provided channel is not valid.",
+      "announced": "Your message has been announced in the channel!",
+      "noPermissions": "I don't have the permissions to announce your message in that channel.",
+      "confirmation": "Here's your message, ready to announce it?",
+      "abort": "Alright, aborting announcement."
     }
   }
 }

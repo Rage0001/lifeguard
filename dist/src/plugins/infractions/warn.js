@@ -6,8 +6,10 @@ const User_1 = require("../../models/User");
 const Command_1 = require("../Command");
 exports.command = new Command_1.Command("warn", async (msg, args, bot) => {
     const lang = bot.langs["en-US"].commands.warn;
-    const user = await User_1.findUser(args[0]);
+    const userID = args[0];
+    const user = await User_1.findUser(userID);
     if (user) {
+        const reason = args.slice(1).join(" ");
         const infs = user.get("infractions");
         infs.push({
             action: "Warning",
@@ -15,7 +17,7 @@ exports.command = new Command_1.Command("warn", async (msg, args, bot) => {
             guild: msg.guild.id,
             id: infs.length + 1,
             moderator: msg.author.id,
-            reason: args.slice(1).join(" "),
+            reason,
             time: Date.now()
         });
         user.set("infractions", infs);
@@ -24,11 +26,19 @@ exports.command = new Command_1.Command("warn", async (msg, args, bot) => {
         const embed = new discord_js_1.RichEmbed({
             description: bot.format(lang.inf.desc, {
                 guild: msg.guild.name,
-                reason: args.slice(1).join(" ")
+                reason
             }),
             title: lang.inf.title
         });
+        embed.setTimestamp();
         const u = bot.users.get(user.id);
+        const responseEmbed = new discord_js_1.RichEmbed({
+            description: bot.format(lang.inf.responseDesc, {
+                reason,
+                user: userID
+            })
+        });
+        msg.channel.send(responseEmbed);
         if (u) {
             u.send(embed);
             const guild = await Guild_1.findGuild(msg.guild.id);
@@ -39,7 +49,7 @@ exports.command = new Command_1.Command("warn", async (msg, args, bot) => {
                         const embed2 = new discord_js_1.RichEmbed({
                             description: bot.format(lang.inf.modLog, {
                                 mod: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
-                                reason: args.slice(1).join(" "),
+                                reason,
                                 user: `${u.username}#${u.discriminator} (${u.id})`
                             })
                         });
@@ -51,7 +61,7 @@ exports.command = new Command_1.Command("warn", async (msg, args, bot) => {
     }
     else {
         const embed = new discord_js_1.RichEmbed({
-            description: lang.errors.noUser
+            description: lang.errors.noUser,
         });
         msg.channel.send(embed);
     }
