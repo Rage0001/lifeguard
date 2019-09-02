@@ -5,7 +5,6 @@ import { Command } from "../Command";
 export const command = new Command(
   "cat",
   async (msg, args, bot, guildConfig) => {
-    console.log(guildConfig)
     const data = await axios.get(
       "https://api.thecatapi.com/v1/images/search?size=large&has_breeds=true"
     );

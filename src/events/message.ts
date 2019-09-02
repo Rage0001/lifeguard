@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 import { calcLevel } from "../helpers/calcLevel";
-import { createUser, findUser } from "../models/User";
 import { findGuild } from "../models/Guild";
+import { createUser, findUser } from "../models/User";
 import { Event } from "./Event";
 
 export const event = new Event("message", async (bot, msg: Message) => {
