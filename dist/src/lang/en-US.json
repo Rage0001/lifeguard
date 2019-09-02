@@ -62,16 +62,34 @@
     },
     "remind": {
       "description": "Reminds you on whatever you need help remembering.",
-      "failedTimestamp": "Couldn't parse `{arg}` into `timestamp`.",
+      "errors": {
+        "failedTimestamp": "Couldn't parse `{arg}` into `timestamp`."
+      },
       "body": "Okay, I will remind you at `{timestamp}` about `{text}`.",
       "reminder": ":alarm_clock: You asked me to remind you at `{timestamp}` about `{text}`."
     },
     "announce": {
-      "notValidChannel": "Provided channel is not valid.",
+      "errors": {
+        "notValidChannel": "Provided channel is not valid.",
+        "noPermissions": "I don't have the permissions to announce your message in that channel."
+      },
       "announced": "Your message has been announced in the channel!",
-      "noPermissions": "I don't have the permissions to announce your message in that channel.",
       "confirmation": "Here's your message, ready to announce it?",
       "abort": "Alright, aborting announcement."
+    },
+    "slowmode": {
+      "errors": {
+        "notValidArgument": "Not a valid argument, please use `here` or `channel`.",
+        "notValidChannel": "Provided channel is not valid.",
+        "onlyTextChannel": "Slowmode can only be set for text channels."
+      },
+      "setSlowmodeInChannel": "I have set the slowmode to `{time}` in the `#{channel}` channel.",
+      "setSlowmode": "Slowmode has been set to `{time}`."
+    },
+    "clean": {
+      "errors": {
+        "nonValidArgument": "Not a valid argument, please use one of the following:```all, user, bots, until, between```."
+      }
     }
   }
 }

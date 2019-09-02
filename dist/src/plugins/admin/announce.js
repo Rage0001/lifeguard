@@ -6,14 +6,14 @@ exports.command = new Command_1.Command("announce", async (msg, args, bot) => {
     const lang = bot.langs["en-US"].commands.announce;
     const channel = msg.mentions.channels.first();
     if (channel.guild.id !== msg.guild.id) {
-        return msg.channel.send(lang.notValidChannel);
+        return msg.channel.send(lang.errors.notValidChannel);
     }
     if (!channel) {
-        return msg.channel.send(lang.notValidChannel);
+        return msg.channel.send(lang.errors.notValidChannel);
     }
     const channelPermissions = msg.guild.me.permissionsIn(channel);
     if (!channelPermissions.has("VIEW_CHANNEL") || !channelPermissions.has("SEND_MESSAGES")) {
-        msg.channel.send(lang.noPermissions);
+        msg.channel.send(lang.errors.noPermissions);
     }
     const announceMessage = args.slice(1).join(" ");
     const embed = new discord_js_1.RichEmbed();

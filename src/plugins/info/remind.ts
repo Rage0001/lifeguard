@@ -17,7 +17,7 @@ export const command = new Command(
           const givenTimestamp = ms(args[1]);
           const currentDate = Date.now();
           if (!givenTimestamp) {
-            return msg.channel.send(bot.format(lang.failedTimestamp, {
+            return msg.channel.send(bot.format(lang.errors.failedTimestamp, {
               arg: args[1]
             }));
           }

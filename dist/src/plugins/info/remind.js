@@ -18,7 +18,7 @@ exports.command = new Command_1.Command("remind", async (msg, args, bot) => {
                 const givenTimestamp = ms_1.default(args[1]);
                 const currentDate = Date.now();
                 if (!givenTimestamp) {
-                    return msg.channel.send(bot.format(lang.failedTimestamp, {
+                    return msg.channel.send(bot.format(lang.errors.failedTimestamp, {
                         arg: args[1]
                     }));
                 }
