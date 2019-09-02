@@ -16,8 +16,14 @@ exports.command = new Command_1.Command("setup", async (msg, args, bot) => {
     const collector = new discord_js_1.MessageCollector(msg.channel, (m) => {
         return m.author.id === msg.author.id;
     });
-    const guildData = { id: msg.guild.id, prefix: bot.prefix };
+    const guildData = { id: msg.guild.id, locale: "en-US", prefix: bot.prefix };
     const msgs = [];
+    const help = await msg.channel.send(new discord_js_1.RichEmbed({
+        description: lang.collector.help
+    }));
+    if (!Array.isArray(help)) {
+        msgs.push(help);
+    }
     collector.once("end", async (coll) => {
         Array.from(coll.values()).map(msg => msg.delete(1000));
         msgs.map(msg => msg.delete(2000));

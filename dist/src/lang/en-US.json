@@ -1,6 +1,6 @@
 {
   "events": {
-    "guildCreate": "Thank You for adding Lifeguard to your server!\nTo begin using Lifeguard, visit https://url/{id}/settings"
+    "guildCreate": "Thank You for adding Lifeguard to your server!\nTo begin using Lifeguard, ~~visit https://url/{id}/settings~~ run `!setup`"
   },
   "commands": {
     "eval": {
@@ -32,7 +32,7 @@
         "modLogCollected": "Collected mod log: {modLog}",
         "modRoleCollected": "Collected mod role: {modRole}",
         "prefixCollected": "Collected prefix: {prefix}",
-        "help": "end\nlocale [lang]\nmodRole [id]\nprefix [prefix]",
+        "help": "end\nlocale {en-US}\nmodRole {id}/\nprefix [prefix]",
         "start": "Starting message collector (binded to {user})"
       },
       "description": "Sets up guild for use with Lifeguard. Type `help` after the collecter has started to see more information!"

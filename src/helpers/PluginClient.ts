@@ -1,4 +1,4 @@
-import { Client, ClientOptions } from "discord.js";
+import { Client, ClientOptions, GuildMember } from "discord.js";
 import { Connection } from "mongoose";
 import { Plugin } from "../plugins/Plugin";
 import { formatter, IReplacer } from "./Formatter";
@@ -15,6 +15,7 @@ export class PluginClient extends Client {
   public logger: ILogger;
   public langs: ILanguageObj;
   public plugins!: Plugin[];
+
   constructor(public prefix: string, public options: ClientOptions) {
     super(options);
     this.logger = Logger;

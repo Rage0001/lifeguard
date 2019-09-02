@@ -23,13 +23,22 @@ export const command = new Command(
     interface IGuildData {
       [k: string]: any;
       id: string;
-      locale?: string;
+      locale: string;
       modLog?: string;
       modRole?: string;
       prefix?: string;
     }
-    const guildData: IGuildData = { id: msg.guild.id, prefix: bot.prefix };
+    const guildData: IGuildData = { id: msg.guild.id, locale: "en-US", prefix: bot.prefix };
     const msgs: Message[] = [];
+
+    const help = await msg.channel.send(
+      new RichEmbed({
+        description: lang.collector.help
+      })
+    );
+    if (!Array.isArray(help)) {
+      msgs.push(help);
+    }
 
     collector.once("end", async (coll) => {
       Array.from(coll.values()).map(msg => msg.delete(1000));

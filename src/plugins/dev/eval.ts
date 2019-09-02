@@ -11,7 +11,7 @@ export const command = new Command(
       if (regex.test(data)) {
         const val = regex.exec(data);
         if (val) {
-          return val[2];
+          return data[2];
         } else {
           return undefined;
         }

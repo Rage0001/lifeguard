@@ -13,7 +13,7 @@ exports.command = new Command_1.Command("eval", async (msg, args, bot) => {
         if (regex.test(data)) {
             const val = regex.exec(data);
             if (val) {
-                return val[2];
+                return data[2];
             }
             else {
                 return undefined;

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Administration assistant for your Discord server!",
   "main": "dist/index.js",
+  "typings": "index.d.ts",
   "scripts": {
     "build": "tsc -p .",
     "build:watch": "tsc -w -p .",
