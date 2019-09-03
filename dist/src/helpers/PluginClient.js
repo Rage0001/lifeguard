@@ -16,5 +16,10 @@ class PluginClient extends discord_js_1.Client {
         this.langs = {};
         this.format = Formatter_1.formatter;
     }
+    restart(channelID) {
+        if (process.send) {
+            process.send(["restart", channelID]);
+        }
+    }
 }
 exports.PluginClient = PluginClient;

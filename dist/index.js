@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const discord_js_1 = require("discord.js");
 const Database_1 = require("./src/helpers/Database");
 const EventLoader_1 = require("./src/helpers/EventLoader");
 const LangLoader_1 = require("./src/helpers/LangLoader");
@@ -44,5 +45,24 @@ bot.once("ready", async () => {
         }
     });
     Logger_1.default.info("Connected to Discord.");
+    if (process.send) {
+        process.send(["start"]);
+    }
 });
 bot.login(config_1.config.token);
+// Restart Completed Notifier
+process.on("message", (message) => {
+    if (message[0] === "restartSuccess") {
+        const lang = bot.langs["en-US"].commands.restart;
+        const embed = new discord_js_1.RichEmbed({
+            description: lang.restarted,
+            title: lang.title
+        });
+        embed.setTimestamp();
+        (bot.guilds.find((guild) => {
+            return guild.channels.has(message[1]);
+        }).channels.find((channel) => {
+            return channel.id === message[1];
+        })).send(embed);
+    }
+});

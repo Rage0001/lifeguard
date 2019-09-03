@@ -22,4 +22,10 @@ export class PluginClient extends Client {
     this.langs = {};
     this.format = formatter;
   }
+
+  public restart(channelID: string) {
+    if (process.send) {
+      process.send(["restart", channelID]);
+    }
+  }
 }

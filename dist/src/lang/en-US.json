@@ -69,6 +69,7 @@
       "reminder": ":alarm_clock: You asked me to remind you at `{timestamp}` about `{text}`."
     },
     "announce": {
+      "description": "Make an announcement.",
       "errors": {
         "notValidChannel": "Provided channel is not valid.",
         "noPermissions": "I don't have the permissions to announce your message in that channel."
@@ -78,6 +79,7 @@
       "abort": "Alright, aborting announcement."
     },
     "slowmode": {
+      "description": "Chat going too fast? Slow it down.",
       "errors": {
         "notValidArgument": "Not a valid argument, please use `here` or `channel`.",
         "notValidChannel": "Provided channel is not valid.",
@@ -87,9 +89,19 @@
       "setSlowmode": "Slowmode has been set to `{time}`."
     },
     "clean": {
+      "description": "Cleans the specified range.",
       "errors": {
         "nonValidArgument": "Not a valid argument, please use one of the following:```all, user, bots, until, between```."
       }
+    },
+    "restart": {
+      "description": "Restarts the bot.",
+      "restart": "Restarting!",
+      "restarted": "Restarted!",
+      "title": "Restart"
+    },
+    "cat": {
+      "description": "Cats! What more is there to expect?"
     }
   }
 }

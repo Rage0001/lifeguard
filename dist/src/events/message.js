@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const calcLevel_1 = require("../helpers/calcLevel");
-const User_1 = require("../models/User");
 const Guild_1 = require("../models/Guild");
+const User_1 = require("../models/User");
 const Event_1 = require("./Event");
 exports.event = new Event_1.Event("message", async (bot, msg) => {
     try {
