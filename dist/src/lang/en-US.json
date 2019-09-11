@@ -97,7 +97,7 @@
       },
       "cleanedAll": {
         "message": "Cleaned `{amount}` messages in this channel.",
-        "modLog": "{mod} (`{modID}`) has cleaned {amount} messages in {channel} (`{channelID`)."
+        "modLog": "{mod} (`{modID}`) has cleaned {amount} messages in {channel} (`{channelID}`)."
       },
       "cleanedUser": {
         "message": "Cleaned `{amount}` messages from user {tag} in this channel."
@@ -136,6 +136,19 @@
         "modLog": "{mod} has banned {user} for `{reason}`.",
         "title": "Ban",
         "responseDesc": "Banned {user} with reason: `{reason}`. (User has been notified)"
+      }
+    },
+    "forceban": {
+      "description": "Forcefully Bans the specified user from the server.",
+      "errors": {
+        "notBannable": "The specified user was unable to be banned.",
+        "noUser": "The specified user has not been found."
+      },
+      "inf": {
+        "desc": "You have been force banned from {guild} with reason: `{reason}`.",
+        "modLog": "{mod} has force banned {user} for `{reason}`.",
+        "title": "Force Ban",
+        "responseDesc": "Force Banned {user} with reason: `{reason}`. (User has been notified)"
       }
     }
   }
