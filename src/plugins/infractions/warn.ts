@@ -1,4 +1,5 @@
 import { RichEmbed, TextChannel } from "discord.js";
+import { parseUser } from "../../helpers/parseUser";
 import { findGuild } from "../../models/Guild";
 import { findUser } from "../../models/User";
 import { Command } from "../Command";
@@ -7,9 +8,10 @@ export const command = new Command(
   "warn",
   async (msg, args, bot) => {
     const lang = bot.langs["en-US"].commands.warn;
-    const userID = args[0];
+    const userID = parseUser(args[0]);
     const user = await findUser(userID);
     if (user) {
+      const u = bot.users.get(user.id);
       const reason = args.slice(1).join(" ");
       const infs = user.get("infractions");
       infs.push({
@@ -32,17 +34,16 @@ export const command = new Command(
         title: lang.inf.title
       });
       embed.setTimestamp();
-      const u = bot.users.get(user.id);
-
-      const responseEmbed = new RichEmbed({
-        description: bot.format(lang.inf.responseDesc, {
-          reason,
-          user: userID
-        })
-      });
-      msg.channel.send(responseEmbed);
 
       if (u) {
+        const responseEmbed = new RichEmbed({
+          description: bot.format(lang.inf.responseDesc, {
+            reason,
+            user: `${u.username}#${u.discriminator} (${u.id})`
+          })
+        });
+        msg.channel.send(responseEmbed);
+
         u.send(embed);
 
         const guild = await findGuild(msg.guild.id);

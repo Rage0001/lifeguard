@@ -6,7 +6,7 @@ type CommandFunction = (
   msg: Message,
   args: string[],
   bot: PluginClient,
-  guildConfig: IGuildDoc | undefined
+  guildConfig?: IGuildDoc
 ) => void;
 
 interface ICommandOptions {

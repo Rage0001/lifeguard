@@ -40,7 +40,7 @@
     "warn": {
       "description": "Appends a warning to the specified user.",
       "errors": {
-        "noUser": "The specified user has not been found,"
+        "noUser": "The specified user has not been found."
       },
       "inf": {
         "desc": "You have received a warning in {guild} with reason: `{reason}`.",
@@ -102,6 +102,32 @@
     },
     "cat": {
       "description": "Cats! What more is there to expect?"
+    },
+    "kick": {
+      "description": "Kicks the specified user from the server.",
+      "errors": {
+        "notKickable": "The specified user was unable to be kicked.",
+        "noUser": "The specified user has not been found."
+      },
+      "inf": {
+        "desc": "You have been kicked from {guild} with reason: `{reason}`.",
+        "modLog": "{mod} has kicked {user} for `{reason}`.",
+        "title": "Kick",
+        "responseDesc": "Kicked {user} with reason: `{reason}`. (User has been notified)"
+      }
+    },
+    "ban": {
+      "description": "Bans the specified user from the server.",
+      "errors": {
+        "notBannable": "The specified user was unable to be banned.",
+        "noUser": "The specified user has not been found."
+      },
+      "inf": {
+        "desc": "You have been banned from {guild} with reason: `{reason}`.",
+        "modLog": "{mod} has banned {user} for `{reason}`.",
+        "title": "Ban",
+        "responseDesc": "Banned {user} with reason: `{reason}`. (User has been notified)"
+      }
     }
   }
 }

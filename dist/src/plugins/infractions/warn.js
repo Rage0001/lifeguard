@@ -1,14 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
+const parseUser_1 = require("../../helpers/parseUser");
 const Guild_1 = require("../../models/Guild");
 const User_1 = require("../../models/User");
 const Command_1 = require("../Command");
 exports.command = new Command_1.Command("warn", async (msg, args, bot) => {
     const lang = bot.langs["en-US"].commands.warn;
-    const userID = args[0];
+    const userID = parseUser_1.parseUser(args[0]);
     const user = await User_1.findUser(userID);
     if (user) {
+        const u = bot.users.get(user.id);
         const reason = args.slice(1).join(" ");
         const infs = user.get("infractions");
         infs.push({
@@ -31,15 +33,14 @@ exports.command = new Command_1.Command("warn", async (msg, args, bot) => {
             title: lang.inf.title
         });
         embed.setTimestamp();
-        const u = bot.users.get(user.id);
-        const responseEmbed = new discord_js_1.RichEmbed({
-            description: bot.format(lang.inf.responseDesc, {
-                reason,
-                user: userID
-            })
-        });
-        msg.channel.send(responseEmbed);
         if (u) {
+            const responseEmbed = new discord_js_1.RichEmbed({
+                description: bot.format(lang.inf.responseDesc, {
+                    reason,
+                    user: `${u.username}#${u.discriminator} (${u.id})`
+                })
+            });
+            msg.channel.send(responseEmbed);
             u.send(embed);
             const guild = await Guild_1.findGuild(msg.guild.id);
             if (guild) {

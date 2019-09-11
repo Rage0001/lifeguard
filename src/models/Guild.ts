@@ -12,18 +12,18 @@ export const GuildModel = model("guilds", Guild);
 
 export interface IGuild {
   id: string;
-  locale?: string;
-  modLog?: string;
-  modRole?: string;
-  prefix?: string;
+  locale: string;
+  modLog: string;
+  modRole: string;
+  prefix: string;
 }
 
 export interface IGuildDoc extends Document {
   id: string;
-  locale?: string;
-  modLog?: string;
-  modRole?: string;
-  prefix?: string;
+  locale: string;
+  modLog: string;
+  modRole: string;
+  prefix: string;
 }
 
 export function createGuild(guild: IGuild) {

@@ -16,11 +16,15 @@ export const event = new Event("message", async (bot, msg: Message) => {
         const args = split;
         const plugin = bot.plugins.find(plugin => plugin.commands.has(name));
         if (plugin) {
-          const level = calcLevel(msg.member, msg.guild);
           const cmd = plugin.commands.get(name);
           if (cmd) {
-            if (level >= cmd.options.level) {
-              cmd.func(msg, args, bot, guildConfig);
+            if (!cmd.options.guildOnly) {
+              const level = await calcLevel(msg.member, msg.guild);
+              if (level >= cmd.options.level) {
+                cmd.func(msg, args, bot, guildConfig);
+              }
+            } else {
+              cmd.func(msg, args, bot);
             }
           }
         }
