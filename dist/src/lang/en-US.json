@@ -91,7 +91,16 @@
     "clean": {
       "description": "Cleans the specified range.",
       "errors": {
-        "nonValidArgument": "Not a valid argument, please use one of the following:```all, user, bots, until, between```."
+        "nonValidArgument": "Not a valid argument, please use one of the following:```all, user, bots, until, between```.",
+        "NAN": "Provided argument is not a number.",
+        "invalidUser": "Provided user is invalid."
+      },
+      "cleanedAll": {
+        "message": "Cleaned `{amount}` messages in this channel.",
+        "modLog": "{mod} (`{modID}`) has cleaned {amount} messages in {channel} (`{channelID`)."
+      },
+      "cleanedUser": {
+        "message": "Cleaned `{amount}` messages from user {tag} in this channel."
       }
     },
     "restart": {
