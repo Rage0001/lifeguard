@@ -12,7 +12,7 @@ export const command = new Command(
           latency: `${Math.round(bot.ping)}`,
           ping: `${message.createdTimestamp - msg.createdTimestamp}`
         }),
-        title: ":ping_pong:"
+        title: lang.title
       });
       message.edit("", embed);
     }

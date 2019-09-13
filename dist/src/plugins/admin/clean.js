@@ -10,7 +10,7 @@ exports.command = new Command_1.Command("clean", async (msg, args, bot) => {
         case "all":
             let allParsedArgument = parseInt(args[1], 10);
             if (isNaN(allParsedArgument)) {
-                return msg.channel.send(lang.NAN);
+                return msg.channel.send(lang.errors.NAN);
             }
             if (!allParsedArgument) {
                 allParsedArgument = defaultCount;
@@ -65,11 +65,11 @@ exports.command = new Command_1.Command("clean", async (msg, args, bot) => {
             }
             const user = msg.mentions.members.first() || msg.guild.members.get(args[1]);
             if (!user) {
-                return msg.channel.send(lang.invalidUser);
+                return msg.channel.send(lang.errors.invalidUser);
             }
             let userParsedArgument = parseInt(args[2], 10);
             if (isNaN(userParsedArgument)) {
-                return msg.channel.send(lang.NAN);
+                return msg.channel.send(lang.errors.NAN);
             }
             if (!userParsedArgument) {
                 userParsedArgument = defaultCount;
@@ -83,7 +83,7 @@ exports.command = new Command_1.Command("clean", async (msg, args, bot) => {
             }));
             break;
         default:
-            msg.channel.send(lang.nonValidArgument);
+            msg.channel.send(lang.errors.nonValidArgument);
             break;
     }
 }, {

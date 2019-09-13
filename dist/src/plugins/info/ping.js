@@ -11,7 +11,7 @@ exports.command = new Command_1.Command("ping", async (msg, args, bot) => {
                 latency: `${Math.round(bot.ping)}`,
                 ping: `${message.createdTimestamp - msg.createdTimestamp}`
             }),
-            title: ":ping_pong:"
+            title: lang.title
         });
         message.edit("", embed);
     }

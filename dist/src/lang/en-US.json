@@ -23,7 +23,8 @@
     },
     "ping": {
       "body": "Bot Ping: {ping}ms\nShard Latency: {latency}ms.",
-      "description": "Check if the bot is alive."
+      "description": "Check if the bot is alive.",
+      "title": "Pong! :ping_pong:"
     },
     "setup": {
       "collector": {
@@ -150,6 +151,11 @@
         "title": "Force Ban",
         "responseDesc": "Force Banned {user} with reason: `{reason}`. (User has been notified)"
       }
+    },
+    "update": {
+      "description": "Updates the bot (optional restart).",
+      "success": "Lifeguard has been updated to {commitID}",
+      "title": "Update"
     }
   }
 }

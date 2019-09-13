@@ -1,3 +1,4 @@
 {
+  "git:noupdate": "Already up to date.\n",
   "status": "{users} users at the pool | {prefix}help"
 }
