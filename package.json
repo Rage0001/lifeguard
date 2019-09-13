@@ -11,6 +11,10 @@
     "start:dev": "nodemon --watch dist procman.js",
     "test": "tslint -c tslint.json -p tsconfig.json"
   },
+  "engines": {
+    "node": "10.x",
+    "npm": "*"
+  },
   "keywords": [
     "discord",
     "bot",
