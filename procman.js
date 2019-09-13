@@ -8,7 +8,7 @@ const path = require('path');
 let restartChannel = null;
 
 function launch() {
-  let child = cp.spawn("node", [path.resolve(__dirname, "dist/index.js")], {
+  let child = cp.spawn("node", [path.resolve(__dirname, "dist/shard.js")], {
     stdio: [0, 1, 2, "ipc"]
   });
   

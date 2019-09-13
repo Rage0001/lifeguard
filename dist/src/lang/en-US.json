@@ -1,5 +1,9 @@
 {
   "events": {
+    "channelCreate": {
+      "log": ":pen_ballpoint: Channel {name} `{id}` was created.",
+      "title": "Channel Create"
+    },
     "guildCreate": "Thank You for adding Lifeguard to your server!\nTo begin using Lifeguard, ~~visit https://url/{id}/settings~~ run `!setup`"
   },
   "commands": {

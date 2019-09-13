@@ -31,13 +31,14 @@ const bot = new PluginClient(config.prefix, {
 bot.prefix = config.prefix;
 
 bot.once("ready", async () => {
+  const userCount = await bot.shard.fetchClientValues("users.size");
   await runLoaders();
   bot.db = connect();
   bot.user.setPresence({
     game: {
       name: bot.format(bot.langs.default.status, {
         prefix: `${bot.prefix}`,
-        users: `${bot.users.size}`
+        users: `${userCount.reduce((prev, shardUserCount) => prev + shardUserCount, 0)}`
       }),
       type: "WATCHING"
     }
