@@ -33,14 +33,15 @@ const bot = new PluginClient_1.PluginClient(config_1.config.prefix, {
 });
 bot.prefix = config_1.config.prefix;
 bot.once("ready", async () => {
-    const userCount = await bot.shard.fetchClientValues("users.size");
+    // const userCount = await bot.shard.fetchClientValues("users.size");
     await runLoaders();
     bot.db = Database_1.connect();
     bot.user.setPresence({
         game: {
             name: bot.format(bot.langs.default.status, {
                 prefix: `${bot.prefix}`,
-                users: `${userCount.reduce((prev, shardUserCount) => prev + shardUserCount, 0)}`
+                // users: `${userCount.reduce((prev, shardUserCount) => prev + shardUserCount, 0)}`
+                users: `${bot.users.size}`
             }),
             type: "WATCHING"
         }
@@ -49,12 +50,6 @@ bot.once("ready", async () => {
     if (process.send) {
         process.send(["start"]);
     }
-});
-bot.on("debug", (info) => {
-    Logger_1.default.debug(info);
-});
-bot.on("error", (err) => {
-    Logger_1.default.error(err.message);
 });
 bot.login(config_1.config.token);
 // Restart Completed Notifier
