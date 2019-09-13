@@ -9,19 +9,18 @@ const vm_1 = __importDefault(require("vm"));
 const Command_1 = require("../Command");
 exports.command = new Command_1.Command("eval", async (msg, args, bot) => {
     function parseBlock(data) {
-        const regex = /```(js)?\n((.|\n)*)```/m;
-        if (regex.test(data)) {
-            const val = regex.exec(data);
-            if (val) {
-                return data[2];
-            }
-            else {
-                return undefined;
-            }
-        }
-        else {
-            return undefined;
-        }
+        // const regex = /```(js)?\n((.|\n)*)```/m;
+        // if (regex.test(data)) {
+        //   const val = regex.exec(data);
+        //   if (val) {
+        //     return data[2];
+        //   } else {
+        //     return undefined;
+        //   }
+        // } else {
+        //   return undefined;
+        // }
+        return data;
     }
     const lang = bot.langs["en-US"].commands.eval;
     const token = new RegExp(bot.token, "g");
