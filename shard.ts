@@ -1,9 +1,7 @@
 import { ShardingManager } from "discord.js";
-const Manager = new ShardingManager("./dist/index.js", {
-  totalShards: "auto"
-});
+const Manager = new ShardingManager("./dist/index.js");
 
-Manager.spawn();
+Manager.spawn(5);
 Manager.on("launch", (shard) => {
   console.log(`Started ${shard.id}`);
 })
