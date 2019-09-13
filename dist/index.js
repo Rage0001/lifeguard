@@ -50,6 +50,12 @@ bot.once("ready", async () => {
         process.send(["start"]);
     }
 });
+bot.on("debug", (info) => {
+    Logger_1.default.debug(info);
+});
+bot.on("error", (err) => {
+    Logger_1.default.error(err.message);
+});
 bot.login(config_1.config.token);
 // Restart Completed Notifier
 process.on("message", (message) => {

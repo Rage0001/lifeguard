@@ -49,6 +49,14 @@ bot.once("ready", async () => {
   }
 });
 
+bot.on("debug", (info) => {
+  Logger.debug(info);
+});
+
+bot.on("error", (err) => {
+  Logger.error(err.message);
+})
+
 bot.login(config.token);
 
 // Restart Completed Notifier
