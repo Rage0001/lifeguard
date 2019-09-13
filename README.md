@@ -1,8 +1,8 @@
 ## Lifeguard
 
 <p>
-  <a href="https://travis-ci.com/Rage0001/lifeguard">
-    <img alt="Travis Status" src="https://travis-ci.com/Rage0001/lifeguard.svg?branch=master">
+  <a href="https://travis-ci.com/lifeguardbot/lifeguard">
+    <img alt="Travis Status" src="https://travis-ci.com/lifeguardbot/lifeguard.svg?branch=master">
   </a>
   <a href="./LICENSE">
     <img alt="MIT License" src="https://img.shields.io/badge/License-MIT-yellow.svg">
