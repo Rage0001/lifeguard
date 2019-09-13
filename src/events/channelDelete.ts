@@ -3,7 +3,7 @@ import { findGuild } from "../models/Guild";
 import { Event } from "./Event";
 
 export const event = new Event("channelDelete", async (bot, channel: GuildChannel) => {
-  const lang = bot.langs["en-US"].events.channelCreate;
+  const lang = bot.langs["en-US"].events.channelDelete;
   try {
     const guild = await findGuild(channel.guild.id);
     const embed = new RichEmbed({
@@ -23,7 +23,7 @@ export const event = new Event("channelDelete", async (bot, channel: GuildChanne
     }
   } catch (err) {
     return {
-      location: "ChannelCreate Event",
+      location: "ChannelDelete Event",
       message: err
     };
   }

@@ -4,7 +4,7 @@ const discord_js_1 = require("discord.js");
 const Guild_1 = require("../models/Guild");
 const Event_1 = require("./Event");
 exports.event = new Event_1.Event("channelDelete", async (bot, channel) => {
-    const lang = bot.langs["en-US"].events.channelCreate;
+    const lang = bot.langs["en-US"].events.channelDelete;
     try {
         const guild = await Guild_1.findGuild(channel.guild.id);
         const embed = new discord_js_1.RichEmbed({
@@ -24,7 +24,7 @@ exports.event = new Event_1.Event("channelDelete", async (bot, channel) => {
     }
     catch (err) {
         return {
-            location: "ChannelCreate Event",
+            location: "ChannelDelete Event",
             message: err
         };
     }
