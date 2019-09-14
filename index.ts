@@ -31,9 +31,18 @@ const bot = new PluginClient(config.prefix, {
 bot.prefix = config.prefix;
 
 bot.once("ready", async () => {
-  // const userCount = await bot.shard.fetchClientValues("users.size");
   await runLoaders();
   bot.db = connect();
+  Logger.info("Connected to Discord.");
+  if (process.send) {
+    process.send(["start"]);
+  }
+
+  const userCount = await bot.shard.fetchClientValues("users.size")
+    .catch((err) => {
+      Logger.error(err);
+    });
+	
   bot.user.setPresence({
     game: {
       name: bot.format(bot.langs.default.status, {
@@ -44,16 +53,12 @@ bot.once("ready", async () => {
       type: "WATCHING"
     }
   });
-  Logger.info("Connected to Discord.");
-  if (process.send) {
-    process.send(["start"]);
-  }
 });
 
 bot.login(config.token);
 
 // Restart Completed Notifier
-process.on("message", (message: string[]) => {
+process.on("message", async (message: string[]) => {
   if (message[0] === "restartSuccess") {
     const lang = bot.langs["en-US"].commands.restart;
     const embed = new RichEmbed({

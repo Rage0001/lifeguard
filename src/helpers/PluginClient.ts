@@ -24,8 +24,9 @@ export class PluginClient extends Client {
   }
 
   public restart(channelID: string) {
-    if (process.send) {
-      process.send(["restart", channelID]);
-    }
+    this.shard.send(["restart", channelID]);
+	if (process.send) {
+	  process.send(["restart", channelID]);
+	}
   }
 }

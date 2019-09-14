@@ -17,6 +17,7 @@ class PluginClient extends discord_js_1.Client {
         this.format = Formatter_1.formatter;
     }
     restart(channelID) {
+        this.shard.send(["restart", channelID]);
         if (process.send) {
             process.send(["restart", channelID]);
         }

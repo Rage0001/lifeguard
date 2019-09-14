@@ -6,24 +6,27 @@ const cp = require('child_process');
 const path = require('path');
 
 let restartChannel = null;
+let shardID = null;
 
 function launch() {
-  let child = cp.spawn("node", [path.resolve(__dirname, "dist/shard.js")], {
+  let child = cp.spawn("node", [path.resolve(__dirname, "dist/index.js")], {
     stdio: [0, 1, 2, "ipc"]
   });
   
   console.log(chalk.blue("Start:"), `Process ID: ${child.pid}`);
 
-  child.on("error", (error) => console.log(chalk.red("Error:"), err.stack));
+  child.on("error", (error) => console.log(chalk.red("Error:"), error.stack));
 
   child.on("message", (message) => {
     if (message[0] === "restart") {
       killAndRestart(child);
       restartChannel = message[1]
+      shardID = message[2]
     } else if (message[0] === "start") {
       if (restartChannel !== null) {
-        child.send(["restartSuccess", restartChannel], () => {
+        child.send(["restartSuccess", restartChannel, shardID], () => {
           restartChannel = null;
+          shardID = null;
         });
       }
     }
