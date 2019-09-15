@@ -1,3 +1,4 @@
+import Sentry from "@sentry/node";
 import { RichEmbed, TextChannel } from "discord.js";
 import { connect } from "./src/helpers/Database";
 import { loadEvents } from "./src/helpers/EventLoader";
@@ -6,6 +7,8 @@ import Logger from "./src/helpers/Logger";
 import { PluginClient } from "./src/helpers/PluginClient";
 import { loadPlugins } from "./src/helpers/PluginLoader";
 import { config } from "./src/private/config";
+
+// Sentry.init({ dsn: config.dsn });
 
 async function runLoaders() {
   const langsErr = await loadLangs(bot);
@@ -42,7 +45,7 @@ bot.once("ready", async () => {
     .catch((err) => {
       Logger.error(err);
     });
-	
+
   bot.user.setPresence({
     game: {
       name: bot.format(bot.langs.default.status, {

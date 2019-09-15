@@ -26,6 +26,7 @@ export const command = new Command(
       locale: string;
       modLog?: string;
       modRole?: string;
+      muteRole?: string;
       prefix?: string;
     }
     const guildData: IGuildData = { id: msg.guild.id, locale: "en-US", prefix: bot.prefix };
@@ -141,6 +142,20 @@ export const command = new Command(
             msgs.push(botMsg);
           }
 
+          break;
+
+        case "muteRole":
+          guildData.muteRole = args[0];
+          botMsg = await msg.channel.send(
+            new RichEmbed({
+                description: bot.format(lang.collector.muteRoleCollected, {
+                muteRole: guildData.muteRole
+              })
+            })
+          );
+          if (!Array.isArray(botMsg)) {
+            msgs.push(botMsg);
+          }
           break;
 
         case "end":

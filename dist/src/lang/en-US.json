@@ -40,8 +40,9 @@
         "localeCollected": "Collected locale: {locale}",
         "modLogCollected": "Collected mod log: {modLog}",
         "modRoleCollected": "Collected mod role: {modRole}",
+        "muteRoleCollected": "Collected mute role: {muteRole}",
         "prefixCollected": "Collected prefix: {prefix}",
-        "help": "end\nlocale {en-US}\nmodRole {id}/\nprefix [prefix]",
+        "help": "end\nlocale {en-US}\nmodRole {id}\nprefix [prefix]\nmuteRole {id}",
         "start": "Starting message collector (binded to {user})"
       },
       "description": "Sets up guild for use with Lifeguard. Type `help` after the collecter has started to see more information!"
@@ -164,6 +165,23 @@
       "description": "Updates the bot (optional restart).",
       "success": "Lifeguard has been updated to {commitID}",
       "title": "Update"
+    },
+    "mention": {
+      "errors": {
+        "notValidRole": "The provided role ID is invalid."
+      },
+      "enabled": "The role {role} is now mentionable.",
+      "disabled": "The role {role} is now unmentionable."
+    },
+    "role": {
+      "errors": {
+        "notValidRole": "The provided role ID is invalid.",
+        "notValidMember": "The provided member ID is invalid.",
+        "notValidRoleName": "The provided role name is invalid."
+      },
+      "addedRole": "Added {role} to {user}.",
+      "removedRole": "Removed {role} from {user}",
+      "members": "Members of {role}:"
     }
   }
 }

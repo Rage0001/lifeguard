@@ -86,6 +86,10 @@ export const command = new Command(
           tag: user.user.tag
         }));
         break;
+      case "until":
+        const msgToCleanUntil = args[1];
+        const channelMessages = await msg.channel.fetchMessages();
+        break;
       default:
         msg.channel.send(lang.errors.nonValidArgument);
         break;

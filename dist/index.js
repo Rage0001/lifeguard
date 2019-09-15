@@ -11,6 +11,7 @@ const Logger_1 = __importDefault(require("./src/helpers/Logger"));
 const PluginClient_1 = require("./src/helpers/PluginClient");
 const PluginLoader_1 = require("./src/helpers/PluginLoader");
 const config_1 = require("./src/private/config");
+// Sentry.init({ dsn: config.dsn });
 async function runLoaders() {
     const langsErr = await LangLoader_1.loadLangs(bot);
     if (langsErr) {

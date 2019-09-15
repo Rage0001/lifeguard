@@ -102,6 +102,17 @@ exports.command = new Command_1.Command("setup", async (msg, args, bot) => {
                     msgs.push(botMsg);
                 }
                 break;
+            case "muteRole":
+                guildData.muteRole = args[0];
+                botMsg = await msg.channel.send(new discord_js_1.RichEmbed({
+                    description: bot.format(lang.collector.muteRoleCollected, {
+                        muteRole: guildData.muteRole
+                    })
+                }));
+                if (!Array.isArray(botMsg)) {
+                    msgs.push(botMsg);
+                }
+                break;
             case "end":
                 coll.stop();
                 break;
