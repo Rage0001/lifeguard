@@ -6,12 +6,13 @@ export const event = new Event("guildCreate", async (bot, guild: Guild) => {
   const lang = bot.langs["en-US"].events.guildCreate;
   try {
     await createGuild({
-      id: guild.id
+      id: guild.id,
+      starboard: []
     });
     const embed = new RichEmbed({
       description:
         bot.format(lang, {
-          id: guild.id
+          id: guild.id,
         })
     });
     (guild.systemChannel as TextChannel).send(embed);

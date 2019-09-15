@@ -5,19 +5,23 @@ import { Command } from "../Command";
 export const command = new Command(
   "cat",
   async (msg, args, bot, guildConfig) => {
-    const data = await axios.get(
-      "https://api.thecatapi.com/v1/images/search?size=large&has_breeds=true"
-    );
-    const cat = data.data[0];
+    try {
+      const data = await axios.get(
+        "https://api.thecatapi.com/v1/images/search?size=large&has_breeds=true"
+      );
+      const cat = data.data[0];
 
-    const embed = new RichEmbed({
-      description: cat.breeds[0].description,
-      image: {
-        url: cat.url
-      },
-      title: cat.breeds[0].name
-    });
-    msg.channel.send(embed);
+      const embed = new RichEmbed({
+        description: cat.breeds[0].description,
+        image: {
+          url: cat.url
+        },
+        title: cat.breeds[0].name
+      });
+      msg.channel.send(embed);
+    } catch (err) {
+      bot.logger.error(JSON.stringify(err));
+    }
   },
   {
     guildOnly: true,

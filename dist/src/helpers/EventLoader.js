@@ -9,6 +9,7 @@ async function loadEvents(bot) {
         for await (const item of items) {
             if (item !== "Event.js") {
                 const { event } = require(`../events/${item}`);
+                // console.log(event.name);
                 bot.on(event.name, (...args) => {
                     event.func(bot, ...args);
                 });

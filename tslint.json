@@ -4,6 +4,7 @@
   "jsRules": {},
   "rules": {
     "arrow-parens": false,
+    "max-line-length": false,
     "no-console": false,
     "no-shadowed-variable": false,
     "trailing-comma": false

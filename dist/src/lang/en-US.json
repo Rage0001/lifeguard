@@ -8,7 +8,17 @@
       "log": ":wastebasket: Channel {name} `{id}` was deleted.",
       "title": "Channel Delete"
     },
-    "guildCreate": "Thank You for adding Lifeguard to your server!\nTo begin using Lifeguard, ~~visit https://url/{id}/settings~~ run `!setup`"
+    "guildCreate": "Thank You for adding Lifeguard to your server!\nTo begin using Lifeguard, ~~visit https://url/{id}/settings~~ run `!setup`",
+    "disconnect": {
+      "disconnected": "Websocket Disconnected",
+      "closeCode": "Close Code",
+      "reason": "reason"
+    },
+    "reconnecting": "Reconnecting Websocket",
+    "resume": "Resuming Websocket"
+  },
+  "starboard": {
+    "jump": "Jump To Message"
   },
   "commands": {
     "eval": {
@@ -167,6 +177,7 @@
       "title": "Update"
     },
     "mention": {
+      "description": "Make a role mentionable or unmentionable.",
       "errors": {
         "notValidRole": "The provided role ID is invalid."
       },
@@ -174,6 +185,7 @@
       "disabled": "The role {role} is now unmentionable."
     },
     "role": {
+      "description": "Add/remove roles or list people with certain roles.",
       "errors": {
         "notValidRole": "The provided role ID is invalid.",
         "notValidMember": "The provided member ID is invalid.",

@@ -1,4 +1,4 @@
-import Sentry from "@sentry/node";
+import * as Sentry from "@sentry/node";
 import { RichEmbed, TextChannel } from "discord.js";
 import { connect } from "./src/helpers/Database";
 import { loadEvents } from "./src/helpers/EventLoader";
@@ -8,7 +8,9 @@ import { PluginClient } from "./src/helpers/PluginClient";
 import { loadPlugins } from "./src/helpers/PluginLoader";
 import { config } from "./src/private/config";
 
-// Sentry.init({ dsn: config.dsn });
+if (config.dsn) {
+  Sentry.init({ dsn: config.dsn });
+}
 
 async function runLoaders() {
   const langsErr = await loadLangs(bot);
@@ -74,5 +76,19 @@ process.on("message", async (message: string[]) => {
     }).channels.find((channel) => {
       return channel.id === message[1];
     })) as TextChannel).send(embed);
+  }
+});
+
+process.on("unhandledRejection", (err) => {
+  if (err) {
+    Logger.error(JSON.stringify(err));
+  }
+});
+
+process.on("uncaughtException", (err) => {
+  if (err.stack) {
+    Logger.error(err.stack);
+  } else {
+    Logger.error(err.message);
   }
 });

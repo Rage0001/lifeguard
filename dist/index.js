@@ -1,8 +1,16 @@
 "use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const Sentry = __importStar(require("@sentry/node"));
 const discord_js_1 = require("discord.js");
 const Database_1 = require("./src/helpers/Database");
 const EventLoader_1 = require("./src/helpers/EventLoader");
@@ -11,7 +19,9 @@ const Logger_1 = __importDefault(require("./src/helpers/Logger"));
 const PluginClient_1 = require("./src/helpers/PluginClient");
 const PluginLoader_1 = require("./src/helpers/PluginLoader");
 const config_1 = require("./src/private/config");
-// Sentry.init({ dsn: config.dsn });
+if (config_1.config.dsn) {
+    Sentry.init({ dsn: config_1.config.dsn });
+}
 async function runLoaders() {
     const langsErr = await LangLoader_1.loadLangs(bot);
     if (langsErr) {
@@ -70,5 +80,18 @@ process.on("message", async (message) => {
         }).channels.find((channel) => {
             return channel.id === message[1];
         })).send(embed);
+    }
+});
+process.on("unhandledRejection", (err) => {
+    if (err) {
+        Logger_1.default.error(JSON.stringify(err));
+    }
+});
+process.on("uncaughtException", (err) => {
+    if (err.stack) {
+        Logger_1.default.error(err.stack);
+    }
+    else {
+        Logger_1.default.error(err.message);
     }
 });
