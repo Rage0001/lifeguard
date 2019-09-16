@@ -78,7 +78,10 @@
       "tails": "Tails"
     },
     "inf": {
-      "description": "Top-Level Infraction Command."
+      "description": "Top-Level Infraction Command.",
+      "displaying": "Displaying infractions for user: `{user}` ({current}/{total})",
+      "infDisplay": "```Action: {action}\nActive: {active}\nGuild: {guild}\nID: {id}\nModerator: {mod}\nReason: {reason}\nTime: {time}```",
+      "footer": "Requested by {user}"
     },
     "remind": {
       "description": "Reminds you on whatever you need help remembering.",
@@ -202,6 +205,17 @@
       },
       "addedNickname": "{member} now has the nickname: `{nickname}`.",
       "removedNickname": "Nickname has been removed from {member}."
+    },
+    "mute": {
+      "inf": {
+        "desc": "You have been muted in {guild} with reason: {reason}",
+        "title": "Mute",
+        "responseDesc": "Muted {user} with reason: `{reason}`. (User has been notified)",
+        "modLog": "{mod} has muted {user} with reason: `{reason}`."
+      },
+      "errors": {
+        "noUser": "The specified user has not been found."
+      }
     }
   }
 }

@@ -8,6 +8,7 @@ exports.Guild = new mongoose_1.Schema({
     locale: String,
     modLog: String,
     modRole: String,
+    muteRole: String,
     prefix: {
         default: config_1.config.prefix,
         type: String
@@ -16,7 +17,7 @@ exports.Guild = new mongoose_1.Schema({
         default: [],
         type: [Guild_Starboard_1.Starboard]
     },
-    starboardChannel: String
+    starboardChannel: String,
 });
 exports.GuildModel = mongoose_1.model("guilds", exports.Guild);
 function createGuild(guild) {

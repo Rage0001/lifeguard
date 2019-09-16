@@ -7,6 +7,7 @@ export const Guild = new Schema({
   locale: String,
   modLog: String,
   modRole: String,
+  muteRole: String,
   prefix: {
     default: config.prefix,
     type: String
@@ -15,7 +16,7 @@ export const Guild = new Schema({
     default: [],
     type: [Starboard]
   },
-  starboardChannel: String
+  starboardChannel: String,
 });
 
 export const GuildModel = model("guilds", Guild);
@@ -28,6 +29,7 @@ export interface IGuild {
   prefix?: string;
   starboard: IStarboard[];
   starboardChannel?: string;
+  muteRole?: string;
 }
 
 export interface IGuildDoc extends Document {
@@ -38,6 +40,7 @@ export interface IGuildDoc extends Document {
   prefix: string;
   starboard: IStarboard[];
   starboardChannel: string;
+  muteRole: string;
 }
 
 export function createGuild(guild: IGuild) {
