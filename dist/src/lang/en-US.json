@@ -194,6 +194,14 @@
       "addedRole": "Added {role} to {user}.",
       "removedRole": "Removed {role} from {user}",
       "members": "Members of {role}:"
+    },
+    "nick": {
+      "description": "Edit a member's nickname.",
+      "errors": {
+        "invalidMember": "Provided member is invalid."
+      },
+      "addedNickname": "{member} now has the nickname: `{nickname}`.",
+      "removedNickname": "Nickname has been removed from {member}."
     }
   }
 }
