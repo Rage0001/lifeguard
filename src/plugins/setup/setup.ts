@@ -184,7 +184,7 @@ export const command = new Command(
   {
     guildOnly: true,
     hidden: false,
-    level: 0,
+    level: 4,
     usage: ["setup"]
   }
 );

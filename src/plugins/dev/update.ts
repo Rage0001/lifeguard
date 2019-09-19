@@ -49,7 +49,7 @@ export const command = new Command(
   },
   {
     guildOnly: true,
-    hidden: true,
+    hidden: false,
     level: 5,
     usage: ["update", "update -r"]
   }

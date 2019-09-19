@@ -215,7 +215,24 @@
       },
       "errors": {
         "noUser": "The specified user has not been found."
-      }
+      },
+      "description": "Time to be quiet."
+    },
+    "info": {
+      "embed": {
+        "title": "Information on {user}"
+      },
+      "notPlaying": "Not Playing a Game",
+      "status": {
+        "dnd": "<:dnd:513733571836510208> Do Not Disturb",
+        "idle": "<:idle:513733571584983071> Idle",
+        "offline": "<:offline:513733571392045058> Offline/Invisible",
+        "online": "<:online:513733571349970949> Online"
+      },
+      "description": "Want to find out something about a user? Check their info."
+    },
+    "avatar": {
+      "description": "Check out this user's gnarly profile picture!!!"
     }
   }
 }

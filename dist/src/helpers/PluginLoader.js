@@ -16,7 +16,9 @@ async function loadPlugins() {
                 const files = await readDir(`./dist/src/plugins/${folder}`);
                 for await (const file of files) {
                     const { command } = require(`../plugins/${folder}/${file}`);
-                    plugin.commands.set(command.name, command);
+                    if (command) {
+                        plugin.commands.set(command.name, command);
+                    }
                 }
                 plugins.push(plugin);
             }

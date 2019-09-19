@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
+const calcLevel_1 = require("../../helpers/calcLevel");
 const Command_1 = require("../Command");
 async function mapPrefixToUsage(prefix, usage) {
     return usage.map(use => prefix + use);
@@ -8,10 +9,13 @@ async function mapPrefixToUsage(prefix, usage) {
 exports.command = new Command_1.Command("help", async (msg, args, bot) => {
     try {
         const lang = bot.langs["en-US"].commands.help;
+        const userLevel = await calcLevel_1.calcLevel(msg.member, msg.guild);
         const commands = bot.plugins
-            .map(plugin => Array.from(plugin.commands.values()))
+            .map((plugin) => Array.from(plugin.commands.values()))
             .reduce((acc, val) => acc.concat(val), [])
-            .filter(command => !command.options.hidden);
+            .filter((command) => !command.options.hidden)
+            .filter((command) => command.options.level <= userLevel)
+            .sort((a, b) => a.name.localeCompare(b.name));
         if (!args.length) {
             const embed = new discord_js_1.RichEmbed({
                 description: commands

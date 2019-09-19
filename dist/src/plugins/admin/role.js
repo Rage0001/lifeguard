@@ -10,10 +10,10 @@ exports.command = new Command_1.Command("role", async (msg, args, bot) => {
         switch (args[0].toLowerCase()) {
             case "add":
                 if (!role) {
-                    msg.channel.send(lang.notValidRole);
+                    msg.channel.send(lang.errors.notValidRole);
                 }
                 if (!member) {
-                    msg.channel.send(lang.notValidRole);
+                    msg.channel.send(lang.errors.notValidRole);
                 }
                 member.addRole(role);
                 msg.channel.send(bot.format(lang.addedRole, {
@@ -23,10 +23,10 @@ exports.command = new Command_1.Command("role", async (msg, args, bot) => {
                 break;
             case "remove":
                 if (!role) {
-                    return msg.channel.send(lang.notValidRole);
+                    return msg.channel.send(lang.errors.notValidRole);
                 }
                 if (!member) {
-                    return msg.channel.send(lang.notValidRole);
+                    return msg.channel.send(lang.errors.notValidRole);
                 }
                 member.removeRole(role);
                 msg.channel.send(bot.format(lang.removedRole, {
@@ -37,7 +37,7 @@ exports.command = new Command_1.Command("role", async (msg, args, bot) => {
             case "list":
                 const similarRole = msg.guild.roles.find(r => r.name === args.slice(1).join(" "));
                 if (!similarRole) {
-                    return msg.channel.send(lang.notValidRoleName);
+                    return msg.channel.send(lang.errors.notValidRoleName);
                 }
                 msg.channel.send(`${bot.format(lang.members, {
                     role: similarRole.name

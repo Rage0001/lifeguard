@@ -20,7 +20,9 @@ export async function loadPlugins() {
 
         for await (const file of files) {
           const { command } = require(`../plugins/${folder}/${file}`);
-          plugin.commands.set(command.name, command);
+          if (command) {
+            plugin.commands.set(command.name, command);
+          }
         }
 
         plugins.push(plugin);

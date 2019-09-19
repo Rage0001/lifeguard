@@ -134,6 +134,6 @@ exports.command = new Command_1.Command("setup", async (msg, args, bot) => {
 }, {
     guildOnly: true,
     hidden: false,
-    level: 0,
+    level: 4,
     usage: ["setup"]
 });

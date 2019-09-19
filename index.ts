@@ -43,16 +43,10 @@ bot.once("ready", async () => {
     process.send(["start"]);
   }
 
-  const userCount = await bot.shard.fetchClientValues("users.size")
-    .catch((err) => {
-      Logger.error(err);
-    });
-
   bot.user.setPresence({
     game: {
       name: bot.format(bot.langs.default.status, {
         prefix: `${bot.prefix}`,
-        // users: `${userCount.reduce((prev, shardUserCount) => prev + shardUserCount, 0)}`
         users: `${bot.users.size}`
       }),
       type: "WATCHING"

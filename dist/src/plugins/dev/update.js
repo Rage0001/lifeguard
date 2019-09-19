@@ -45,7 +45,7 @@ exports.command = new Command_1.Command("update", async (msg, args, bot) => {
     }
 }, {
     guildOnly: true,
-    hidden: true,
+    hidden: false,
     level: 5,
     usage: ["update", "update -r"]
 });

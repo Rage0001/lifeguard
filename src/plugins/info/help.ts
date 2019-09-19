@@ -1,4 +1,5 @@
 import { RichEmbed } from "discord.js";
+import { calcLevel } from "../../helpers/calcLevel";
 import { Command } from "../Command";
 
 async function mapPrefixToUsage(prefix: string, usage: string[]) {
@@ -10,10 +11,13 @@ export const command = new Command(
   async (msg, args, bot) => {
     try {
       const lang = bot.langs["en-US"].commands.help;
+      const userLevel = await calcLevel(msg.member, msg.guild);
       const commands = bot.plugins
-        .map(plugin => Array.from(plugin.commands.values()))
+        .map((plugin) => Array.from(plugin.commands.values()))
         .reduce((acc, val) => acc.concat(val), [])
-        .filter(command => !command.options.hidden);
+        .filter((command) => !command.options.hidden)
+        .filter((command) => command.options.level <= userLevel)
+        .sort((a, b) => a.name.localeCompare(b.name));
       if (!args.length) {
         const embed = new RichEmbed({
           description: commands
