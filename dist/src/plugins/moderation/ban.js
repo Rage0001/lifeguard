@@ -10,12 +10,12 @@ exports.command = new Command_1.Command("ban", async (msg, args, bot) => {
         const lang = bot.langs["en-US"].commands.ban;
         const userID = parseUser_1.parseUser(args[0]);
         const user = await User_1.findUser(userID);
-        if (user) {
-            const banMember = msg.guild.members.get(userID);
-            if (banMember) {
-                if (banMember.bannable) {
-                    const u = bot.users.get(user.id);
-                    const reason = args.slice(1).join(" ");
+        const banMember = msg.guild.members.get(userID);
+        if (banMember) {
+            if (banMember.bannable) {
+                const u = bot.users.get(userID);
+                const reason = args.slice(1).join(" ");
+                if (user) {
                     const infs = user.get("infractions");
                     infs.push({
                         action: "Ban",
@@ -29,55 +29,55 @@ exports.command = new Command_1.Command("ban", async (msg, args, bot) => {
                     user.set("infractions", infs);
                     user.markModified("infractions");
                     user.save();
+                }
+                else {
                     const embed = new discord_js_1.RichEmbed({
-                        description: bot.format(lang.inf.desc, {
-                            guild: msg.guild.name,
-                            reason
-                        }),
-                        title: lang.inf.title
+                        description: lang.errors.noUser,
                     });
-                    embed.setTimestamp();
-                    if (u) {
-                        await u.send(embed);
-                        banMember.ban(reason);
-                        const responseEmbed = new discord_js_1.RichEmbed({
-                            description: bot.format(lang.inf.responseDesc, {
-                                reason,
-                                user: `${u.username}#${u.discriminator} (${u.id})`
-                            })
-                        });
-                        msg.channel.send(responseEmbed);
-                        const guild = await Guild_1.findGuild(msg.guild.id);
-                        if (guild) {
-                            if (guild.modLog) {
-                                const modLog = msg.guild.channels.get(guild.modLog);
-                                if (modLog) {
-                                    const embed2 = new discord_js_1.RichEmbed({
-                                        description: bot.format(lang.inf.modLog, {
-                                            mod: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
-                                            reason,
-                                            user: `${u.username}#${u.discriminator} (${u.id})`
-                                        })
-                                    });
-                                    modLog.send(embed2);
-                                }
+                    msg.channel.send(embed);
+                }
+                const embed = new discord_js_1.RichEmbed({
+                    description: bot.format(lang.inf.desc, {
+                        guild: msg.guild.name,
+                        reason
+                    }),
+                    title: lang.inf.title
+                });
+                embed.setTimestamp();
+                if (u) {
+                    await u.send(embed);
+                    banMember.ban(reason);
+                    const responseEmbed = new discord_js_1.RichEmbed({
+                        description: bot.format(lang.inf.responseDesc, {
+                            reason,
+                            user: `${u.username}#${u.discriminator} (${u.id})`
+                        })
+                    });
+                    msg.channel.send(responseEmbed);
+                    const guild = await Guild_1.findGuild(msg.guild.id);
+                    if (guild) {
+                        if (guild.modLog) {
+                            const modLog = msg.guild.channels.get(guild.modLog);
+                            if (modLog) {
+                                const embed2 = new discord_js_1.RichEmbed({
+                                    description: bot.format(lang.inf.modLog, {
+                                        mod: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
+                                        reason,
+                                        user: `${u.username}#${u.discriminator} (${u.id})`
+                                    })
+                                });
+                                modLog.send(embed2);
                             }
                         }
                     }
                 }
-                else {
-                    const errorEmbed = new discord_js_1.RichEmbed({
-                        description: lang.errors.notBannable
-                    });
-                    return msg.channel.send(errorEmbed);
-                }
             }
-        }
-        else {
-            const embed = new discord_js_1.RichEmbed({
-                description: lang.errors.noUser,
-            });
-            msg.channel.send(embed);
+            else {
+                const errorEmbed = new discord_js_1.RichEmbed({
+                    description: lang.errors.notBannable
+                });
+                return msg.channel.send(errorEmbed);
+            }
         }
     }
     catch (err) {

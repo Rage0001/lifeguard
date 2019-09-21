@@ -14,10 +14,9 @@ exports.command = new Command_1.Command("update", async (msg, args, bot) => {
         if (pull.stdout !== defaultLang["git:noupdate"]) {
             const { stdout: commitID } = await run("git rev-parse HEAD", { cwd: path_1.resolve(__dirname) });
             const commitLink = `https://github.com/lifeguardbot/lifeguard/commit/${commitID}`;
-            // msg.channel.send(`Updated to __\`${commitID.substring(0, 7)}\`__\n${commitLink}`);
             const embed = new discord_js_1.RichEmbed({
                 description: bot.format(lang.success, {
-                    commitID: `[${commitID}](${commitLink})`
+                    commitID: `[${commitID.substr(0, 7)}](${commitLink})`
                 }),
                 title: lang.title
             });
@@ -34,7 +33,9 @@ exports.command = new Command_1.Command("update", async (msg, args, bot) => {
             }
         }
         else {
-            msg.channel.send(defaultLang["git:noupdate"]);
+            msg.channel.send(new discord_js_1.RichEmbed({
+                description: defaultLang["git:noupdate"]
+            }));
         }
         if (pull.stderr) {
             bot.logger.error(pull.stderr);
@@ -45,7 +46,7 @@ exports.command = new Command_1.Command("update", async (msg, args, bot) => {
     }
 }, {
     guildOnly: true,
-    hidden: false,
+    hidden: true,
     level: 5,
     usage: ["update", "update -r"]
 });

@@ -17,10 +17,9 @@ export const command = new Command(
         const { stdout: commitID } = await run("git rev-parse HEAD", { cwd: resolve(__dirname) });
         const commitLink = `https://github.com/lifeguardbot/lifeguard/commit/${commitID}`;
 
-        // msg.channel.send(`Updated to __\`${commitID.substring(0, 7)}\`__\n${commitLink}`);
         const embed = new RichEmbed({
           description: bot.format(lang.success, {
-            commitID: `[${commitID}](${commitLink})`
+            commitID: `[${commitID.substr(0, 7)}](${commitLink})`
           }),
           title: lang.title
         });
@@ -37,7 +36,9 @@ export const command = new Command(
           }
         }
       } else {
-        msg.channel.send(defaultLang["git:noupdate"]);
+        msg.channel.send(new RichEmbed({
+          description: defaultLang["git:noupdate"]
+        }));
       }
 
       if (pull.stderr) {
@@ -49,7 +50,7 @@ export const command = new Command(
   },
   {
     guildOnly: true,
-    hidden: false,
+    hidden: true,
     level: 5,
     usage: ["update", "update -r"]
   }

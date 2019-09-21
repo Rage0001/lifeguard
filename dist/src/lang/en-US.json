@@ -233,6 +233,14 @@
     },
     "avatar": {
       "description": "Check out this user's gnarly profile picture!!!"
+    },
+    "unban": {
+      "description": "Unbans the specified user from the server.",
+      "inf": {
+        "modLog": "{mod} has unbanned {user} for `{reason}`.",
+        "title": "Unban",
+        "responseDesc": "Unbanned {user} with reason: `{reason}`."
+      }
     }
   }
 }
