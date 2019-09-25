@@ -1,5 +1,7 @@
 // @ts-ignore
 import chalk from "chalk";
+import * as Sentry from "@sentry/node";
+import moment from "moment";
 const log = console.log;
 
 export interface ILogger {
@@ -10,12 +12,22 @@ export interface ILogger {
 
 export default {
   debug: (item: any) => {
-    log(chalk`{yellow.bold DEBUG:\n}` + item);
+    log(
+      `[${moment(moment.now()).format("hh:mm:ss")}]`,
+      chalk`{yellow.bold DEBUG: }` + item
+    );
   },
   error: (err: string) => {
-    log(chalk`{red.bold ERROR:} ${err}`);
+    log(
+      `[${moment(moment.now()).format("hh:mm:ss")}]`,
+      chalk`{red.bold ERROR:} ${err}`
+    );
+    Sentry.captureException(err);
   },
   info: (msg: string) => {
-    log(chalk`{blue.bold INFO:} ${msg}`);
+    log(
+      `[${moment(moment.now()).format("hh:mm:ss")}]`,
+      chalk`{blue.bold INFO:} ${msg}`
+    );
   }
 };
