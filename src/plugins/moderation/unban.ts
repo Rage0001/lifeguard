@@ -1,7 +1,6 @@
 import { RichEmbed, TextChannel } from "discord.js";
 import { parseUser } from "../../helpers/parseUser";
 import { findGuild } from "../../models/Guild";
-import { findUser } from "../../models/User";
 import { Command } from "../Command";
 
 export const command = new Command(
