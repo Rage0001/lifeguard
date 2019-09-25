@@ -1,12 +1,10 @@
 {
   "events": {
     "channelCreate": {
-      "log": ":pen_ballpoint: Channel {name} `{id}` was created.",
-      "title": "Channel Create"
+      "log": ":pen_ballpoint: Channel {name} `{id}` was created."
     },
     "channelDelete": {
-      "log": ":wastebasket: Channel {name} `{id}` was deleted.",
-      "title": "Channel Delete"
+      "log": ":wastebasket: Channel {name} `{id}` was deleted."
     },
     "guildCreate": "Thank You for adding Lifeguard to your server!\nTo begin using Lifeguard, ~~visit https://url/{id}/settings~~ run `!setup`",
     "disconnect": {
@@ -17,12 +15,16 @@
     "reconnecting": "Reconnecting Websocket",
     "resume": "Resuming Websocket",
     "guildBanAdd": {
-      "log": ":rotating_light: {name} `{id}` was banned.",
-      "title": "Ban Add"
+      "log": ":rotating_light: {name} `{id}` was banned."
     },
     "guildBanRemove": {
-      "log": ":rotating_light: {name} `{id}` was unbanned.",
-      "title": "Ban Remove"
+      "log": ":rotating_light: {name} `{id}` was unbanned."
+    },
+    "guildMemberAdd": {
+      "log": ":inbox_tray: {name} `{id}` joined. (Account Created: {createdAt})"
+    },
+    "guildMemberRemove": {
+      "log": ":inbox_tray: {name} `{id}` left."
     }
   },
   "starboard": {

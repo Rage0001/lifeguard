@@ -1,29 +1,29 @@
-import { Guild, RichEmbed, TextChannel, User } from "discord.js";
+import { GuildMember, RichEmbed, TextChannel } from "discord.js";
 import { findGuild } from "../models/Guild";
 import { Event } from "./Event";
 
 export const event = new Event(
-  "guildBanRemove",
-  async (bot, guild: Guild, user: User) => {
-    const lang = bot.langs["en-US"].events.guildBanRemove;
+  "guildMemberRemove",
+  async (bot, member: GuildMember) => {
+    const lang = bot.langs["en-US"].events.guildMemberRemove;
     try {
-      const dbGuild = await findGuild(guild.id);
+      const dbGuild = await findGuild(member.guild.id);
       const embed = new RichEmbed({
         description: bot.format(lang.log, {
-          id: user.id,
-          name: `<@${user.id}>`
+          id: member.id,
+          name: `<@${member.id}>`
         })
       });
       embed.setTimestamp();
       if (dbGuild) {
-        const modlog = guild.channels.get(dbGuild.modLog);
+        const modlog = member.guild.channels.get(dbGuild.modLog);
         if (modlog) {
           (modlog as TextChannel).send(embed);
         }
       }
     } catch (err) {
       return {
-        location: "GuildBanRemove Event",
+        location: "guildMemberRemove Event",
         message: err
       };
     }

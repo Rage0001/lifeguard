@@ -11,8 +11,7 @@ exports.event = new Event_1.Event("channelDelete", async (bot, channel) => {
             description: bot.format(lang.log, {
                 id: channel.id,
                 name: `#${channel.name}`
-            }),
-            title: lang.title
+            })
         });
         embed.setTimestamp();
         if (guild) {

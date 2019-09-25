@@ -11,8 +11,7 @@ exports.event = new Event_1.Event("guildBanAdd", async (bot, guild, user) => {
             description: bot.format(lang.log, {
                 id: user.id,
                 name: `<@${user.id}>`
-            }),
-            title: lang.title
+            })
         });
         embed.setTimestamp();
         if (dbGuild) {
