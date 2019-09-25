@@ -15,7 +15,11 @@
       "reason": "reason"
     },
     "reconnecting": "Reconnecting Websocket",
-    "resume": "Resuming Websocket"
+    "resume": "Resuming Websocket",
+    "guildBanAdd": {
+      "log": ":rotating_light: {name} `{id}` was banned.",
+      "title": "Ban Add"
+    }
   },
   "starboard": {
     "jump": "Jump To Message"
