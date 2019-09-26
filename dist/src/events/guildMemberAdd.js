@@ -13,9 +13,9 @@ exports.event = new Event_1.Event("guildMemberAdd", async (bot, member) => {
         const dbGuild = await Guild_1.findGuild(member.guild.id);
         const embed = new discord_js_1.RichEmbed({
             description: bot.format(lang.log, {
+                createdAt: `${moment_1.default(member.user.createdTimestamp).fromNow()}`,
                 id: member.id,
-                name: `<@${member.id}>`,
-                createdAt: `${moment_1.default(member.user.createdTimestamp).fromNow()}`
+                name: `<@${member.id}>`
             })
         });
         embed.setTimestamp();

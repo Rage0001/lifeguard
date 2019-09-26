@@ -6,7 +6,9 @@ export const command = new Command(
   "avatar",
   async (msg, args, bot) => {
     try {
-      const avatar = args[0] ? (await bot.fetchUser(parseUser(args[0]))).avatarURL : msg.author.avatarURL;
+      const avatar = args[0]
+        ? (await bot.fetchUser(parseUser(args[0]))).avatarURL
+        : msg.author.avatarURL;
       const embed = new RichEmbed();
       embed.setImage(avatar);
       msg.channel.send(embed);

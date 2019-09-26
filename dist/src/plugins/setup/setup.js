@@ -17,7 +17,11 @@ exports.command = new Command_1.Command("setup", async (msg, args, bot) => {
         const collector = new discord_js_1.MessageCollector(msg.channel, (m) => {
             return m.author.id === msg.author.id;
         });
-        const guildData = { id: msg.guild.id, locale: "en-US", prefix: bot.prefix };
+        const guildData = {
+            id: msg.guild.id,
+            locale: "en-US",
+            prefix: bot.prefix
+        };
         const msgs = [];
         const help = await msg.channel.send(new discord_js_1.RichEmbed({
             description: lang.collector.help
@@ -31,7 +35,7 @@ exports.command = new Command_1.Command("setup", async (msg, args, bot) => {
             console.log(guildData);
             const guild = await Guild_1.findGuild(msg.guild.id);
             if (guild) {
-                Object.keys(guildData).map((k) => {
+                Object.keys(guildData).map(k => {
                     guild.set(k, guildData[k]);
                     guild.markModified(k);
                 });

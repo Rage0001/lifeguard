@@ -17,7 +17,7 @@ exports.Guild = new mongoose_1.Schema({
         default: [],
         type: [Guild_Starboard_1.Starboard]
     },
-    starboardChannel: String,
+    starboardChannel: String
 });
 exports.GuildModel = mongoose_1.model("guilds", exports.Guild);
 function createGuild(guild) {
@@ -46,10 +46,10 @@ function addStar(guildID, messageID) {
     return new Promise(async (res, rej) => {
         const guild = await findGuild(guildID);
         if (guild) {
-            const message = guild.starboard.find((message) => message.id === messageID);
+            const message = guild.starboard.find(message => message.id === messageID);
             if (message) {
                 message.starCount++;
-                await guild.save((err) => {
+                await guild.save(err => {
                     if (err) {
                         rej(err);
                     }
@@ -62,7 +62,7 @@ function addStar(guildID, messageID) {
                     starCount: 1
                 };
                 guild.starboard.push(starMessage);
-                guild.save((err) => {
+                guild.save(err => {
                     if (err) {
                         rej(err);
                     }
@@ -77,7 +77,7 @@ function removeStar(guildID, messageID) {
     return new Promise(async (res, rej) => {
         const guild = await findGuild(guildID);
         if (guild) {
-            const message = guild.starboard.find((message) => message.id === messageID);
+            const message = guild.starboard.find(message => message.id === messageID);
             if (message) {
                 if (message.starCount > 0) {
                     message.starCount--;
@@ -85,7 +85,7 @@ function removeStar(guildID, messageID) {
                 else {
                     message.starCount = 0;
                 }
-                await guild.save((err) => {
+                await guild.save(err => {
                     if (err) {
                         rej(err);
                     }

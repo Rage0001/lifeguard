@@ -50,7 +50,9 @@ exports.command = new Command_1.Command("clean", async (msg, args, bot) => {
                     let fetchedOverall = 0;
                     const stop = 500;
                     do {
-                        const options = lastId == null ? { limit: count } : { limit: count, before: lastId };
+                        const options = lastId == null
+                            ? { limit: count }
+                            : { limit: count, before: lastId };
                         const fetched = await message.channel.fetchMessages(options);
                         if (fetched.size > 0) {
                             lastId = fetched.last().id;
@@ -61,8 +63,11 @@ exports.command = new Command_1.Command("clean", async (msg, args, bot) => {
                             filtered = Array.from(filtered.keys()).slice(0, deleteAmount - messagesDeleted);
                         }
                         messagesDeleted += await message.channel.bulkDelete(filtered);
-                    } while (messagesDeleted < deleteAmount && (await message.channel.fetchMessages(lastId == null ? { limit: count } :
-                        { limit: count, before: lastId })).size === count && fetchedOverall < stop);
+                    } while (messagesDeleted < deleteAmount &&
+                        (await message.channel.fetchMessages(lastId == null
+                            ? { limit: count }
+                            : { limit: count, before: lastId })).size === count &&
+                        fetchedOverall < stop);
                 }
                 const user = msg.mentions.members.first() || msg.guild.members.get(args[1]);
                 if (!user) {

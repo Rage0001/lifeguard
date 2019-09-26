@@ -11,9 +11,9 @@ export const event = new Event(
       const dbGuild = await findGuild(member.guild.id);
       const embed = new RichEmbed({
         description: bot.format(lang.log, {
+          createdAt: `${moment(member.user.createdTimestamp).fromNow()}`,
           id: member.id,
-          name: `<@${member.id}>`,
-          createdAt: `${moment(member.user.createdTimestamp).fromNow()}`
+          name: `<@${member.id}>`
         })
       });
       embed.setTimestamp();

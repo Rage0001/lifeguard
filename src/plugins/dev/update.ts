@@ -14,7 +14,9 @@ export const command = new Command(
 
       const pull = await run("git pull", { cwd: resolve(__dirname) });
       if (pull.stdout !== defaultLang["git:noupdate"]) {
-        const { stdout: commitID } = await run("git rev-parse HEAD", { cwd: resolve(__dirname) });
+        const { stdout: commitID } = await run("git rev-parse HEAD", {
+          cwd: resolve(__dirname)
+        });
         const commitLink = `https://github.com/lifeguardbot/lifeguard/commit/${commitID}`;
 
         const embed = new RichEmbed({
@@ -27,7 +29,9 @@ export const command = new Command(
         msg.channel.send(embed);
 
         if (args[0] === "-r") {
-          const plugin = bot.plugins.find((plugin) => plugin.commands.has("restart"));
+          const plugin = bot.plugins.find(plugin =>
+            plugin.commands.has("restart")
+          );
           if (plugin) {
             const restart = plugin.commands.get("restart");
             if (restart) {
@@ -36,9 +40,11 @@ export const command = new Command(
           }
         }
       } else {
-        msg.channel.send(new RichEmbed({
-          description: defaultLang["git:noupdate"]
-        }));
+        msg.channel.send(
+          new RichEmbed({
+            description: defaultLang["git:noupdate"]
+          })
+        );
       }
 
       if (pull.stderr) {

@@ -30,7 +30,11 @@ export const command = new Command(
         muteRole?: string;
         prefix?: string;
       }
-      const guildData: IGuildData = { id: msg.guild.id, locale: "en-US", prefix: bot.prefix };
+      const guildData: IGuildData = {
+        id: msg.guild.id,
+        locale: "en-US",
+        prefix: bot.prefix
+      };
       const msgs: Message[] = [];
 
       const help = await msg.channel.send(
@@ -42,13 +46,13 @@ export const command = new Command(
         msgs.push(help);
       }
 
-      collector.once("end", async (coll) => {
+      collector.once("end", async coll => {
         Array.from(coll.values()).map(msg => msg.delete(1000));
         msgs.map(msg => msg.delete(2000));
         console.log(guildData);
         const guild = await findGuild(msg.guild.id);
         if (guild) {
-          Object.keys(guildData).map((k) => {
+          Object.keys(guildData).map(k => {
             guild.set(k, guildData[k]);
             guild.markModified(k);
           });
@@ -149,7 +153,7 @@ export const command = new Command(
             guildData.muteRole = args[0];
             botMsg = await msg.channel.send(
               new RichEmbed({
-                  description: bot.format(lang.collector.muteRoleCollected, {
+                description: bot.format(lang.collector.muteRoleCollected, {
                   muteRole: guildData.muteRole
                 })
               })

@@ -18,7 +18,7 @@ exports.event = new Event_1.Event("messageReactionRemove", async (bot, reaction,
                     const starboardChannel = reaction.message.guild.channels.get(guild.starboardChannel);
                     if (starboardChannel) {
                         const channel = starboardChannel;
-                        const message = channel.messages.find((message) => message.content.endsWith(`(${reaction.message.id})`));
+                        const message = channel.messages.find(message => message.content.endsWith(`(${reaction.message.id})`));
                         if (message !== null) {
                             message.delete();
                         }
@@ -33,7 +33,7 @@ exports.event = new Event_1.Event("messageReactionRemove", async (bot, reaction,
                     const starboardChannel = reaction.message.guild.channels.get(guild.starboardChannel);
                     if (starboardChannel) {
                         const channel = starboardChannel;
-                        const message = channel.messages.find((message) => message.content.endsWith(`(${reaction.message.id})`));
+                        const message = channel.messages.find(message => message.content.endsWith(`(${reaction.message.id})`));
                         if (message !== null) {
                             return message.edit(`⭐ ${starboardMessage.starCount} ${reaction.message.channel.toString()} (${reaction.message.id})`);
                         }

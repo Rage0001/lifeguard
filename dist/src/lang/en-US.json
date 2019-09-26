@@ -15,16 +15,18 @@
     "reconnecting": "Reconnecting Websocket",
     "resume": "Resuming Websocket",
     "guildBanAdd": {
-      "log": ":rotating_light: {name} `{id}` was banned."
+      "default": ":rotating_light: {name} `{id}` was banned for `{reason}`.",
+      "log": ":rotating_light: {name} `{id}` was banned by {mod} `{modID}` for `{reason}`."
     },
     "guildBanRemove": {
-      "log": ":rotating_light: {name} `{id}` was unbanned."
+      "default": ":rotating_light: {name} `{id}` was unbanned.",
+      "log": ":rotating_light: {name} `{id}` was unbanned by {mod} `{modID}` for `{reason}`."
     },
     "guildMemberAdd": {
       "log": ":inbox_tray: {name} `{id}` joined. (Account Created: {createdAt})"
     },
     "guildMemberRemove": {
-      "log": ":inbox_tray: {name} `{id}` left."
+      "log": ":outbox_tray: {name} `{id}` left."
     }
   },
   "starboard": {

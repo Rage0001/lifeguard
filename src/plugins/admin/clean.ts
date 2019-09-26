@@ -20,9 +20,11 @@ export const command = new Command(
           msg.channel.startTyping();
           msg.channel.bulkDelete(allParsedArgument + 1);
           msg.channel.stopTyping();
-          await msg.channel.send(bot.format(lang.cleanedAll.message, {
-            amount: String(allParsedArgument)
-          }));
+          await msg.channel.send(
+            bot.format(lang.cleanedAll.message, {
+              amount: String(allParsedArgument)
+            })
+          );
           const guild = await findGuild(msg.guild.id);
           if (guild) {
             if (guild.modLog) {
@@ -43,32 +45,50 @@ export const command = new Command(
           }
           break;
         case "user":
-          async function userDel(amount: number, userId: string, message: Message) {
-          let messagesDeleted: any = 0;
-          const deleteAmount = amount;
-          const count = 100;
-          let lastId = null;
-          let fetchedOverall = 0;
-          const stop = 500;
+          async function userDel(
+            amount: number,
+            userId: string,
+            message: Message
+          ) {
+            let messagesDeleted: any = 0;
+            const deleteAmount = amount;
+            const count = 100;
+            let lastId = null;
+            let fetchedOverall = 0;
+            const stop = 500;
 
-          do {
-              const options: any = lastId == null ? { limit: count } : { limit: count, before: lastId };
+            do {
+              const options: any =
+                lastId == null
+                  ? { limit: count }
+                  : { limit: count, before: lastId };
               const fetched = await message.channel.fetchMessages(options);
-              if (fetched.size > 0) { lastId = fetched.last().id; }
+              if (fetched.size > 0) {
+                lastId = fetched.last().id;
+              }
               fetchedOverall += fetched.size;
 
               let filtered: any = fetched.filter(x => x.author.id === userId);
               if (messagesDeleted + filtered.size > deleteAmount) {
-                  filtered = Array.from(filtered.keys()).slice(0, deleteAmount - messagesDeleted);
+                filtered = Array.from(filtered.keys()).slice(
+                  0,
+                  deleteAmount - messagesDeleted
+                );
               }
 
               messagesDeleted += await message.channel.bulkDelete(filtered);
-            }
-          while (messagesDeleted < deleteAmount && (await message.channel.fetchMessages(
-            lastId == null ? { limit: count } :
-            { limit: count, before: lastId })).size === count && fetchedOverall < stop);
+            } while (
+              messagesDeleted < deleteAmount &&
+              (await message.channel.fetchMessages(
+                lastId == null
+                  ? { limit: count }
+                  : { limit: count, before: lastId }
+              )).size === count &&
+              fetchedOverall < stop
+            );
           }
-          const user = msg.mentions.members.first() || msg.guild.members.get(args[1]);
+          const user =
+            msg.mentions.members.first() || msg.guild.members.get(args[1]);
           if (!user) {
             return msg.channel.send(lang.errors.invalidUser);
           }
@@ -82,10 +102,12 @@ export const command = new Command(
           msg.channel.startTyping();
           userDel(userParsedArgument + 1, user.id, msg);
           msg.channel.stopTyping();
-          await msg.channel.send(bot.format(lang.cleanedUser.message, {
-            amount: String(userParsedArgument),
-            tag: user.user.tag
-          }));
+          await msg.channel.send(
+            bot.format(lang.cleanedUser.message, {
+              amount: String(userParsedArgument),
+              tag: user.user.tag
+            })
+          );
           break;
         case "until":
           const msgToCleanUntil = args[1];

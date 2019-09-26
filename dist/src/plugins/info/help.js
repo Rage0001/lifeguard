@@ -11,19 +11,17 @@ exports.command = new Command_1.Command("help", async (msg, args, bot) => {
         const lang = bot.langs["en-US"].commands.help;
         const userLevel = await calcLevel_1.calcLevel(msg.member, msg.guild);
         const commands = bot.plugins
-            .map((plugin) => Array.from(plugin.commands.values()))
+            .map(plugin => Array.from(plugin.commands.values()))
             .reduce((acc, val) => acc.concat(val), [])
-            .filter((command) => !command.options.hidden)
-            .filter((command) => command.options.level <= userLevel)
+            .filter(command => !command.options.hidden)
+            .filter(command => command.options.level <= userLevel)
             .sort((a, b) => a.name.localeCompare(b.name));
         if (!args.length) {
             const embed = new discord_js_1.RichEmbed({
                 description: commands
                     .map(command => `${command.name} - ${bot.langs["en-US"].commands[command.name]
-                    ?
-                        bot.langs["en-US"].commands[command.name].description
-                    :
-                        "No Description"}`)
+                    ? bot.langs["en-US"].commands[command.name].description
+                    : "No Description"}`)
                     .join("\n")
             });
             msg.channel.send(embed);

@@ -65,21 +65,23 @@ process.on("message", async (message: string[]) => {
       title: lang.title
     });
     embed.setTimestamp();
-    ((bot.guilds.find((guild) => {
-      return guild.channels.has(message[1]);
-    }).channels.find((channel) => {
-      return channel.id === message[1];
-    })) as TextChannel).send(embed);
+    (bot.guilds
+      .find(guild => {
+        return guild.channels.has(message[1]);
+      })
+      .channels.find(channel => {
+        return channel.id === message[1];
+      }) as TextChannel).send(embed);
   }
 });
 
-process.on("unhandledRejection", (err) => {
+process.on("unhandledRejection", err => {
   if (err) {
     Logger.error(JSON.stringify(err));
   }
 });
 
-process.on("uncaughtException", (err) => {
+process.on("uncaughtException", err => {
   if (err.stack) {
     Logger.error(err.stack);
   } else {

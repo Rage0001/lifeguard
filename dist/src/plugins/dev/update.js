@@ -12,7 +12,9 @@ exports.command = new Command_1.Command("update", async (msg, args, bot) => {
         const run = util_1.promisify(child_process_1.exec);
         const pull = await run("git pull", { cwd: path_1.resolve(__dirname) });
         if (pull.stdout !== defaultLang["git:noupdate"]) {
-            const { stdout: commitID } = await run("git rev-parse HEAD", { cwd: path_1.resolve(__dirname) });
+            const { stdout: commitID } = await run("git rev-parse HEAD", {
+                cwd: path_1.resolve(__dirname)
+            });
             const commitLink = `https://github.com/lifeguardbot/lifeguard/commit/${commitID}`;
             const embed = new discord_js_1.RichEmbed({
                 description: bot.format(lang.success, {
@@ -23,7 +25,7 @@ exports.command = new Command_1.Command("update", async (msg, args, bot) => {
             embed.setTimestamp();
             msg.channel.send(embed);
             if (args[0] === "-r") {
-                const plugin = bot.plugins.find((plugin) => plugin.commands.has("restart"));
+                const plugin = bot.plugins.find(plugin => plugin.commands.has("restart"));
                 if (plugin) {
                     const restart = plugin.commands.get("restart");
                     if (restart) {

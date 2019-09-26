@@ -10,10 +10,9 @@ export const event = new Event("guildCreate", async (bot, guild: Guild) => {
       starboard: []
     });
     const embed = new RichEmbed({
-      description:
-        bot.format(lang, {
-          id: guild.id,
-        })
+      description: bot.format(lang, {
+        id: guild.id
+      })
     });
     (guild.systemChannel as TextChannel).send(embed);
   } catch (err) {

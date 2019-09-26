@@ -15,12 +15,19 @@ class PluginClient extends discord_js_1.Client {
         this.logger = Logger_1.default;
         this.langs = {};
         this.format = Formatter_1.formatter;
+        this.pendingEvents = [];
     }
     restart(channelID) {
         this.shard.send(["restart", channelID]);
         if (process.send) {
             process.send(["restart", channelID]);
         }
+    }
+    addEvent(event) {
+        this.pendingEvents.push(event);
+    }
+    removeEvent(event) {
+        this.pendingEvents = this.pendingEvents.filter(e => e !== event);
     }
 }
 exports.PluginClient = PluginClient;

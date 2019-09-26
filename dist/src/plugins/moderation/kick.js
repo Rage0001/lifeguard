@@ -75,7 +75,7 @@ exports.command = new Command_1.Command("kick", async (msg, args, bot) => {
         }
         else {
             const embed = new discord_js_1.RichEmbed({
-                description: lang.errors.noUser,
+                description: lang.errors.noUser
             });
             msg.channel.send(embed);
         }

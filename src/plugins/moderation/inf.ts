@@ -15,16 +15,22 @@ export const command = new Command(
             const infUser = bot.users.get(args[1]);
             if (infUser) {
               const infractionEmbed = new RichEmbed();
-              const filteredInfs = infs.filter((i: any) => i.guild === msg.guild.id);
-              infractionEmbed.setTitle(bot.format(lang.displaying, {
-                current: "1",
-                total: filteredInfs.length,
-                user: infUser.tag
-              }));
+              const filteredInfs = infs.filter(
+                (i: any) => i.guild === msg.guild.id
+              );
+              infractionEmbed.setTitle(
+                bot.format(lang.displaying, {
+                  current: "1",
+                  total: filteredInfs.length,
+                  user: infUser.tag
+                })
+              );
               infractionEmbed.setColor("RED");
-              infractionEmbed.setFooter(bot.format(lang.footer, {
-                user: msg.author.tag
-              }));
+              infractionEmbed.setFooter(
+                bot.format(lang.footer, {
+                  user: msg.author.tag
+                })
+              );
               const fetchedGuild = bot.guilds.get(filteredInfs[0].guild);
               if (fetchedGuild) {
                 filteredInfs[0].guild = fetchedGuild.name;
@@ -33,19 +39,24 @@ export const command = new Command(
               if (fetchedMod) {
                 filteredInfs[0].moderator = fetchedMod.tag;
               }
-              infractionEmbed.setDescription(bot.format(lang.infDisplay, {
-                action: filteredInfs[0].action,
-                active: (filteredInfs[0].active === true) ? "Yes" : "No",
-                guild: filteredInfs[0].guild,
-                id: filteredInfs[0].id,
-                mod: filteredInfs[0].moderator,
-                reason: filteredInfs[0].reason,
-                time: filteredInfs[0].time
-              }));
+              infractionEmbed.setDescription(
+                bot.format(lang.infDisplay, {
+                  action: filteredInfs[0].action,
+                  active: filteredInfs[0].active === true ? "Yes" : "No",
+                  guild: filteredInfs[0].guild,
+                  id: filteredInfs[0].id,
+                  mod: filteredInfs[0].moderator,
+                  reason: filteredInfs[0].reason,
+                  time: filteredInfs[0].time
+                })
+              );
               const embedMessage = await msg.channel.send(infractionEmbed);
               let page = 0;
-              const filter = (reaction: MessageReaction, user: User) => user.id === msg.author.id;
-              const reactionCollector = (embedMessage as Message).createReactionCollector(filter);
+              const filter = (reaction: MessageReaction, user: User) =>
+                user.id === msg.author.id;
+              const reactionCollector = (embedMessage as Message).createReactionCollector(
+                filter
+              );
               let stopTimer: any;
               const setStopTimer = () => {
                 if (stopTimer !== undefined) {
@@ -56,8 +67,12 @@ export const command = new Command(
               const backwardEmoji = "◀";
               const forwardEmoji = "▶";
               const basketEmoji = "🗑";
-              const botReactionBackward = await (embedMessage as Message).react(backwardEmoji);
-              const botReactionForward = await (embedMessage as Message).react(forwardEmoji);
+              const botReactionBackward = await (embedMessage as Message).react(
+                backwardEmoji
+              );
+              const botReactionForward = await (embedMessage as Message).react(
+                forwardEmoji
+              );
               reactionCollector.on("collect", (r: MessageReaction) => {
                 switch (r.emoji.name) {
                   case forwardEmoji:
@@ -70,28 +85,37 @@ export const command = new Command(
                       return;
                     }
                     page = page + 1;
-                    infractionEmbed.setTitle(bot.format(lang.displaying, {
-                      current: `${page + 1}`,
-                      total: filteredInfs.length,
-                      user: infUser.tag
-                    }));
-                    const fetchedGuild = bot.guilds.get(filteredInfs[page].guild);
+                    infractionEmbed.setTitle(
+                      bot.format(lang.displaying, {
+                        current: `${page + 1}`,
+                        total: filteredInfs.length,
+                        user: infUser.tag
+                      })
+                    );
+                    const fetchedGuild = bot.guilds.get(
+                      filteredInfs[page].guild
+                    );
                     if (fetchedGuild) {
                       filteredInfs[page].guild = fetchedGuild.name;
                     }
-                    const fetchedMod = bot.users.get(filteredInfs[page].moderator);
+                    const fetchedMod = bot.users.get(
+                      filteredInfs[page].moderator
+                    );
                     if (fetchedMod) {
                       filteredInfs[page].moderator = fetchedMod.tag;
                     }
-                    infractionEmbed.setDescription(bot.format(lang.infDisplay, {
-                      action: filteredInfs[page].action,
-                      active: (filteredInfs[page].active === true) ? "Yes" : "No",
-                      guild: filteredInfs[page].guild,
-                      id: filteredInfs[page].id,
-                      mod: filteredInfs[page].moderator,
-                      reason: filteredInfs[page].reason,
-                      time: filteredInfs[page].time
-                    }));
+                    infractionEmbed.setDescription(
+                      bot.format(lang.infDisplay, {
+                        action: filteredInfs[page].action,
+                        active:
+                          filteredInfs[page].active === true ? "Yes" : "No",
+                        guild: filteredInfs[page].guild,
+                        id: filteredInfs[page].id,
+                        mod: filteredInfs[page].moderator,
+                        reason: filteredInfs[page].reason,
+                        time: filteredInfs[page].time
+                      })
+                    );
                     (embedMessage as Message).edit(infractionEmbed);
                     break;
                   case backwardEmoji:
@@ -104,28 +128,37 @@ export const command = new Command(
                       return;
                     }
                     page = page - 1;
-                    infractionEmbed.setTitle(bot.format(lang.displaying, {
-                      current: `${page + 1}`,
-                      total: filteredInfs.length,
-                      user: infUser.tag
-                    }));
-                    const fetchedGuildTwo = bot.guilds.get(filteredInfs[page].guild);
+                    infractionEmbed.setTitle(
+                      bot.format(lang.displaying, {
+                        current: `${page + 1}`,
+                        total: filteredInfs.length,
+                        user: infUser.tag
+                      })
+                    );
+                    const fetchedGuildTwo = bot.guilds.get(
+                      filteredInfs[page].guild
+                    );
                     if (fetchedGuildTwo) {
                       filteredInfs[page].guild = fetchedGuildTwo.name;
                     }
-                    const fetchedModTwo = bot.users.get(filteredInfs[page].moderator);
+                    const fetchedModTwo = bot.users.get(
+                      filteredInfs[page].moderator
+                    );
                     if (fetchedModTwo) {
                       filteredInfs[page].moderator = fetchedModTwo.tag;
                     }
-                    infractionEmbed.setDescription(bot.format(lang.infDisplay, {
-                      action: filteredInfs[page].action,
-                      active: (filteredInfs[page].active === true) ? "Yes" : "No",
-                      guild: filteredInfs[page].guild,
-                      id: filteredInfs[page].id,
-                      mod: filteredInfs[page].moderator,
-                      reason: filteredInfs[page].reason,
-                      time: filteredInfs[page].time
-                    }));
+                    infractionEmbed.setDescription(
+                      bot.format(lang.infDisplay, {
+                        action: filteredInfs[page].action,
+                        active:
+                          filteredInfs[page].active === true ? "Yes" : "No",
+                        guild: filteredInfs[page].guild,
+                        id: filteredInfs[page].id,
+                        mod: filteredInfs[page].moderator,
+                        reason: filteredInfs[page].reason,
+                        time: filteredInfs[page].time
+                      })
+                    );
                     (embedMessage as Message).edit(infractionEmbed);
                     break;
                   case basketEmoji:
@@ -139,7 +172,7 @@ export const command = new Command(
                     break;
                 }
               });
-              reactionCollector.on("end", (c) => {
+              reactionCollector.on("end", c => {
                 botReactionBackward.remove(bot.user);
                 botReactionForward.remove(bot.user);
               });

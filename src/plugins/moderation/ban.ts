@@ -1,6 +1,5 @@
 import { RichEmbed, TextChannel } from "discord.js";
 import { parseUser } from "../../helpers/parseUser";
-import { findGuild } from "../../models/Guild";
 import { findUser } from "../../models/User";
 import { Command } from "../Command";
 
@@ -35,7 +34,7 @@ export const command = new Command(
             user.save();
           } else {
             const embed = new RichEmbed({
-              description: lang.errors.noUser,
+              description: lang.errors.noUser
             });
             msg.channel.send(embed);
           }
@@ -51,7 +50,11 @@ export const command = new Command(
 
           if (u) {
             await u.send(embed);
-            banMember.ban(reason);
+            bot.addEvent({
+              args: [u.id, msg.author.id, reason, msg.guild.id],
+              event: "guildBanAdd"
+            });
+            banMember.ban({ reason });
 
             const responseEmbed = new RichEmbed({
               description: bot.format(lang.inf.responseDesc, {
@@ -60,23 +63,6 @@ export const command = new Command(
               })
             });
             msg.channel.send(responseEmbed);
-
-            const guild = await findGuild(msg.guild.id);
-            if (guild) {
-              if (guild.modLog) {
-                const modLog = msg.guild.channels.get(guild.modLog);
-                if (modLog) {
-                  const embed2 = new RichEmbed({
-                    description: bot.format(lang.inf.modLog, {
-                      mod: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
-                      reason,
-                      user: `${u.username}#${u.discriminator} (${u.id})`
-                    })
-                  });
-                  (modLog as TextChannel).send(embed2);
-                }
-              }
-            }
           }
         } else {
           const errorEmbed = new RichEmbed({

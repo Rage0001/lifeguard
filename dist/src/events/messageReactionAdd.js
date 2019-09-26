@@ -33,7 +33,7 @@ exports.event = new Event_1.Event("messageReactionAdd", async (bot, reaction, us
                     }
                     if (starboardChannel) {
                         const channel = starboardChannel;
-                        const message = channel.messages.find((message) => message.content.endsWith(`(${reaction.message.id})`));
+                        const message = channel.messages.find(message => message.content.endsWith(`(${reaction.message.id})`));
                         if (message !== null) {
                             return message.edit(`⭐ ${starboardMessage.starCount} ${reaction.message.channel.toString()} (${reaction.message.id})`);
                         }

@@ -78,7 +78,7 @@ export const command = new Command(
         }
       } else {
         const embed = new RichEmbed({
-          description: lang.errors.noUser,
+          description: lang.errors.noUser
         });
         msg.channel.send(embed);
       }

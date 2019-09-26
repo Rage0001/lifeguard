@@ -5,7 +5,8 @@ export const command = new Command(
   async (msg, args, bot) => {
     try {
       const lang = bot.langs["en-US"].commands.nick;
-      const member = msg.mentions.members.first() || msg.guild.members.get(args[1]);
+      const member =
+        msg.mentions.members.first() || msg.guild.members.get(args[1]);
       if (!member) {
         return msg.channel.send(lang.errors.invalidMember);
       }
@@ -13,16 +14,20 @@ export const command = new Command(
         case "set":
           const nick = args.slice(2).join(" ");
           member.setNickname(nick);
-          msg.channel.send(bot.format(lang.addedNickname, {
-            member: member.user.tag,
-            nickname: nick
-          }));
+          msg.channel.send(
+            bot.format(lang.addedNickname, {
+              member: member.user.tag,
+              nickname: nick
+            })
+          );
           break;
         case "rmv":
           member.setNickname("");
-          msg.channel.send(bot.format(lang.removedNickname, {
-            member: member.user.tag
-          }));
+          msg.channel.send(
+            bot.format(lang.removedNickname, {
+              member: member.user.tag
+            })
+          );
           break;
         default:
           break;

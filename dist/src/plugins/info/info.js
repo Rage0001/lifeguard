@@ -17,7 +17,10 @@ exports.command = new Command_1.Command("info", async (msg, args, bot) => {
                 embed.addField("User Mention", user.user.toString());
                 embed.addField("Status", lang.status[user.presence.status]);
                 embed.addField("Game", user.presence.game ? user.presence.game.name : lang.notPlaying);
-                embed.addField("Roles", user.roles.filter((r) => r.id !== msg.guild.id).map((r) => r.name).join("\n"));
+                embed.addField("Roles", user.roles
+                    .filter(r => r.id !== msg.guild.id)
+                    .map(r => r.name)
+                    .join("\n"));
                 embed.addField("Joined Server", user.joinedAt);
                 embed.addField("Joined Discord", user.user.createdAt);
                 if (dbUser) {
@@ -47,17 +50,17 @@ exports.command = new Command_1.Command("info", async (msg, args, bot) => {
             addInfo(user);
         }
         else if (msg.guild.members.has(parseUser_1.parseUser(args[0]))) {
-            user = msg.guild.members.find((u) => u.id === parseUser_1.parseUser(args[0]));
+            user = msg.guild.members.find(u => u.id === parseUser_1.parseUser(args[0]));
             dbUser = await User_1.findUser(user.id);
             addInfo(user);
         }
         else if (bot.users.has(parseUser_1.parseUser(args[0]))) {
-            user = bot.users.find((u) => u.id === parseUser_1.parseUser(args[0]));
+            user = bot.users.find(u => u.id === parseUser_1.parseUser(args[0]));
             dbUser = await User_1.findUser(user.id);
             addInfo(user);
         }
         else {
-            user = await bot.fetchUser(parseUser_1.parseUser(args[0]));
+            user = (await bot.fetchUser(parseUser_1.parseUser(args[0])));
             addInfo(user);
         }
         embed.setTimestamp();

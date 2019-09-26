@@ -12,7 +12,7 @@ exports.event = new Event_1.Event("guildCreate", async (bot, guild) => {
         });
         const embed = new discord_js_1.RichEmbed({
             description: bot.format(lang, {
-                id: guild.id,
+                id: guild.id
             })
         });
         guild.systemChannel.send(embed);

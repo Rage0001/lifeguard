@@ -8,7 +8,10 @@ export const command = new Command(
       switch (args[0]) {
         case "number":
           if (args[1] && args[2]) {
-            if (isNaN(parseInt(args[1], undefined)) || isNaN(parseInt(args[2], undefined))) {
+            if (
+              isNaN(parseInt(args[1], undefined)) ||
+              isNaN(parseInt(args[2], undefined))
+            ) {
               return msg.channel.send(lang.errors.argsNAN);
             }
           }

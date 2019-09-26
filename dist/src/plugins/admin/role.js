@@ -41,7 +41,9 @@ exports.command = new Command_1.Command("role", async (msg, args, bot) => {
                 }
                 msg.channel.send(`${bot.format(lang.members, {
                     role: similarRole.name
-                })}\`\`\`${similarRole.members.map(m => `${m.user.tag} - ${m.user.id}`).join("\n")}\`\`\``);
+                })}\`\`\`${similarRole.members
+                    .map(m => `${m.user.tag} - ${m.user.id}`)
+                    .join("\n")}\`\`\``);
                 break;
             default:
                 break;
@@ -54,5 +56,9 @@ exports.command = new Command_1.Command("role", async (msg, args, bot) => {
     guildOnly: true,
     hidden: false,
     level: 2,
-    usage: ["role add {user} {role_id}", "role remove {user} {role_id}", "role list {role_name}"]
+    usage: [
+        "role add {user} {role_id}",
+        "role remove {user} {role_id}",
+        "role list {role_name}"
+    ]
 });

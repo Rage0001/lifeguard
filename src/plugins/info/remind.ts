@@ -18,25 +18,37 @@ export const command = new Command(
             const givenTimestamp = ms(args[1]);
             const currentDate = Date.now();
             if (!givenTimestamp) {
-              return msg.channel.send(bot.format(lang.errors.failedTimestamp, {
-                arg: args[1]
-              }));
+              return msg.channel.send(
+                bot.format(lang.errors.failedTimestamp, {
+                  arg: args[1]
+                })
+              );
             }
             const text = args.slice(2).join(" ");
-            msg.channel.send(bot.format(lang.body, {
-              text,
-              timestamp: moment(currentDate + givenTimestamp).format(),
-            }));
-            const reminder = Schedule.scheduleJob(new Date(currentDate + givenTimestamp), () => {
-              msg.author.send(bot.format(lang.reminder, {
+            msg.channel.send(
+              bot.format(lang.body, {
                 text,
                 timestamp: moment(currentDate + givenTimestamp).format()
-              }));
-              delete reminders[reminders.indexOf(reminder)];
-              user.set("reminders", reminders.filter((reminder) => reminder !== null));
-              user.markModified("reminders");
-              user.save();
-            });
+              })
+            );
+            const reminder = Schedule.scheduleJob(
+              new Date(currentDate + givenTimestamp),
+              () => {
+                msg.author.send(
+                  bot.format(lang.reminder, {
+                    text,
+                    timestamp: moment(currentDate + givenTimestamp).format()
+                  })
+                );
+                delete reminders[reminders.indexOf(reminder)];
+                user.set(
+                  "reminders",
+                  reminders.filter(reminder => reminder !== null)
+                );
+                user.markModified("reminders");
+                user.save();
+              }
+            );
             reminders.push(reminder);
             user.markModified("reminders");
             user.save();

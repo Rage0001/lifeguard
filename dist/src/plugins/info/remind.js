@@ -26,7 +26,7 @@ exports.command = new Command_1.Command("remind", async (msg, args, bot) => {
                     const text = args.slice(2).join(" ");
                     msg.channel.send(bot.format(lang.body, {
                         text,
-                        timestamp: moment_1.default(currentDate + givenTimestamp).format(),
+                        timestamp: moment_1.default(currentDate + givenTimestamp).format()
                     }));
                     const reminder = node_schedule_1.default.scheduleJob(new Date(currentDate + givenTimestamp), () => {
                         msg.author.send(bot.format(lang.reminder, {
@@ -34,7 +34,7 @@ exports.command = new Command_1.Command("remind", async (msg, args, bot) => {
                             timestamp: moment_1.default(currentDate + givenTimestamp).format()
                         }));
                         delete reminders[reminders.indexOf(reminder)];
-                        user.set("reminders", reminders.filter((reminder) => reminder !== null));
+                        user.set("reminders", reminders.filter(reminder => reminder !== null));
                         user.markModified("reminders");
                         user.save();
                     });

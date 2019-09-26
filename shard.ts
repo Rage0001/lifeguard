@@ -1,13 +1,13 @@
 import { ShardingManager } from "discord.js";
 const Manager = new ShardingManager("./dist/index.js");
 
-Manager.spawn(3, 10000).then((shards) => {
+Manager.spawn(3, 10000).then(shards => {
   if (process.send) {
     process.send(["start"]);
   }
 });
 
-Manager.on("launch", (shard) => {
+Manager.on("launch", shard => {
   console.log(`Started ${shard.id}`);
 });
 
@@ -19,7 +19,7 @@ Manager.on("message", (shard, message) => {
   }
 });
 
-process.on("message", (message) => {
+process.on("message", message => {
   if (message[0] === "restartSuccess") {
     const shard = Manager.shards.get(message[2]);
     if (shard) {

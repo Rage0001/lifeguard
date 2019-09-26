@@ -34,7 +34,7 @@ exports.command = new Command_1.Command("inf", async (msg, args, bot) => {
                         }
                         infractionEmbed.setDescription(bot.format(lang.infDisplay, {
                             action: filteredInfs[0].action,
-                            active: (filteredInfs[0].active === true) ? "Yes" : "No",
+                            active: filteredInfs[0].active === true ? "Yes" : "No",
                             guild: filteredInfs[0].guild,
                             id: filteredInfs[0].id,
                             mod: filteredInfs[0].moderator,
@@ -82,7 +82,7 @@ exports.command = new Command_1.Command("inf", async (msg, args, bot) => {
                                     }
                                     infractionEmbed.setDescription(bot.format(lang.infDisplay, {
                                         action: filteredInfs[page].action,
-                                        active: (filteredInfs[page].active === true) ? "Yes" : "No",
+                                        active: filteredInfs[page].active === true ? "Yes" : "No",
                                         guild: filteredInfs[page].guild,
                                         id: filteredInfs[page].id,
                                         mod: filteredInfs[page].moderator,
@@ -114,7 +114,7 @@ exports.command = new Command_1.Command("inf", async (msg, args, bot) => {
                                     }
                                     infractionEmbed.setDescription(bot.format(lang.infDisplay, {
                                         action: filteredInfs[page].action,
-                                        active: (filteredInfs[page].active === true) ? "Yes" : "No",
+                                        active: filteredInfs[page].active === true ? "Yes" : "No",
                                         guild: filteredInfs[page].guild,
                                         id: filteredInfs[page].id,
                                         mod: filteredInfs[page].moderator,
@@ -132,7 +132,7 @@ exports.command = new Command_1.Command("inf", async (msg, args, bot) => {
                                     break;
                             }
                         });
-                        reactionCollector.on("end", (c) => {
+                        reactionCollector.on("end", c => {
                             botReactionBackward.remove(bot.user);
                             botReactionForward.remove(bot.user);
                         });

@@ -13,15 +13,19 @@ export const command = new Command(
       switch (args[0].toLowerCase()) {
         case "enable":
           role.setMentionable(true);
-          msg.channel.send(bot.format(lang.enabled, {
-            role: role.name
-          }));
+          msg.channel.send(
+            bot.format(lang.enabled, {
+              role: role.name
+            })
+          );
           break;
         case "disable":
           role.setMentionable(false);
-          msg.channel.send(bot.format(lang.disabled, {
-            role: role.name
-          }));
+          msg.channel.send(
+            bot.format(lang.disabled, {
+              role: role.name
+            })
+          );
           break;
         default:
           break;

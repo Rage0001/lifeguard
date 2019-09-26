@@ -2,7 +2,7 @@ import { RichEmbed, TextChannel } from "discord.js";
 import { config } from "../private/config";
 import { Event } from "./Event";
 
-export const event = new Event("resume", async (bot) => {
+export const event = new Event("resume", async bot => {
   const lang = bot.langs["en-US"].events.resume;
   const embed = new RichEmbed();
   embed.setTitle(lang.resume);

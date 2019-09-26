@@ -8,12 +8,18 @@ interface ILanguageObj {
   [s: string]: any;
 }
 
+interface IPendingEvent {
+  event: string;
+  args: any[];
+}
+
 // @ts-ignore
 export class PluginClient extends Client {
   public db!: Connection;
   public format: (str: string, replace: IReplacer) => string;
   public logger: ILogger;
   public langs: ILanguageObj;
+  public pendingEvents: IPendingEvent[];
   public plugins!: Plugin[];
 
   constructor(public prefix: string, public options: ClientOptions) {
@@ -21,6 +27,7 @@ export class PluginClient extends Client {
     this.logger = Logger;
     this.langs = {};
     this.format = formatter;
+    this.pendingEvents = [];
   }
 
   public restart(channelID: string) {
@@ -28,5 +35,13 @@ export class PluginClient extends Client {
     if (process.send) {
       process.send(["restart", channelID]);
     }
+  }
+
+  public addEvent(event: IPendingEvent) {
+    this.pendingEvents.push(event);
+  }
+
+  public removeEvent(event: IPendingEvent) {
+    this.pendingEvents = this.pendingEvents.filter(e => e !== event);
   }
 }

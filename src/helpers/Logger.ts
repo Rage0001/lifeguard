@@ -1,6 +1,5 @@
-// @ts-ignore
-import chalk from "chalk";
 import * as Sentry from "@sentry/node";
+import chalk from "chalk";
 import moment from "moment";
 const log = console.log;
 

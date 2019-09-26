@@ -70,19 +70,21 @@ process.on("message", async (message) => {
             title: lang.title
         });
         embed.setTimestamp();
-        (bot.guilds.find((guild) => {
+        bot.guilds
+            .find(guild => {
             return guild.channels.has(message[1]);
-        }).channels.find((channel) => {
+        })
+            .channels.find(channel => {
             return channel.id === message[1];
-        })).send(embed);
+        }).send(embed);
     }
 });
-process.on("unhandledRejection", (err) => {
+process.on("unhandledRejection", err => {
     if (err) {
         Logger_1.default.error(JSON.stringify(err));
     }
 });
-process.on("uncaughtException", (err) => {
+process.on("uncaughtException", err => {
     if (err.stack) {
         Logger_1.default.error(err.stack);
     }

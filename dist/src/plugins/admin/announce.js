@@ -13,7 +13,8 @@ exports.command = new Command_1.Command("announce", async (msg, args, bot) => {
             return msg.channel.send(lang.errors.notValidChannel);
         }
         const channelPermissions = msg.guild.me.permissionsIn(channel);
-        if (!channelPermissions.has("VIEW_CHANNEL") || !channelPermissions.has("SEND_MESSAGES")) {
+        if (!channelPermissions.has("VIEW_CHANNEL") ||
+            !channelPermissions.has("SEND_MESSAGES")) {
             msg.channel.send(lang.errors.noPermissions);
         }
         const announceMessage = args.slice(1).join(" ");

@@ -16,7 +16,7 @@ export const Guild = new Schema({
     default: [],
     type: [Starboard]
   },
-  starboardChannel: String,
+  starboardChannel: String
 });
 
 export const GuildModel = model("guilds", Guild);
@@ -71,10 +71,10 @@ export function addStar(guildID: string, messageID: string) {
   return new Promise<IStarboard>(async (res, rej) => {
     const guild = await findGuild(guildID);
     if (guild) {
-      const message = guild.starboard.find((message) => message.id === messageID);
+      const message = guild.starboard.find(message => message.id === messageID);
       if (message) {
         message.starCount++;
-        await guild.save((err) => {
+        await guild.save(err => {
           if (err) {
             rej(err);
           }
@@ -86,7 +86,7 @@ export function addStar(guildID: string, messageID: string) {
           starCount: 1
         };
         guild.starboard.push(starMessage);
-        guild.save((err) => {
+        guild.save(err => {
           if (err) {
             rej(err);
           }
@@ -101,14 +101,14 @@ export function removeStar(guildID: string, messageID: string) {
   return new Promise<IStarboard>(async (res, rej) => {
     const guild = await findGuild(guildID);
     if (guild) {
-      const message = guild.starboard.find((message) => message.id === messageID);
+      const message = guild.starboard.find(message => message.id === messageID);
       if (message) {
         if (message.starCount > 0) {
           message.starCount--;
         } else {
           message.starCount = 0;
         }
-        await guild.save((err) => {
+        await guild.save(err => {
           if (err) {
             rej(err);
           }

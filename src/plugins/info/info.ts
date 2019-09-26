@@ -18,8 +18,17 @@ export const command = new Command(
         if (user instanceof GuildMember) {
           embed.addField("User Mention", user.user.toString());
           embed.addField("Status", lang.status[user.presence.status]);
-          embed.addField("Game", user.presence.game ? user.presence.game.name : lang.notPlaying);
-          embed.addField("Roles", user.roles.filter((r) => r.id !== msg.guild.id).map((r) => r.name).join("\n"));
+          embed.addField(
+            "Game",
+            user.presence.game ? user.presence.game.name : lang.notPlaying
+          );
+          embed.addField(
+            "Roles",
+            user.roles
+              .filter(r => r.id !== msg.guild.id)
+              .map(r => r.name)
+              .join("\n")
+          );
           embed.addField("Joined Server", user.joinedAt);
           embed.addField("Joined Discord", user.user.createdAt);
           if (dbUser) {
@@ -33,7 +42,10 @@ export const command = new Command(
         } else {
           embed.addField("User Mention", user.toString());
           embed.addField("Status", lang.status[user.presence.status]);
-          embed.addField("Game", user.presence.game ? user.presence.game.name : lang.notPlaying);
+          embed.addField(
+            "Game",
+            user.presence.game ? user.presence.game.name : lang.notPlaying
+          );
           embed.addField("Joined Discord", user.createdAt);
           if (dbUser) {
             embed.addField("Infraction Count", dbUser.infractions.length);
@@ -47,15 +59,15 @@ export const command = new Command(
         dbUser = await findUser(user.id);
         addInfo(user);
       } else if (msg.guild.members.has(parseUser(args[0]))) {
-        user = msg.guild.members.find((u) => u.id === parseUser(args[0]));
+        user = msg.guild.members.find(u => u.id === parseUser(args[0]));
         dbUser = await findUser(user.id);
         addInfo(user);
       } else if (bot.users.has(parseUser(args[0]))) {
-        user = bot.users.find((u) => u.id === parseUser(args[0]));
+        user = bot.users.find(u => u.id === parseUser(args[0]));
         dbUser = await findUser(user.id);
         addInfo(user);
       } else {
-        user = (await bot.fetchUser(parseUser(args[0])) as UnknownUser);
+        user = (await bot.fetchUser(parseUser(args[0]))) as UnknownUser;
         addInfo(user);
       }
       embed.setTimestamp();
