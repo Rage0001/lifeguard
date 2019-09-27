@@ -18,31 +18,17 @@ export const command = new Command(
             allParsedArgument = defaultCount;
           }
           msg.channel.startTyping();
+          bot.addEvent({
+            args: [msg.author.id, msg.guild.id],
+            event: "messageDeleteBulk"
+          });
           msg.channel.bulkDelete(allParsedArgument + 1);
           msg.channel.stopTyping();
           await msg.channel.send(
             bot.format(lang.cleanedAll.message, {
-              amount: String(allParsedArgument)
+              amount: allParsedArgument.toString()
             })
           );
-          const guild = await findGuild(msg.guild.id);
-          if (guild) {
-            if (guild.modLog) {
-              const modLog = msg.guild.channels.get(guild.modLog);
-              if (modLog) {
-                const embed = new RichEmbed({
-                  description: bot.format(lang.cleanedAll.modLog, {
-                    amount: String(allParsedArgument),
-                    channel: msg.channel.toString(),
-                    channelID: msg.channel.id,
-                    mod: msg.author.tag,
-                    modID: msg.author.id
-                  })
-                });
-                (modLog as TextChannel).send(embed);
-              }
-            }
-          }
           break;
         case "user":
           async function userDel(

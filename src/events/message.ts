@@ -22,6 +22,7 @@ export const event = new Event("message", async (bot, msg: Message) => {
               const level = await calcLevel(msg.member, msg.guild);
               if (cmd.options.level <= level) {
                 cmd.func(msg, args, bot, guildConfig);
+                bot.emit("lifeguardCommandUsed", msg, cmd);
               }
             } else {
               cmd.func(msg, args, bot);

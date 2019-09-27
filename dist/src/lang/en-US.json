@@ -27,6 +27,19 @@
     },
     "guildMemberRemove": {
       "log": ":outbox_tray: {name} `{id}` left."
+    },
+    "messageUpdate": {
+      "log": ":pencil: {name} `{id}` message edited in **{channel}**:\n**B:** {before}\n**A:** {after}."
+    },
+    "messageDelete": {
+      "log": ":wastebasket: {name} `{id}` deleted a message in {channel}."
+    },
+    "messageDeleteBulk": {
+      "default": ":wastebasket: {count} messages were deleted in {channel}.",
+      "log": ":wastebasket: {count} messages were deleted by {mod} `{modID}` in {channel}"
+    },
+    "lifeguardCommandUsed": {
+      "log": ":wrench: {name} `{id}` used **{command}** in **{channel}** `{content}`"
     }
   },
   "starboard": {

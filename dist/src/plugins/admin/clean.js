@@ -1,7 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const discord_js_1 = require("discord.js");
-const Guild_1 = require("../../models/Guild");
 const Command_1 = require("../Command");
 exports.command = new Command_1.Command("clean", async (msg, args, bot) => {
     try {
@@ -17,29 +15,15 @@ exports.command = new Command_1.Command("clean", async (msg, args, bot) => {
                     allParsedArgument = defaultCount;
                 }
                 msg.channel.startTyping();
+                bot.addEvent({
+                    args: [msg.author.id, msg.guild.id],
+                    event: "messageDeleteBulk"
+                });
                 msg.channel.bulkDelete(allParsedArgument + 1);
                 msg.channel.stopTyping();
                 await msg.channel.send(bot.format(lang.cleanedAll.message, {
-                    amount: String(allParsedArgument)
+                    amount: allParsedArgument.toString()
                 }));
-                const guild = await Guild_1.findGuild(msg.guild.id);
-                if (guild) {
-                    if (guild.modLog) {
-                        const modLog = msg.guild.channels.get(guild.modLog);
-                        if (modLog) {
-                            const embed = new discord_js_1.RichEmbed({
-                                description: bot.format(lang.cleanedAll.modLog, {
-                                    amount: String(allParsedArgument),
-                                    channel: msg.channel.toString(),
-                                    channelID: msg.channel.id,
-                                    mod: msg.author.tag,
-                                    modID: msg.author.id
-                                })
-                            });
-                            modLog.send(embed);
-                        }
-                    }
-                }
                 break;
             case "user":
                 async function userDel(amount, userId, message) {
