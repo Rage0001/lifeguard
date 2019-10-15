@@ -270,6 +270,10 @@
     "mkick": {
       "description": "Kicks multiple users from the server.",
       "reason": "Lifeguard Multi-Kick"
+    },
+    "mban": {
+      "description": "Bans multiple users from the server.",
+      "reason": "Lifeguard Multi-Ban"
     }
   }
 }
