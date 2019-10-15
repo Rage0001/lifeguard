@@ -266,6 +266,10 @@
         "title": "Unban",
         "responseDesc": "Unbanned {user} with reason: `{reason}`."
       }
+    },
+    "mkick": {
+      "description": "Kicks multiple users from the server.",
+      "reason": "Lifeguard Multi-Kick"
     }
   }
 }
