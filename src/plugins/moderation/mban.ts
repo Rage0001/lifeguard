@@ -3,7 +3,7 @@ import { Command } from "../Command";
 import { command as Ban } from "./ban";
 
 export const command = new Command(
-  "mkban",
+  "mban",
   async (msg, args, bot) => {
     try {
       const lang = bot.langs["en-US"].commands.mban;
@@ -28,6 +28,6 @@ export const command = new Command(
     guildOnly: true,
     hidden: false,
     level: 0,
-    usage: ["mkick {users}", "mkick {users} -r {reason}"]
+    usage: ["mban {users}", "mban {users} -r {reason}"]
   }
 );

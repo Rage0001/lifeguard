@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Command_1 = require("../Command");
 const ban_1 = require("./ban");
-exports.command = new Command_1.Command("mkban", async (msg, args, bot) => {
+exports.command = new Command_1.Command("mban", async (msg, args, bot) => {
     try {
         const lang = bot.langs["en-US"].commands.mban;
         if (args.indexOf("-r") === -1) {
@@ -27,5 +27,5 @@ exports.command = new Command_1.Command("mkban", async (msg, args, bot) => {
     guildOnly: true,
     hidden: false,
     level: 0,
-    usage: ["mkick {users}", "mkick {users} -r {reason}"]
+    usage: ["mban {users}", "mban {users} -r {reason}"]
 });
