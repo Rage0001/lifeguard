@@ -8,17 +8,14 @@ export const command = new Command(
   async (msg, args, bot) => {
     try {
       function parseBlock(data: string) {
-        const regex = /```(js)?\n((.|\n)*)```/;
-        if (regex.test(data)) {
-          const val = regex.exec(data);
-          if (val) {
-            return data[2];
-          } else {
-            return undefined;
+        if (data.startsWith("```") && data.endsWith("```")) {
+          const removeBlock = data.replace("```", "").replace("```", "");
+          if (removeBlock.startsWith("js")) {
+            return removeBlock.replace("js", "");
           }
-        } else {
-          return undefined;
+          return removeBlock;
         }
+        return data;
       }
 
       const lang = bot.langs["en-US"].commands.eval;

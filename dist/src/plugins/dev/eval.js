@@ -10,19 +10,14 @@ const Command_1 = require("../Command");
 exports.command = new Command_1.Command("eval", async (msg, args, bot) => {
     try {
         function parseBlock(data) {
-            const regex = /```(js)?\n((.|\n)*)```/;
-            if (regex.test(data)) {
-                const val = regex.exec(data);
-                if (val) {
-                    return data[2];
+            if (data.startsWith("```") && data.endsWith("```")) {
+                const removeBlock = data.replace("```", "").replace("```", "");
+                if (removeBlock.startsWith("js")) {
+                    return removeBlock.replace("js", "");
                 }
-                else {
-                    return undefined;
-                }
+                return removeBlock;
             }
-            else {
-                return undefined;
-            }
+            return data;
         }
         const lang = bot.langs["en-US"].commands.eval;
         const token = new RegExp(bot.token, "g");
