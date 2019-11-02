@@ -15,22 +15,22 @@ async function loadPlugins() {
                 const plugin = new Plugin_1.Plugin(folder);
                 const files = await readDir(`./dist/src/plugins/${folder}`);
                 for await (const file of files) {
-                    if (file.split(".").length > 2 &&
-                        file.split(".")[file.split(".").length - 1] === "js") {
+                    const split = file.split(".");
+                    if (split.length > 2 && split[split.length - 1] === "js") {
                         const { command } = require(`../plugins/${folder}/${file}`);
-                        const cmd = plugin.commands.get(file.split(".")[0]);
+                        const cmd = plugin.commands.get(split[0]);
                         console.log(cmd);
                         if (cmd) {
-                            cmd.addSubcommand(file.split(".")[1], command);
+                            cmd.addSubcommand(split[1], command);
                         }
                         else {
-                            const { command } = require(`../plugins/${folder}/${file.split(".")[0]}.js`);
+                            const { command } = require(`../plugins/${folder}/${split[0]}.js`);
                             if (command) {
                                 plugin.commands.set(command.name, command);
                                 const sub = require(`../plugins/${folder}/${file}`).command;
                                 const cmd = plugin.commands.get(command.name);
                                 if (cmd) {
-                                    cmd.addSubcommand(file.split(".")[1], sub);
+                                    cmd.addSubcommand(split[1], sub);
                                 }
                             }
                         }
