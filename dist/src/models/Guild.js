@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const config_1 = require("../private/config");
-const Guild_Starboard_1 = require("./Guild.Starboard");
 const Guild_Role_1 = require("./Guild.Role");
+const Guild_Starboard_1 = require("./Guild.Starboard");
 exports.Guild = new mongoose_1.Schema({
     id: String,
     locale: String,

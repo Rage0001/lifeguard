@@ -19,9 +19,33 @@ export async function loadPlugins() {
         const files = await readDir(`./dist/src/plugins/${folder}`);
 
         for await (const file of files) {
-          const { command } = require(`../plugins/${folder}/${file}`);
-          if (command) {
-            plugin.commands.set(command.name, command);
+          if (
+            file.split(".").length > 2 &&
+            file.split(".")[file.split(".").length - 1] === "js"
+          ) {
+            const { command } = require(`../plugins/${folder}/${file}`);
+            const cmd = plugin.commands.get(file.split(".")[0]);
+            console.log(cmd);
+            if (cmd) {
+              cmd.addSubcommand(file.split(".")[1], command);
+            } else {
+              const { command } = require(`../plugins/${folder}/${
+                file.split(".")[0]
+                }.js`);
+              if (command) {
+                plugin.commands.set(command.name, command);
+                const sub = require(`../plugins/${folder}/${file}`).command;
+                const cmd = plugin.commands.get(command.name);
+                if (cmd) {
+                  cmd.addSubcommand(file.split(".")[1], sub);
+                }
+              }
+            }
+          } else if (file.endsWith(".js")) {
+            const { command } = require(`../plugins/${folder}/${file}`);
+            if (command) {
+              plugin.commands.set(command.name, command);
+            }
           }
         }
 

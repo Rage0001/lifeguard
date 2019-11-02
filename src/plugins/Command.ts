@@ -1,5 +1,6 @@
 import { Message, PermissionObject } from "discord.js";
 import { PluginClient } from "../helpers/PluginClient";
+import { Store } from "../helpers/Store";
 import { IGuildDoc } from "../models/Guild";
 
 type CommandFunction = (
@@ -19,9 +20,15 @@ interface ICommandOptions {
 }
 
 export class Command {
+  public subcommands: Store<Command>;
   constructor(
     public name: string,
     public func: CommandFunction,
     public options: ICommandOptions
-  ) {}
+  ) {
+    this.subcommands = new Store<Command>();
+  }
+  public addSubcommand(name: string, cmd: Command) {
+    this.subcommands.set(name, cmd);
+  }
 }

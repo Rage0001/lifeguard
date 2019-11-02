@@ -8,19 +8,21 @@ exports.command = new Command_1.Command("role", async (msg, args, bot) => {
         const roleID = args[2];
         const role = msg.guild.roles.get(roleID);
         switch (args[0].toLowerCase()) {
-            case "add":
-                if (!role) {
-                    msg.channel.send(lang.errors.notValidRole);
-                }
-                if (!member) {
-                    msg.channel.send(lang.errors.notValidRole);
-                }
-                member.addRole(role);
-                msg.channel.send(bot.format(lang.addedRole, {
-                    role: role.name,
-                    user: member.user.tag
-                }));
-                break;
+            // case "add":
+            //   if (!role) {
+            //     msg.channel.send(lang.errors.notValidRole);
+            //   }
+            //   if (!member) {
+            //     msg.channel.send(lang.errors.notValidRole);
+            //   }
+            //   member.addRole(role as Role);
+            //   msg.channel.send(
+            //     bot.format(lang.addedRole, {
+            //       role: (role as Role).name,
+            //       user: member.user.tag
+            //     })
+            //   );
+            //   break;
             case "remove":
                 if (!role) {
                     return msg.channel.send(lang.errors.notValidRole);

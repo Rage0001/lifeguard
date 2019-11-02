@@ -22,8 +22,24 @@ exports.event = new Event_1.Event("message", async (bot, msg) => {
                         if (cmd.options.guildOnly) {
                             const level = await calcLevel_1.calcLevel(msg.member, msg.guild);
                             if (cmd.options.level <= level) {
-                                cmd.func(msg, args, bot, guildConfig);
-                                bot.emit("lifeguardCommandUsed", msg, cmd);
+                                if (cmd.subcommands.size > 0) {
+                                    if (cmd.subcommands.has(args[0])) {
+                                        const sub = cmd.subcommands.get(args[0]);
+                                        if (sub) {
+                                            args.shift();
+                                            sub.func(msg, args, bot, guildConfig);
+                                            bot.emit("lifeguardCommandUsed", msg, cmd);
+                                        }
+                                    }
+                                    else {
+                                        cmd.func(msg, args, bot, guildConfig);
+                                        bot.emit("lifeguardCommandUsed", msg, cmd);
+                                    }
+                                }
+                                else {
+                                    cmd.func(msg, args, bot, guildConfig);
+                                    bot.emit("lifeguardCommandUsed", msg, cmd);
+                                }
                             }
                         }
                         else {
