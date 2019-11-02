@@ -1,5 +1,6 @@
 import { Document, model, Schema } from "mongoose";
 import { config } from "../private/config";
+import { IRole, Role } from "./Guild.Role";
 import { IStarboard, Starboard } from "./Guild.Starboard";
 
 export const Guild = new Schema({
@@ -11,6 +12,10 @@ export const Guild = new Schema({
   prefix: {
     default: config.prefix,
     type: String
+  },
+  roles: {
+    default: [],
+    type: [Role]
   },
   starboard: {
     default: [],
@@ -26,10 +31,11 @@ export interface IGuild {
   locale?: string;
   modLog?: string;
   modRole?: string;
+  muteRole?: string;
   prefix?: string;
+  roles?: IRole[];
   starboard: IStarboard[];
   starboardChannel?: string;
-  muteRole?: string;
 }
 
 export interface IGuildDoc extends Document {
@@ -37,10 +43,11 @@ export interface IGuildDoc extends Document {
   locale: string;
   modLog: string;
   modRole: string;
+  muteRole: string;
   prefix: string;
+  roles: IRole[];
   starboard: IStarboard[];
   starboardChannel: string;
-  muteRole: string;
 }
 
 export function createGuild(guild: IGuild) {

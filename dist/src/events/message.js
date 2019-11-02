@@ -9,9 +9,10 @@ exports.event = new Event_1.Event("message", async (bot, msg) => {
         const user = await User_1.findUser(msg.author.id);
         const guildConfig = await Guild_1.findGuild(msg.guild.id);
         if (user) {
-            if (msg.content.startsWith(bot.prefix)) {
+            const prefix = guildConfig ? guildConfig.prefix : bot.prefix;
+            if (msg.content.startsWith(prefix)) {
                 const split = msg.content.split(" ");
-                const name = split[0].slice(bot.prefix.length);
+                const name = split[0].slice(prefix.length);
                 split.shift();
                 const args = split;
                 const plugin = bot.plugins.find(plugin => plugin.commands.has(name));
