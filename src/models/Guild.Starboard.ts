@@ -1,4 +1,4 @@
-import { Document, model, Schema } from "mongoose";
+import { Schema } from "mongoose";
 
 export const Starboard = new Schema({
   id: String,
