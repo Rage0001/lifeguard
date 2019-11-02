@@ -1,7 +1,7 @@
 import { Document, model, Schema } from "mongoose";
 import { config } from "../private/config";
+import { IRole, Role } from "./Guild.Role";
 import { IStarboard, Starboard } from "./Guild.Starboard";
-import { IRole, Role } from "./Guild.Role"
 
 export const Guild = new Schema({
   id: String,
