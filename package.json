@@ -9,7 +9,8 @@
   "devDependencies": {
     "gts": "^1.1.2",
     "typescript": "~3.7.0",
-    "@types/node": "^10.0.3"
+    "@types/node": "^10.0.3",
+    "@types/ws": "^6.0.4"
   },
   "scripts": {
     "check": "gts check",
@@ -22,6 +23,6 @@
     "posttest": "npm.cmd run check"
   },
   "dependencies": {
-    "discord.js": "^11.5.1"
+    "discord.js": "github:discordjs/discord.js"
   }
 }
