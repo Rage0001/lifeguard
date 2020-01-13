@@ -1,0 +1,9 @@
+{
+  "name": "lifeguard",
+  "version": "0.0.1-alpha",
+  "description": "Lifeguard Bot",
+  "main": "dist/bot.js",
+  "repository": "https://gitdab.com/lifeguard/bot.git",
+  "author": "Rauf",
+  "license": "MIT"
+}
