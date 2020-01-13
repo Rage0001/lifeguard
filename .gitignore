@@ -107,3 +107,7 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
+# Config Files
+src/config/*
+build/*
+
