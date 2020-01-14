@@ -2,6 +2,7 @@ import { Event } from './Event';
 import { Message } from 'discord.js';
 import { prefix } from '../config/bot';
 import { PluginClient } from '../PluginClient';
+import { calcUserLevel } from '../assertions/userLevel';
 
 function parseContent(content: string) {
   const split = content.split(' ');
@@ -21,6 +22,14 @@ export const event = new Event(
   async (lifeguard, msg: Message) => {
     const [cmdName, ...args] = parseContent(msg.content);
     const cmd = getCommandFromPlugin(lifeguard, cmdName);
-    cmd?.func(lifeguard, msg, args);
+
+    if (cmd) {
+      if (msg.member && msg.guild) {
+        const userLevel = calcUserLevel(msg.member, msg.guild);
+        if (userLevel >= cmd.options.level) {
+          cmd.func(lifeguard, msg, args);
+        }
+      }
+    }
   }
 );
