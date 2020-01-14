@@ -1,11 +1,11 @@
-import { Client } from 'discord.js';
 import { readdir } from 'fs';
 import { promisify } from 'util';
 import { Event } from './Event';
+import { PluginClient } from '../PluginClient';
 
 const readDir = promisify(readdir);
 
-export async function EventLoader(lifeguard: Client) {
+export async function EventLoader(lifeguard: PluginClient) {
   const eventFiles = await readDir('./build/src/events');
 
   for await (const file of eventFiles) {
