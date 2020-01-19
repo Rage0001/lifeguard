@@ -3,6 +3,7 @@ import { Message } from 'discord.js';
 import { prefix } from '../config/bot';
 import { PluginClient } from '../PluginClient';
 import { calcUserLevel } from '../assertions/userLevel';
+import { UserDoc } from '../models/User';
 
 function parseContent(content: string) {
   const split = content.split(' ');
@@ -19,7 +20,13 @@ function getCommandFromPlugin(lifeguard: PluginClient, cmdName: string) {
 
 export const event = new Event(
   'lifeguardCommandUsed',
-  async (lifeguard, msg: Message) => {
+  async (lifeguard, msg: Message, dbUser: UserDoc) => {
+    if (msg.author.bot) {
+      return;
+    }
+    if (dbUser.blacklisted) {
+      return;
+    }
     const [cmdName, ...args] = parseContent(msg.content);
     const cmd = getCommandFromPlugin(lifeguard, cmdName);
 
@@ -27,7 +34,7 @@ export const event = new Event(
       if (msg.member && msg.guild) {
         const userLevel = calcUserLevel(msg.member, msg.guild);
         if (userLevel >= cmd.options.level) {
-          cmd.func(lifeguard, msg, args);
+          cmd.func(lifeguard, msg, args, dbUser);
         }
       }
     }

@@ -10,6 +10,11 @@ PluginLoader().then(plugins => {
   lifeguard.plugins = plugins;
 });
 
+lifeguard.db
+  .connect()
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error(err));
+
 lifeguard.login(token).then(() => {
   if (lifeguard.user) {
     console.log(

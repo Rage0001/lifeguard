@@ -23,6 +23,8 @@
     "posttest": "npm.cmd run check"
   },
   "dependencies": {
-    "discord.js": "github:discordjs/discord.js"
+    "@types/mongodb": "^3.3.14",
+    "discord.js": "github:discordjs/discord.js",
+    "mongodb": "^3.4.1"
   }
 }

@@ -1,10 +1,12 @@
 import { Message, PermissionString } from 'discord.js';
 import { PluginClient } from '../PluginClient';
+import { UserDoc } from '../models/User';
 
 type CommandFunction = (
   lifeguard: PluginClient,
   msg: Message,
-  args: string[]
+  args: string[],
+  dbUser: UserDoc
 ) => void;
 
 interface CommandOptions {

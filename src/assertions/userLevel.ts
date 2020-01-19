@@ -6,10 +6,10 @@ export function calcUserLevel(user: GuildMember, guild: Guild) {
     return 5;
   }
   if (user.id === guild.ownerID) {
-    return 4;
+    return 3;
   }
   if (user.permissions.has('ADMINISTRATOR', true)) {
-    return 3;
+    return 2;
   }
   return 0;
 }
