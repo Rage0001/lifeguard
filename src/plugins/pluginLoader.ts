@@ -21,8 +21,10 @@ export async function PluginLoader() {
       const files = await readDir(`${folderDir}`);
       for await (const file of files) {
         if (file.endsWith('.js')) {
-          const command: Command = require(`./${folder}/${file}`).command;
-          plugin.set(command.name, command);
+          const command = require(`./${folder}/${file}`).command;
+          if (command instanceof Command) {
+            plugin.set(command.name, command);
+          }
         }
       }
 

@@ -1,7 +1,7 @@
 import { Command } from '../Command';
-import { MessageEmbed } from 'discord.js';
 import { inspect } from 'util';
 import { runInNewContext } from 'vm';
+import { defaultEmbed } from '../../util/DefaultEmbed';
 
 function parseBlock(script: string) {
   const cbr = /^(([ \t]*`{3,4})([^\n]*)([\s\S]+?)(^[ \t]*\2))/gm;
@@ -47,7 +47,7 @@ export const command = new Command(
       {
         lifeguard,
         msg,
-        MessageEmbed,
+        defaultEmbed,
         dbUser,
       },
       { filename: msg.guild?.id.toString() }
@@ -56,20 +56,16 @@ export const command = new Command(
     const end = Date.now();
 
     if (typeof exec === 'string') {
-      const embed = new MessageEmbed()
+      const embed = defaultEmbed()
         .addField('Input', makeCodeBlock(script, 'js'))
         .addField('Output', makeCodeBlock(exec, 'js'))
-        .setFooter(`Script Executed in ${end - start}ms`)
-        .setTimestamp()
-        .setColor(0x7289da);
+        .setFooter(`Script Executed in ${end - start}ms`);
       msg.channel.send(embed);
     } else {
-      const embed = new MessageEmbed()
+      const embed = defaultEmbed()
         .addField('Input', makeCodeBlock(script, 'js'))
         .addField('Output', makeCodeBlock(`${exec.name}: ${exec.message}`))
-        .setFooter(`Script Executed in ${end - start}ms`)
-        .setTimestamp()
-        .setColor(0x7289da);
+        .setFooter(`Script Executed in ${end - start}ms`);
       msg.channel.send(embed);
     }
   },

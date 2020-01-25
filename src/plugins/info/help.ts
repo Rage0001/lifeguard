@@ -1,13 +1,20 @@
 import { Command } from '../Command';
-import { MessageEmbed, Collection } from 'discord.js';
+import { MessageEmbed, Collection, GuildMember, Guild } from 'discord.js';
 import { Plugin } from '../Plugin';
+import { calcUserLevel } from '../../assertions/userLevel';
+import { defaultEmbed } from '../../util/DefaultEmbed';
 
-function convertPlugins(plugins: Collection<string, Plugin>) {
+function convertPlugins(
+  plugins: Collection<string, Plugin>,
+  member: GuildMember,
+  guild: Guild
+) {
   return plugins
     .map((plugin, key) => ({
       name: key,
       cmds: [...plugin.values()]
         .filter(cmd => !cmd.options.hidden)
+        .filter(cmd => calcUserLevel(member, guild) >= cmd.options.level)
         .map(cmd => cmd.name)
         .sort((a, b) => a.localeCompare(b)),
     }))
@@ -18,19 +25,25 @@ export const command = new Command(
   'help',
   (lifeguard, msg, args) => {
     if (!args.length) {
-      const plugins = convertPlugins(lifeguard.plugins);
+      const plugins = convertPlugins(
+        lifeguard.plugins,
+        msg.member as GuildMember,
+        msg.guild as Guild
+      );
 
-      const embed = new MessageEmbed()
+      const embed = defaultEmbed()
         .setTitle('Lifeguard Help')
-        .setColor(0x7289da)
         .setFooter(
           `Executed By ${msg.author.tag}`,
           msg.author.avatarURL() ?? msg.author.defaultAvatarURL
-        )
-        .setTimestamp();
+        );
 
       for (const plugin of plugins) {
-        embed.addField(plugin.name, plugin.cmds.join('\n'));
+        // console.log(plugin)
+        // embed.addField(plugin.name, plugin.cmds.join('\n'));
+        if (plugin.cmds.length > 0) {
+          embed.addField(plugin.name, plugin.cmds.join('\n'));
+        }
       }
 
       msg.channel.send(embed);
@@ -39,14 +52,12 @@ export const command = new Command(
       const cmd = plugin?.get(args[0]);
 
       if (cmd) {
-        const embed = new MessageEmbed()
+        const embed = defaultEmbed()
           .setTitle(cmd.name)
-          .setColor(0x7289da)
           .setFooter(
             `Executed By ${msg.author.tag}`,
             msg.author.avatarURL() ?? msg.author.defaultAvatarURL
-          )
-          .setTimestamp();
+          );
 
         const options = Object.entries(cmd.options);
         options.map(([key, val]) => {
