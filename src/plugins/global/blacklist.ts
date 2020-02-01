@@ -1,5 +1,5 @@
-import { Command } from '../Command';
-import { parseUser } from '../../util/parseUser';
+import { Command } from '@plugins/Command';
+import { parseUser } from '@util/parseUser';
 
 export const command = new Command(
   'blacklist',

@@ -1,4 +1,4 @@
-import { Event } from './Event';
+import { Event } from '@events/Event';
 
 export const event = new Event('ready', lifeguard => {
   console.log('Connected to Discord');

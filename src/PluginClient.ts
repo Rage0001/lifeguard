@@ -1,7 +1,7 @@
+import { name, url } from '@config/mongodb';
+import { Plugin } from '@plugins/Plugin';
+import { Database } from '@util/Database';
 import { Client, ClientOptions, Collection } from 'discord.js';
-import { Plugin } from './plugins/Plugin';
-import { Database } from './util/Database';
-import { name, url } from './config/mongodb';
 
 export class PluginClient extends Client {
   plugins!: Collection<string, Plugin>;

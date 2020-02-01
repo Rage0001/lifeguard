@@ -7,10 +7,12 @@
   "author": "Rauf",
   "license": "MIT",
   "devDependencies": {
+    "@types/bson": "^4.0.1",
+    "@types/node": "^10.17.13",
+    "@types/ws": "^6.0.4",
+    "bson": "^4.0.3",
     "gts": "^1.1.2",
-    "typescript": "~3.7.0",
-    "@types/node": "^10.0.3",
-    "@types/ws": "^6.0.4"
+    "typescript": "^3.7.5"
   },
   "scripts": {
     "check": "gts check",
@@ -25,6 +27,19 @@
   "dependencies": {
     "@types/mongodb": "^3.3.14",
     "discord.js": "github:discordjs/discord.js",
-    "mongodb": "^3.4.1"
+    "module-alias": "^2.2.2",
+    "mongodb": "^3.5.2",
+    "typy": "^3.3.0"
+  },
+  "_moduleAliases": {
+    "@lifeguard": "./build/src",
+    "@lifeguard/base": "./",
+    "@assertions": "./build/src/assertions",
+    "@config": "./build/src/config",
+    "@events": "./build/src/events",
+    "@models": "./build/src/models",
+    "@plugins": "./build/src/plugins",
+    "@structures": "./build/src/structures",
+    "@util": "./build/src/util"
   }
 }

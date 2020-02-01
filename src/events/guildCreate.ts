@@ -1,13 +1,18 @@
-import { Event } from './Event';
+import { Event } from '@events/Event';
+import { Guild } from 'discord.js';
 
-export const event = new Event('guildCreate', lifeguard => {
-  if (lifeguard.user) {
-    lifeguard.user.setPresence({
-      activity: {
-        name: `${lifeguard.users.size} people in the pool`,
-        type: 'WATCHING',
-      },
-      status: 'online',
-    });
+export const event = new Event(
+  'guildCreate',
+  async (lifeguard, guild: Guild) => {
+    await lifeguard.db.guilds.insertOne({ id: guild.id, config: {} });
+    if (lifeguard.user) {
+      lifeguard.user.setPresence({
+        activity: {
+          name: `${lifeguard.users.size} people in the pool`,
+          type: 'WATCHING',
+        },
+        status: 'online',
+      });
+    }
   }
-});
+);

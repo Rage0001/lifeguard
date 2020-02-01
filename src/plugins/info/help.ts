@@ -1,8 +1,8 @@
-import { Command } from '../Command';
-import { MessageEmbed, Collection, GuildMember, Guild } from 'discord.js';
-import { Plugin } from '../Plugin';
-import { calcUserLevel } from '../../assertions/userLevel';
-import { defaultEmbed } from '../../util/DefaultEmbed';
+import { calcUserLevel } from '@assertions/userLevel';
+import { Command } from '@plugins/Command';
+import { Plugin } from '@plugins/Plugin';
+import { defaultEmbed } from '@util/DefaultEmbed';
+import { Collection, Guild, GuildMember } from 'discord.js';
 
 function convertPlugins(
   plugins: Collection<string, Plugin>,
@@ -39,8 +39,6 @@ export const command = new Command(
         );
 
       for (const plugin of plugins) {
-        // console.log(plugin)
-        // embed.addField(plugin.name, plugin.cmds.join('\n'));
         if (plugin.cmds.length > 0) {
           embed.addField(plugin.name, plugin.cmds.join('\n'));
         }

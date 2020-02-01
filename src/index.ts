@@ -1,7 +1,12 @@
-import { token } from './config/bot';
-import { EventLoader } from './events/eventLoader';
-import { PluginLoader } from './plugins/pluginLoader';
-import { PluginClient } from './PluginClient';
+import 'module-alias/register';
+
+import { token } from '@config/bot';
+import { EventLoader } from '@events/eventLoader';
+import { PluginClient } from '@lifeguard/PluginClient';
+import { PluginLoader } from '@plugins/pluginLoader';
+import { StructureLoader } from '@structures/structureLoader';
+
+StructureLoader();
 
 const lifeguard = new PluginClient();
 

@@ -2,10 +2,19 @@
   "extends": "./node_modules/gts/tsconfig-google.json",
   "compilerOptions": {
     "rootDir": ".",
-    "outDir": "build"
+    "outDir": "build",
+    "baseUrl": "./src",
+    "paths": {
+      "@lifeguard/*": ["./*"],
+      "@lifegaurd/base/*": ["../*"],
+      "@assertions/*": ["./assertions/*"],
+      "@config/*": ["./config/*"],
+      "@events/*": ["./events/*"],
+      "@models/*": ["./models/*"],
+      "@plugins/*": ["./plugins/*"],
+      "@structures/*": ["./structures/*"],
+      "@util/*": ["./util/*"]
+    }
   },
-  "include": [
-    "src/**/*.ts",
-    "test/**/*.ts"
-  ]
+  "include": ["src/**/*.ts", "test/**/*.ts"]
 }

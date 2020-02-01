@@ -1,8 +1,8 @@
-import { Command } from '../Command';
-import { promisify } from 'util';
+import { Command } from '@plugins/Command';
 import { exec } from 'child_process';
-import { resolve } from 'path';
 import { MessageEmbed } from 'discord.js';
+import { resolve } from 'path';
+import { promisify } from 'util';
 
 export const command = new Command(
   'about',
@@ -23,7 +23,9 @@ export const command = new Command(
     const { version: discordjsVersion } = require('discord.js/package.json');
 
     // Get Lifeguard Version
-    const { version: lifeguardVersion } = require('../../../../package.json');
+    const {
+      version: lifeguardVersion,
+    } = require('@lifeguard/base/package.json');
 
     const embed = new MessageEmbed()
       .setTitle('About Lifeguard')

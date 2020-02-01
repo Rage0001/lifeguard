@@ -1,5 +1,5 @@
 import { GuildMember, Guild } from 'discord.js';
-import { developers } from '../config/bot';
+import { developers } from '@config/bot';
 
 export function calcUserLevel(user: GuildMember, guild: Guild) {
   if (developers.includes(user.id)) {

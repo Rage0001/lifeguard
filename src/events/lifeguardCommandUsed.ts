@@ -1,9 +1,9 @@
-import { Event } from './Event';
+import { calcUserLevel } from '@assertions/userLevel';
+import { prefix } from '@config/bot';
+import { Event } from '@events/Event';
+import { PluginClient } from '@lifeguard/PluginClient';
+import { UserDoc } from '@models/User';
 import { Message } from 'discord.js';
-import { prefix } from '../config/bot';
-import { PluginClient } from '../PluginClient';
-import { calcUserLevel } from '../assertions/userLevel';
-import { UserDoc } from '../models/User';
 
 function parseContent(content: string) {
   const split = content.split(' ');
@@ -14,8 +14,15 @@ function parseContent(content: string) {
 
 function getCommandFromPlugin(lifeguard: PluginClient, cmdName: string) {
   const plugin = lifeguard.plugins.find(p => p.has(cmdName));
-  const command = plugin?.get(cmdName);
-  return command;
+  if (plugin) {
+    return plugin?.get(cmdName);
+  } else {
+    const plugins = [...lifeguard.plugins.values()];
+    const cmds = plugins
+      .map(p => [...p.values()])
+      .reduce((acc, val) => acc.concat(val), []);
+    return cmds.find(cmd => cmd.options.alias?.includes(cmdName));
+  }
 }
 
 export const event = new Event(

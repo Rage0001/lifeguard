@@ -1,5 +1,5 @@
-import { Command } from '../Command';
-import { defaultEmbed } from '../../util/DefaultEmbed';
+import { Command } from '@plugins/Command';
+import { defaultEmbed } from '@util/DefaultEmbed';
 
 export const command = new Command(
   'ping',

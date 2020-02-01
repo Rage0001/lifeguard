@@ -1,7 +1,7 @@
-import { Command } from '../Command';
+import { Command } from '@plugins/Command';
+import { defaultEmbed } from '@util/DefaultEmbed';
 import { inspect } from 'util';
 import { runInNewContext } from 'vm';
-import { defaultEmbed } from '../../util/DefaultEmbed';
 
 function parseBlock(script: string) {
   const cbr = /^(([ \t]*`{3,4})([^\n]*)([\s\S]+?)(^[ \t]*\2))/gm;
