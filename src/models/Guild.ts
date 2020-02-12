@@ -32,6 +32,7 @@ export interface GuildConfig {
   channels?: GuildChannels;
   roles?: GuildRoles;
   starboard?: GuildStarboard;
+  enabledPlugins?: string[];
 }
 
 export interface GuildDoc {

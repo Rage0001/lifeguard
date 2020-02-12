@@ -11,7 +11,13 @@ export const command = new Command(
         if (guild) {
           const config = guild['config'];
           if (path) {
-            msg.channel.send(`${path} - ${typy(config, path).safeObject}`);
+            msg.channel.send(
+              `${path} - ${JSON.stringify(
+                typy(config, path).safeObject,
+                null,
+                2
+              )}`
+            );
           } else {
             msg.channel.send(
               `\`\`\`json\n${JSON.stringify(config, null, 2)}\`\`\``

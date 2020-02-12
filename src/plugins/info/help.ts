@@ -3,32 +3,46 @@ import { Command } from '@plugins/Command';
 import { Plugin } from '@plugins/Plugin';
 import { defaultEmbed } from '@util/DefaultEmbed';
 import { Collection, Guild, GuildMember } from 'discord.js';
+import { GuildStructure } from '@lifeguard/structures/GuildStructure';
 
-function convertPlugins(
+async function convertPlugins(
   plugins: Collection<string, Plugin>,
   member: GuildMember,
-  guild: Guild
+  guild: GuildStructure
 ) {
+  const guildDB = await guild.db;
   return plugins
-    .map((plugin, key) => ({
-      name: key,
-      cmds: [...plugin.values()]
-        .filter(cmd => !cmd.options.hidden)
-        .filter(cmd => calcUserLevel(member, guild) >= cmd.options.level)
-        .map(cmd => cmd.name)
-        .sort((a, b) => a.localeCompare(b)),
-    }))
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .map((plugin, key) => {
+      if (guildDB?.config.enabledPlugins?.includes(plugin.name)) {
+        return {
+          name: key,
+          cmds: [...plugin.values()]
+            .filter(cmd => !cmd.options.hidden)
+            .filter(cmd => calcUserLevel(member, guild) >= cmd.options.level)
+            .map(cmd => cmd.name)
+            .sort((a, b) => a.localeCompare(b)),
+        };
+      } else {
+        return {};
+      }
+    })
+    .sort((a, b) => {
+      if (a.name && b.name) {
+        return a.name.localeCompare(b.name);
+      } else {
+        return 0;
+      }
+    });
 }
 
 export const command = new Command(
   'help',
-  (lifeguard, msg, args) => {
+  async (lifeguard, msg, args) => {
     if (!args.length) {
       const plugins = convertPlugins(
         lifeguard.plugins,
         msg.member as GuildMember,
-        msg.guild as Guild
+        msg.guild as GuildStructure
       );
 
       const embed = defaultEmbed()
@@ -38,8 +52,8 @@ export const command = new Command(
           msg.author.avatarURL() ?? msg.author.defaultAvatarURL
         );
 
-      for (const plugin of plugins) {
-        if (plugin.cmds.length > 0) {
+      for (const plugin of await plugins) {
+        if (plugin.cmds && plugin.cmds.length > 0) {
           embed.addField(plugin.name, plugin.cmds.join('\n'));
         }
       }

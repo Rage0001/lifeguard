@@ -16,7 +16,8 @@ export const event = new Event(
         starboardChannel &&
         !starboard.ignoredChannels.includes(reaction.message.channel.id)
       ) {
-        if (reaction.count ?? 0 >= starboard.minCount) {
+        console.log(reaction.count, starboard.minCount);
+        if (reaction.count && reaction.count >= starboard.minCount) {
           const starboardMessage = starboard.messages.find(
             m => m.id === reaction.message.id
           );
@@ -30,7 +31,9 @@ export const event = new Event(
                 starboardMessageInChannel?.author.tag,
                 starboardMessageInChannel?.author.avatarURL() ?? ''
               )
-              .setDescription(reaction.message.content);
+              .setDescription(
+                `${reaction.message.content}\n\n ➥ [Jump To Message](https://discordapp.com/channels/${reaction.message.guild?.id}/${reaction.message.channel.id}/${reaction.message.id})`
+              );
             starboardMessageInChannel?.edit(
               `${starboard.emoji} ${reaction.count} ${reaction.message.channel} (${reaction.message.id})`,
               embed
@@ -41,7 +44,9 @@ export const event = new Event(
                 reaction.message.author.tag,
                 reaction.message.author.avatarURL() ?? ''
               )
-              .setDescription(reaction.message.content);
+              .setDescription(
+                `${reaction.message.content}\n\n ➥ [Jump To Message](https://discordapp.com/channels/${reaction.message.guild?.id}/${reaction.message.channel.id}/${reaction.message.id})`
+              );
             const starboardMessage = await starboardChannel.send(
               `${starboard.emoji} ${reaction.count} ${reaction.message.channel} (${reaction.message.id})`,
               embed

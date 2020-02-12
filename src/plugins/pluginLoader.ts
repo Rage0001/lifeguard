@@ -16,7 +16,7 @@ export async function PluginLoader() {
     const folderDir = `${pluginDir}/${folder}`;
     const info = await stats(folderDir);
     if (info.isDirectory()) {
-      const plugin = new Plugin();
+      const plugin = new Plugin(folder);
 
       const files = await readDir(`${folderDir}`);
       for await (const file of files) {
