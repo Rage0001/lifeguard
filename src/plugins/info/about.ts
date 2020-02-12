@@ -14,7 +14,7 @@ export const command = new Command(
     const { stdout: gitCommitID } = await run('git rev-parse HEAD', {
       cwd: resolve(__dirname),
     });
-    const gitCommitURL = `https://gitdab.com/lifeguard/bot/commit/${gitCommitID}`;
+    const gitCommitURL = `https://github.com/lifeguardbot/lifeguard/commit/${gitCommitID}`;
 
     // Get Node Version
     const { stdout: nodeVersion } = await run('node -v');
@@ -31,7 +31,7 @@ export const command = new Command(
       .setTitle('About Lifeguard')
       .addField(
         'Git Commit',
-        `[${gitCommitID}](${gitCommitURL}) (https://gitdab.com/lifeguard/bot/)`
+        `[${gitCommitID}](${gitCommitURL}) (https://github.com/lifeguardbot/lifeguard/)`
       )
       .addField('Node Version', nodeVersion)
       .addField('Discord.js Version', discordjsVersion)
