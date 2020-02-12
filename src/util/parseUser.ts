@@ -1,8 +1,8 @@
 export function parseUser(user: string) {
-  if (user.startsWith("<@") && user.endsWith(">")) {
+  if (user.startsWith('<@') && user.endsWith('>')) {
     user = user.slice(2, -1);
 
-    if (user.startsWith("!")) {
+    if (user.startsWith('!')) {
       user = user.slice(1);
     }
 
