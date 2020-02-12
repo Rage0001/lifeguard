@@ -20,9 +20,9 @@
     "compile": "tsc -p .",
     "watch": "tsc -w -p .",
     "fix": "gts fix",
-    "prepare": "npm.cmd run compile",
-    "pretest": "npm.cmd run compile",
-    "posttest": "npm.cmd run check"
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run check"
   },
   "dependencies": {
     "@types/mongodb": "^3.3.14",
