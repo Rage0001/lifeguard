@@ -6,11 +6,11 @@ export const command = new Command(
   async (lifeguard, msg, args) => {
     const [cmd, uid, rid, ...r] = args;
     const u = parseUser(uid);
-    const role = msg.guild?.roles.get(rid);
+    const role = await msg.guild?.roles.fetch(rid);
     switch (cmd) {
       case 'add':
         if (role) {
-          const member = msg.guild?.members.get(u);
+          const member = await msg.guild?.members.fetch(u);
           member?.roles.add(role, r.join(' '));
           msg.channel.send(`Added ${role.name} to ${member}`);
         }
@@ -18,7 +18,7 @@ export const command = new Command(
 
       case 'rmv':
         if (role) {
-          const member = msg.guild?.members.get(u);
+          const member = await msg.guild?.members.fetch(u);
           member?.roles.remove(role, r.join(' '));
           msg.channel.send(`Removed ${role.name} from ${member}`);
         }

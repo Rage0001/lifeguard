@@ -8,7 +8,7 @@ export const event = new Event(
   async (lifeguard, reaction: MessageReaction) => {
     const dbGuild = await (reaction.message.guild as GuildStructure).db;
     if (dbGuild?.config.starboard && dbGuild.config.channels?.starboard) {
-      const starboardChannel = reaction.message.guild?.channels.get(
+      const starboardChannel = reaction.message.guild?.channels.resolve(
         dbGuild.config.channels.starboard
       ) as TextChannel;
       const starboard = dbGuild.config.starboard;
@@ -22,7 +22,7 @@ export const event = new Event(
             m => m.id === reaction.message.id
           );
           if (starboardMessage) {
-            const starboardMessageInChannel = starboardChannel.messages.get(
+            const starboardMessageInChannel = await starboardChannel.messages.fetch(
               starboardMessage.starboardID
             );
             starboardMessage.count = reaction.count ?? starboardMessage.count;

@@ -28,7 +28,7 @@ export const command = new Command(
       );
 
       // Get User
-      const member = await msg.guild?.members.get(u);
+      const member = await msg.guild?.members.fetch(u);
       // Notify user of action
       member?.send(
         `You have been soft-banned from **${msg.guild?.name}** for \`${

@@ -1,6 +1,7 @@
 import { Command } from '@plugins/Command';
 import { parseUser } from '@util/parseUser';
 import { MessageAttachment } from 'discord.js';
+import { defaultEmbed } from '@lifeguard/util/DefaultEmbed';
 
 export const command = new Command(
   'infractions',
@@ -32,10 +33,39 @@ export const command = new Command(
 
       case 'info':
         const [user, infID] = args;
+        if (!user) {
+          msg.channel.send('You must specify a user.');
+          break;
+        }
         const u = parseUser(user);
+        const resolvedUser = lifeguard.users.resolve(u);
+        if (!resolvedUser) {
+          msg.channel.send('No user was found with that information.');
+          break;
+        }
+        if (!infID) {
+          msg.channel.send('You must specify an infraction ID.');
+          break;
+        }
         const dbUser = await lifeguard.db.users.findOne({ id: u });
         const inf = dbUser?.infractions.find(inf => inf.id === +infID);
-        msg.channel.send(`\`\`\`json\n${JSON.stringify(inf, null, 2)}\n\`\`\``);
+        if (!inf) {
+          msg.channel.send(
+            `No infraction for ${resolvedUser.tag} could be found using that ID.`
+          );
+          break;
+        }
+
+        const embed = defaultEmbed().setDescription(
+          `Type: ${inf.action}\nActive: ${inf.active}\nGuild: ${
+            lifeguard.guilds.resolve(inf.guild)?.name
+          } (${inf.guild})\nInfraction #: ${infID}\nModerator: ${
+            lifeguard.users.resolve(inf.moderator)?.tag
+          } (${inf.moderator}\nReason: ${inf.reason}\nTime: ${inf.time})`
+        );
+
+        // msg.channel.send(`\`\`\`json\n${JSON.stringify(inf, null, 2)}\n\`\`\``);
+        msg.channel.send(embed);
         break;
 
       default:

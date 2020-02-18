@@ -8,7 +8,7 @@ export const event = new Event(
   async (lifeguard, channel: GuildChannel) => {
     const dbGuild = await (channel.guild as GuildStructure).db;
     if (dbGuild?.config.channels?.logging) {
-      const modlog = channel.guild.channels.get(
+      const modlog = channel.guild.channels.resolve(
         dbGuild.config.channels.logging
       ) as TextChannel;
 
