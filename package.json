@@ -23,7 +23,7 @@
     "prepare": "npm run compile",
     "pretest": "npm run compile",
     "posttest": "npm run check",
-    "start":  "nodemon build/src/index"
+    "start": "nodemon build/src/index"
   },
   "dependencies": {
     "@types/mongodb": "^3.3.14",

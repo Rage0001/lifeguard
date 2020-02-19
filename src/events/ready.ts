@@ -5,7 +5,7 @@ export const event = new Event('ready', lifeguard => {
   if (lifeguard.user) {
     lifeguard.user.setPresence({
       activity: {
-        name: `${lifeguard.users.cache.size} people in the pool`,
+        name: `${lifeguard.users.cache.size} people in the pool • lg.help`,
         type: 'WATCHING',
       },
       status: 'online',

@@ -19,9 +19,9 @@
     js-tokens "^4.0.0"
 
 "@discordjs/collection@^0.1.1":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@discordjs/collection/-/collection-0.1.3.tgz#af9b1c22ccb2ee5c0cad1e1bd2bc3d82a817b05f"
-  integrity sha512-4ek19SmNcPI92942RkuBrZrBK8hg7nG+ae/skkNNDeOaUG+XvxTPkv/jPZVgXwVPDkU5EFsewsI+0n4dTwFvgA==
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@discordjs/collection/-/collection-0.1.4.tgz#b8815e84be94934b1ce86f506896ed8562d7ebd8"
+  integrity sha512-AwCjNahVqASGv5mxnZCC0DfcV/hkAV/U7edUB0K+20xx7v0ZfQ3/o02bNROzpNjvfak5pM8KO5SCmJVK90e3lQ==
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -48,22 +48,22 @@
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
 
 "@types/mongodb@^3.3.14":
-  version "3.3.15"
-  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.3.15.tgz#f8b80a7a1f42fa90f58a1273df80f0e5764e3d25"
-  integrity sha512-q2dL0VEdFdE9iS0xrTP0NSgJJBFH4hBvt3beglCwU3qMWrz7dCuu/CrRjPB4+R8jLjCi/Gik2Mkd+lU0sYsZgQ==
+  version "3.3.16"
+  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.3.16.tgz#3b125aa0e31ef0f6733fcfcf507cce1324823a26"
+  integrity sha512-i1Ov36BXdp+urtPsaSvrNfCdsaVn4Ukq1m1kGyzdWB1+eg3gJ68unXU5LNmnF4EAMRFY6FXZzA7/W3NST40b8g==
   dependencies:
     "@types/bson" "*"
     "@types/node" "*"
 
 "@types/node@*":
-  version "13.7.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.7.0.tgz#b417deda18cf8400f278733499ad5547ed1abec4"
-  integrity sha512-GnZbirvmqZUzMgkFn70c74OQpTTUcCzlhQliTzYjQMqg+hVKcDnxdL19Ne3UdYzdMA/+W3eb646FWn/ZaT1NfQ==
+  version "13.7.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.7.2.tgz#50375b95b5845a34efda2ffb3a087c7becbc46c6"
+  integrity sha512-uvilvAQbdJvnSBFcKJ2td4016urcGvsiR+N4dHGU87ml8O2Vl6l+ErOi9w0kXSPiwJ1AYlIW+0pDXDWWMOiWbw==
 
 "@types/node@^10.17.13":
-  version "10.17.14"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.14.tgz#b6c60ebf2fb5e4229fdd751ff9ddfae0f5f31541"
-  integrity sha512-G0UmX5uKEmW+ZAhmZ6PLTQ5eu/VPaT+d/tdLd5IFsKRPcbe6lPxocBtcYBFSaLaCW8O60AX90e91Nsp8lVHCNw==
+  version "10.17.15"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.15.tgz#bfff4e23e9e70be6eec450419d51e18de1daf8e7"
+  integrity sha512-daFGV9GSs6USfPgxceDA8nlSe48XrVCJfDeYm7eokxq/ye7iuOH87hKXgMtEAVLFapkczbZsx868PMDT1Y0a6A==
 
 "@types/ws@^6.0.4":
   version "6.0.4"
@@ -420,7 +420,7 @@ diff@^4.0.1:
 
 "discord.js@github:discordjs/discord.js":
   version "12.0.0-dev"
-  resolved "https://codeload.github.com/discordjs/discord.js/tar.gz/b4e56d3e0e8c3bf242d6bf52af03b0826af62bd8"
+  resolved "https://codeload.github.com/discordjs/discord.js/tar.gz/c4c6ad4a63fcbc46fdf4e6f1ea01472e67c31839"
   dependencies:
     "@discordjs/collection" "^0.1.1"
     abort-controller "^3.0.0"
@@ -510,9 +510,9 @@ external-editor@^3.0.3:
     tmp "^0.0.33"
 
 figures@^3.0.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/figures/-/figures-3.1.0.tgz#4b198dd07d8d71530642864af2d45dd9e459c4ec"
-  integrity sha512-ravh8VRXqHuMvZt/d8GblBeqDMkdJMBdv/2KntFH+ra5MXkO7nxNKpzQ3n6QD/2da1kH0aWmNISdvhM7gl2gVg==
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/figures/-/figures-3.2.0.tgz#625c18bd293c604dc4a8ddb2febf0c88341746af"
+  integrity sha512-yaduQFRKLXYOGgEn6AZau90j3ggSOyiqXU0F9JZfeXYhNa+Jk4X+s45A2zg5jns87GAFa34BBm2kXw4XpNcbdg==
   dependencies:
     escape-string-regexp "^1.0.5"
 
@@ -635,9 +635,9 @@ hosted-git-info@^2.1.4:
   integrity sha512-kssjab8CvdXfcXMXVcvsXum4Hwdq9XGtRD3TteMEvEbq0LXyiNQr6AprqKqfeaDXze7SxWvRxdpwE6ku7ikLkg==
 
 http-cache-semantics@^4.0.0:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.0.3.tgz#495704773277eeef6e43f9ab2c2c7d259dda25c5"
-  integrity sha512-TcIMG3qeVLgDr1TEd2XvHaTnMPwYQUQMIBLy+5pLSDKYFc7UIqj39w8EGzZkaxoLv/l2K8HaI0t5AVA+YYgUew==
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.0.4.tgz#13eeb612424bb113d52172c28a13109c46fa85d7"
+  integrity sha512-Z2EICWNJou7Tr9Bd2M2UqDJq3A9F2ePG9w3lIpjoyuSyXFP9QbniJVu3XQYytuw5ebmG7dXSXO9PgAjJG8DDKA==
 
 iconv-lite@^0.4.24:
   version "0.4.24"
@@ -973,9 +973,9 @@ module-alias@^2.2.2:
   integrity sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==
 
 mongodb@^3.5.2:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.5.2.tgz#83b8bcb3d96b666a10eeca2f9c7ad1db056ae291"
-  integrity sha512-Lxt4th2tK2MxmkDBR5cMik+xEnkvhwg0BC5kGcHm9RBwaNEsrIryvV5istGXOHbnif5KslMpY1FbX6YbGJ/Trg==
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.5.3.tgz#f2c7ce9b5fc9a13da116ff1b6e816f6256010a86"
+  integrity sha512-II7P7A3XUdPiXRgcN96qIoRa1oesM6qLNZkzfPluNZjVkgQk3jnQwOT6/uDk4USRDTTLjNFw2vwfmbRGTA7msg==
   dependencies:
     bl "^2.2.0"
     bson "^1.1.1"
@@ -1239,9 +1239,9 @@ resolve-from@^2.0.0:
   integrity sha1-lICrIOlP+h2egKgEx+oUdhGWa1c=
 
 resolve@^1.10.0, resolve@^1.3.2:
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.15.0.tgz#1b7ca96073ebb52e741ffd799f6b39ea462c67f5"
-  integrity sha512-+hTmAldEGE80U2wJJDC1lebb5jWqvTYAfm3YZ1ckk1gBr0MnCqUKlwK1e+anaFljIl+F5tR5IoZcm4ZDA1zMQw==
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.15.1.tgz#27bdcdeffeaf2d6244b95bb0f9f4b4653451f3e8"
+  integrity sha512-84oo6ZTtoTUpjgNEr5SJyzQhzL72gaRodsSfyxC/AXRvwu0Yse9H8eF9IpGo7b8YetZhlI6v7ZQ6bKBFV/6S7w==
   dependencies:
     path-parse "^1.0.6"
 
@@ -1261,9 +1261,9 @@ restore-cursor@^3.1.0:
     signal-exit "^3.0.2"
 
 rimraf@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-3.0.1.tgz#48d3d4cb46c80d388ab26cd61b1b466ae9ae225a"
-  integrity sha512-IQ4ikL8SjBiEDZfk+DFVwqRK8md24RWMEJkdSlgNLkyyAImcjf8SWvU1qFMDOb4igBClbTQ/ugPqXcRwdFTxZw==
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-3.0.2.tgz#f1a5402ba6220ad52cc1282bac1ae3aa49fd061a"
+  integrity sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
   dependencies:
     glob "^7.1.3"
 
@@ -1534,9 +1534,9 @@ tsutils@^2.29.0:
     tslib "^1.8.1"
 
 tweetnacl@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-1.0.2.tgz#39fba8d1f7a34706a3fc1fd8c04afcad7bb9e689"
-  integrity sha512-+8aPRjmXgf1VqvyxSlBUzKzeYqVS9Ai8vZ28g+mL7dNQl1jlUTCMDZnvNQdAS1xTywMkIXwJsfipsR/6s2+syw==
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-1.0.3.tgz#ac0af71680458d8a6378d0d0d050ab1407d35596"
+  integrity sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==
 
 type-fest@^0.3.0:
   version "0.3.1"
