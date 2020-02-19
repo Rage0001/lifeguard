@@ -28,7 +28,7 @@ export const command = new Command(
       );
 
       // Get User
-      const member = msg.guild?.members.get(u);
+      const member = await msg.guild?.members.fetch(u);
 
       // Tell moderator action was sucessfull
       msg.channel.send(

@@ -3,8 +3,8 @@ import { Command } from '@plugins/Command';
 export const command = new Command(
   'roles',
   async (lifeguard, msg) => {
-    const roleList = msg.guild?.roles
-      ?.sort((ra, rb) => rb.position - ra.position)
+    const roleList = msg.guild?.roles?.cache
+      .sort((ra, rb) => rb.position - ra.position)
       .map(r => `${r.id} - ${r.name} (${r.members.size} members)`);
     const blocks: string[] = [''];
 

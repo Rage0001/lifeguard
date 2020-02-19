@@ -13,7 +13,7 @@ export const command = new Command(
       const u = parseUser(uid);
       try {
         // Get User
-        const member = msg.guild?.members.get(u);
+        const member = await msg.guild?.members.fetch(u);
         // Remove Role
         await member?.roles.remove(guild.config.roles.muted);
         // Tell moderator action was successfull

@@ -32,7 +32,7 @@ export const command = new Command(
         );
 
         // Get User
-        const member = msg.guild?.members.get(u);
+        const member = await msg.guild?.members.fetch(u);
         // Add role to user
         await member?.roles.add(guild.config.roles.muted);
 
