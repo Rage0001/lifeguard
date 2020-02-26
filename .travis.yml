@@ -1,7 +1,5 @@
 language: node_js
 node_js:
   - 'node'
-install:
-  - yarn install --ignore-scripts
 script:
-  - yarn run check
+  - npm run check
