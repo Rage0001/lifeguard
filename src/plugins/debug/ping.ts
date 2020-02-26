@@ -17,12 +17,12 @@ export const command = new Command(
       .addFields([
         {
           name: 'Bot Latency',
-          value: `${Math.round(lifeguard.ws.ping)}ms`
+          value: `${Math.round(lifeguard.ws.ping)}ms`,
         },
         {
           name: 'Message Latency',
-          value: `${m.createdTimestamp - msg.createdTimestamp}ms`
-        }
+          value: `${m.createdTimestamp - msg.createdTimestamp}ms`,
+        },
       ])
       .setFooter(
         `Executed By ${msg.author.tag}`,

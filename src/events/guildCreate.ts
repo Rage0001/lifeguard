@@ -9,7 +9,14 @@ export const event = new Event(
         _id: guild.id,
         config: {
           blacklisted: false,
-          enabledPlugins: ['debug', 'dev', 'global', 'info', 'moderation', 'admin'],
+          enabledPlugins: [
+            'debug',
+            'dev',
+            'global',
+            'info',
+            'moderation',
+            'admin',
+          ],
         },
       });
     }

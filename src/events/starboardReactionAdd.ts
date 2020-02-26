@@ -7,7 +7,9 @@ export const event = new Event(
   'starboardReactionAdd',
   async (lifeguard, reaction: MessageReaction) => {
     // const dbGuild = await (reaction.message.guild as GuildStructure).db;
-    const dbGuild = await lifeguard.db.guilds.findById(reaction.message.guild?.id);
+    const dbGuild = await lifeguard.db.guilds.findById(
+      reaction.message.guild?.id
+    );
     if (dbGuild?.config.starboard && dbGuild.config.channels?.starboard) {
       const starboardChannel = reaction.message.guild?.channels.resolve(
         dbGuild.config.channels.starboard
@@ -63,7 +65,9 @@ export const event = new Event(
           //   { id: dbGuild.id },
           //   { $set: { 'config.starboard': starboard } }
           // );
-          await lifeguard.db.guilds.findByIdAndUpdate(dbGuild._id, { $set: { 'config.starboard': starboard } })
+          await lifeguard.db.guilds.findByIdAndUpdate(dbGuild._id, {
+            $set: { 'config.starboard': starboard },
+          });
         }
       }
     }

@@ -11,11 +11,14 @@ export const command = new Command(
       //   { $set: { blacklisted: true } },
       //   { new: true }
       // );
-      const res = await lifeguard.db.users.updateOne({ _id: u }, { blacklisted: true })
-      console.log(res)
+      const res = await lifeguard.db.users.updateOne(
+        { _id: u },
+        { blacklisted: true }
+      );
+      console.log(res);
       msg.channel.send(`<@${u}> was sucessfully blacklisted`);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       msg.channel.send(err.message);
     }
   },

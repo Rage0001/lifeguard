@@ -63,12 +63,12 @@ export const command = new Command(
         .addFields([
           {
             name: 'Input',
-            value: makeCodeBlock(script, 'js')
+            value: makeCodeBlock(script, 'js'),
           },
           {
             name: 'Output',
-            value: makeCodeBlock(exec, 'js')
-          }
+            value: makeCodeBlock(exec, 'js'),
+          },
         ])
         .setFooter(`Script Executed in ${end - start}ms`);
       msg.channel.send(embed);
@@ -79,12 +79,12 @@ export const command = new Command(
         .addFields([
           {
             name: 'Input',
-            value: makeCodeBlock(script, 'js')
+            value: makeCodeBlock(script, 'js'),
           },
           {
             name: 'Output',
-            value: makeCodeBlock(`${exec.name}: ${exec.message}`)
-          }
+            value: makeCodeBlock(`${exec.name}: ${exec.message}`),
+          },
         ])
         .setFooter(`Script Executed in ${end - start}ms`);
       msg.channel.send(embed);

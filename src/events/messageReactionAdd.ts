@@ -16,10 +16,17 @@ export const event = new Event(
     // ) {
     //   lifeguard.emit('starboardReactionAdd', reaction);
     // }
-    await lifeguard.db.users.findByIdAndUpdate(user.id, { $inc: { 'stats.totalTimesReacted': 1 } })
+    await lifeguard.db.users.findByIdAndUpdate(user.id, {
+      $inc: { 'stats.totalTimesReacted': 1 },
+    });
 
-    const dbGuild = await lifeguard.db.guilds.findById(reaction.message.guild?.id)
-    if (dbGuild?.config.channels.starboard && reaction.emoji.name === dbGuild?.config.starboard?.emoji) {
+    const dbGuild = await lifeguard.db.guilds.findById(
+      reaction.message.guild?.id
+    );
+    if (
+      dbGuild?.config.channels.starboard &&
+      reaction.emoji.name === dbGuild?.config.starboard?.emoji
+    ) {
       lifeguard.emit('starboardReactionAdd', reaction);
     }
   }

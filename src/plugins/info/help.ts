@@ -11,7 +11,7 @@ async function convertPlugins(
   member: GuildMember,
   guild: Guild
 ) {
-  const guildDB = await lifeguard.db.guilds.findById(guild.id)
+  const guildDB = await lifeguard.db.guilds.findById(guild.id);
   return plugins
     .map((plugin, key) => {
       if (guildDB?.config.enabledPlugins?.includes(plugin.name)) {
@@ -56,10 +56,9 @@ export const command = new Command(
 
       for (const plugin of plugins) {
         if (plugin.cmds && plugin.cmds.length > 0) {
-          embed.addFields({name: plugin.name, value: plugin.cmds.join('\n')});
+          embed.addFields({ name: plugin.name, value: plugin.cmds.join('\n') });
         }
       }
-
 
       msg.channel.send(embed);
     } else {
@@ -77,10 +76,10 @@ export const command = new Command(
         const options = Object.entries(cmd.options);
         options.map(([key, val]) => {
           if (key === 'usage') {
-            embed.addFields({name: key, value: val.join('\n')});
+            embed.addFields({ name: key, value: val.join('\n') });
             return;
           }
-          embed.addFields({name: key, value: `${val}`});
+          embed.addFields({ name: key, value: `${val}` });
         });
 
         msg.channel.send(embed);

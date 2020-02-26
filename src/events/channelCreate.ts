@@ -6,7 +6,8 @@ import { GuildChannel, TextChannel } from 'discord.js';
 export const event = new Event(
   'channelCreate',
   async (lifeguard, channel: GuildChannel) => {
-    const dbGuild = await (channel.guild as GuildStructure).db;
+    // const dbGuild = await (channel.guild as GuildStructure).db;
+    const dbGuild = await lifeguard.db.guilds.findById(channel.guild.id);
     if (dbGuild?.config.channels?.logging) {
       const modlog = channel.guild.channels.resolve(
         dbGuild.config.channels.logging

@@ -19,7 +19,14 @@ export const event = new Event('message', async (lifeguard, msg: Message) => {
         _id: msg.guild.id,
         config: {
           blacklisted: false,
-          enabledPlugins: ['debug', 'dev', 'global', 'info', 'moderation', 'admin'],
+          enabledPlugins: [
+            'debug',
+            'dev',
+            'global',
+            'info',
+            'moderation',
+            'admin',
+          ],
         },
       });
     }

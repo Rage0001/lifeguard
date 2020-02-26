@@ -48,26 +48,26 @@ export const command = new Command(
       .addFields([
         {
           name: 'Git Commit',
-          value: `[${gitCommitID}](${gitCommitURL}) (https://github.com/lifeguardbot/lifeguard/)`
+          value: `[${gitCommitID}](${gitCommitURL}) (https://github.com/lifeguardbot/lifeguard/)`,
         },
         {
           name: 'Node Version',
-          value: nodeVersion
+          value: nodeVersion,
         },
         {
           name: 'Discord.js Version',
-          value: discordjsVersion
+          value: discordjsVersion,
         },
         {
           name: 'System OS',
           value: `${type()} ${release()} (${platform()})`,
-          inline: true
+          inline: true,
         },
         {
           name: 'System Memory Usage',
           value: `${Math.round((heapUsed / heapTotal) * 100)}%`,
-          inline: true
-        }
+          inline: true,
+        },
       ])
       .setColor(0x7289da)
       .setFooter(
