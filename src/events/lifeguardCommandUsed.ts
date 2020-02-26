@@ -3,8 +3,7 @@ import { prefix } from '@config/bot';
 import { Event } from '@events/Event';
 import { PluginClient } from '@lifeguard/PluginClient';
 import { UserDoc } from '@models/User';
-import { Message } from 'discord.js';
-import { GuildStructure } from '@structures/GuildStructure';
+import { Message, Guild } from 'discord.js';
 
 function parseContent(content: string) {
   const split = content.split(' ');
@@ -16,9 +15,9 @@ function parseContent(content: string) {
 async function getCommandFromPlugin(
   lifeguard: PluginClient,
   cmdName: string,
-  guild: GuildStructure
+  guild: Guild
 ) {
-  const guildDB = await guild.db;
+  const guildDB = await lifeguard.db.guilds.findById(guild.id);
   const plugin = lifeguard.plugins.find(p => p.has(cmdName));
   if (plugin) {
     if (guildDB?.config.enabledPlugins?.includes(plugin.name)) {
@@ -57,7 +56,7 @@ export const event = new Event(
     const cmd = await getCommandFromPlugin(
       lifeguard,
       cmdName,
-      msg.guild as GuildStructure
+      msg.guild as Guild
     );
 
     if (cmd) {

@@ -9,31 +9,20 @@ export const command = new Command(
     const u = parseUser(uid);
     try {
       // Create Infraction
-      const inf: UserInfraction = {
+      const inf = await lifeguard.db.infractions.create({
         action: 'Ban',
         active: true,
         guild: msg.guild?.id as string,
-        id: (await lifeguard.db.users.findOne({ id: u }))?.infractions
-          .length as number,
         moderator: msg.author.id,
         reason: reason.join(' '),
-        time: new Date(),
-      };
-
-      // Update User in Database
-      await lifeguard.db.users.findOneAndUpdate(
-        { id: u },
-        { $push: { infractions: inf } },
-        { returnOriginal: false }
-      );
+        user: u,
+      });
 
       // Get User
       const member = await msg.guild?.members.fetch(u);
       // Notify user of action
       member?.send(
-        `You have been soft-banned from **${msg.guild?.name}** for \`${
-          reason.length > 0 ? reason.join(' ') : 'No Reason Specified'
-        }`
+        `You have been soft-banned from **${msg.guild?.name}** for \`${inf.reason}`
       );
       // Ban User
       member?.ban({ reason: reason.join(' '), days: 7 });
@@ -42,9 +31,7 @@ export const command = new Command(
 
       // Tell moderator action was successfull
       msg.channel.send(
-        `${member?.user.tag} was soft-banned by ${msg.author.tag} for \`${
-          reason.length > 0 ? reason.join(' ') : 'No Reason Specified'
-        }`
+        `${member?.user.tag} was soft-banned by ${msg.author.tag} for \`${inf.reason}`
       );
     } catch (err) {
       msg.channel.send(err.message);

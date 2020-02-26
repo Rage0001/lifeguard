@@ -9,28 +9,36 @@ export const command = new Command(
     // Parse user id from mention
     const u = parseUser(uid);
     try {
-      // Create Infraction
-      const inf: UserInfraction = {
+      // // Create Infraction
+      // const inf: UserInfraction = {
+      //   action: 'Ban',
+      //   active: true,
+      //   guild: msg.guild?.id as string,
+      //   id: (await lifeguard.db.users.findOne({ id: u }))?.infractions
+      //     .length as number,
+      //   moderator: msg.author.id,
+      //   reason: reason.join(' '),
+      //   time: new Date(),
+      // };
+
+      // // Update User in Database
+      // await lifeguard.db.users.findOneAndUpdate(
+      //   { id: u },
+      //   { $push: { infractions: inf } },
+      //   { returnOriginal: false }
+      // );
+
+      const inf = await lifeguard.db.infractions.create({
         action: 'Ban',
         active: true,
-        guild: msg.guild?.id as string,
-        id: (await lifeguard.db.users.findOne({ id: u }))?.infractions
-          .length as number,
+        guild: msg.guild?.id,
         moderator: msg.author.id,
-        reason: reason.join(' '),
-        time: new Date(),
-      };
-
-      // Update User in Database
-      await lifeguard.db.users.findOneAndUpdate(
-        { id: u },
-        { $push: { infractions: inf } },
-        { returnOriginal: false }
-      );
+        user: u,
+      });
 
       // Ban user from guild
       const member = await msg.guild?.members.ban(u, {
-        reason: reason.join(' '),
+        reason: inf.reason,
       });
 
       // Retreive user tag
@@ -46,7 +54,7 @@ export const command = new Command(
       // Tell moderator ban was successful
       msg.channel.send(
         `${tag} was force-banned by ${msg.author.toString()} for \`${
-          reason.length > 0 ? reason.join(' ') : 'No Reason Specified'
+          inf.reason
         }\``
       );
     } catch (err) {

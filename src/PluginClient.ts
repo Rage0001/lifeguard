@@ -14,6 +14,8 @@ export class PluginClient extends Client {
       MongoOptions: {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
       },
     });
   }

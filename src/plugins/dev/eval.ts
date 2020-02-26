@@ -49,6 +49,7 @@ export const command = new Command(
         msg,
         defaultEmbed,
         dbUser,
+        console,
       },
       { filename: msg.guild?.id.toString() }
     );
@@ -57,14 +58,34 @@ export const command = new Command(
 
     if (typeof exec === 'string') {
       const embed = defaultEmbed()
-        .addField('Input', makeCodeBlock(script, 'js'))
-        .addField('Output', makeCodeBlock(exec, 'js'))
+        // .addField('Input', makeCodeBlock(script, 'js'))
+        // .addField('Output', makeCodeBlock(exec, 'js'))
+        .addFields([
+          {
+            name: 'Input',
+            value: makeCodeBlock(script, 'js')
+          },
+          {
+            name: 'Output',
+            value: makeCodeBlock(exec, 'js')
+          }
+        ])
         .setFooter(`Script Executed in ${end - start}ms`);
       msg.channel.send(embed);
     } else {
       const embed = defaultEmbed()
-        .addField('Input', makeCodeBlock(script, 'js'))
-        .addField('Output', makeCodeBlock(`${exec.name}: ${exec.message}`))
+        // .addField('Input', makeCodeBlock(script, 'js'))
+        // .addField('Output', makeCodeBlock(`${exec.name}: ${exec.message}`))
+        .addFields([
+          {
+            name: 'Input',
+            value: makeCodeBlock(script, 'js')
+          },
+          {
+            name: 'Output',
+            value: makeCodeBlock(`${exec.name}: ${exec.message}`)
+          }
+        ])
         .setFooter(`Script Executed in ${end - start}ms`);
       msg.channel.send(embed);
     }

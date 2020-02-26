@@ -13,34 +13,30 @@ export const command = new Command(
       // Parse user id from mention
       const u = parseUser(uid);
       try {
-        // Create Infracrion
-        const inf: UserInfraction = {
+        // // Create Infracrion
+        const inf = await lifeguard.db.infractions.create({
           action: 'Mute',
           active: true,
           guild: msg.guild?.id as string,
-          id: (await lifeguard.db.users.findOne({ id: u }))?.infractions
-            .length as number,
           moderator: msg.author.id,
           reason: reason.join(' '),
-          time: new Date(),
-        };
-        // Update User in Database
-        await lifeguard.db.users.findOneAndUpdate(
-          { id: u },
-          { $push: { infractions: inf } },
-          { returnOriginal: false }
-        );
+          user: u,
+        });
+        // // Update User in Database
+        // await lifeguard.db.users.findOneAndUpdate(
+        //   { id: u },
+        //   { $push: { infractions: inf } },
+        //   { returnOriginal: false }
+        // );
 
         // Get User
         const member = await msg.guild?.members.fetch(u);
         // Add role to user
         await member?.roles.add(guild.config.roles.muted);
 
-        // Tell moderator action was successfull
+        // Tell moderator action was successful
         msg.channel.send(
-          `${member?.user.tag} was muted by ${msg.author.tag} for \`${
-            reason.length > 0 ? reason.join(' ') : 'No Reason Specified'
-          }\``
+          `${member?.user.tag} was muted by ${msg.author.tag} for \`${inf.reason}\``
         );
       } catch (err) {
         msg.channel.send(err.message);

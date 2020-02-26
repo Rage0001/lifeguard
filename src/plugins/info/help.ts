@@ -3,14 +3,15 @@ import { Command } from '@plugins/Command';
 import { Plugin } from '@plugins/Plugin';
 import { defaultEmbed } from '@util/DefaultEmbed';
 import { Collection, Guild, GuildMember } from 'discord.js';
-import { GuildStructure } from '@lifeguard/structures/GuildStructure';
+import { PluginClient } from '@lifeguard/PluginClient';
 
 async function convertPlugins(
+  lifeguard: PluginClient,
   plugins: Collection<string, Plugin>,
   member: GuildMember,
-  guild: GuildStructure
+  guild: Guild
 ) {
-  const guildDB = await guild.db;
+  const guildDB = await lifeguard.db.guilds.findById(guild.id)
   return plugins
     .map((plugin, key) => {
       if (guildDB?.config.enabledPlugins?.includes(plugin.name)) {
@@ -39,10 +40,11 @@ export const command = new Command(
   'help',
   async (lifeguard, msg, args) => {
     if (!args.length) {
-      const plugins = convertPlugins(
+      const plugins = await convertPlugins(
+        lifeguard,
         lifeguard.plugins,
         msg.member as GuildMember,
-        msg.guild as GuildStructure
+        msg.guild as Guild
       );
 
       const embed = defaultEmbed()
@@ -52,11 +54,12 @@ export const command = new Command(
           msg.author.avatarURL() ?? msg.author.defaultAvatarURL
         );
 
-      for (const plugin of await plugins) {
+      for (const plugin of plugins) {
         if (plugin.cmds && plugin.cmds.length > 0) {
-          embed.addField(plugin.name, plugin.cmds.join('\n'));
+          embed.addFields({name: plugin.name, value: plugin.cmds.join('\n')});
         }
       }
+
 
       msg.channel.send(embed);
     } else {
@@ -74,10 +77,10 @@ export const command = new Command(
         const options = Object.entries(cmd.options);
         options.map(([key, val]) => {
           if (key === 'usage') {
-            embed.addField(key, val.join('\n'));
+            embed.addFields({name: key, value: val.join('\n')});
             return;
           }
-          embed.addField(key, `${val}`);
+          embed.addFields({name: key, value: `${val}`});
         });
 
         msg.channel.send(embed);

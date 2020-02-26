@@ -9,11 +9,21 @@ export const command = new Command(
 
     const embed = defaultEmbed()
       .setTitle('Pong! :ping_pong:')
-      .addField('Bot Latency', `${Math.round(lifeguard.ws.ping)}ms`)
-      .addField(
-        'Message Latency',
-        `${m.createdTimestamp - msg.createdTimestamp}ms`
-      )
+      // .addField('Bot Latency', `${Math.round(lifeguard.ws.ping)}ms`)
+      // .addField(
+      //   'Message Latency',
+      //   `${m.createdTimestamp - msg.createdTimestamp}ms`
+      // )
+      .addFields([
+        {
+          name: 'Bot Latency',
+          value: `${Math.round(lifeguard.ws.ping)}ms`
+        },
+        {
+          name: 'Message Latency',
+          value: `${m.createdTimestamp - msg.createdTimestamp}ms`
+        }
+      ])
       .setFooter(
         `Executed By ${msg.author.tag}`,
         msg.author.avatarURL() ?? msg.author.defaultAvatarURL

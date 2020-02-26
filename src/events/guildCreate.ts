@@ -4,13 +4,15 @@ import { Guild } from 'discord.js';
 export const event = new Event(
   'guildCreate',
   async (lifeguard, guild: Guild) => {
-    await lifeguard.db.guilds.insertOne({
-      id: guild.id,
-      config: {
-        blacklisted: false,
-        enabledPlugins: ['debug', 'dev', 'info', 'moderation', 'admin'],
-      },
-    });
+    if (!(await lifeguard.db.guilds.findById(guild.id))) {
+      await lifeguard.db.guilds.create({
+        _id: guild.id,
+        config: {
+          blacklisted: false,
+          enabledPlugins: ['debug', 'dev', 'global', 'info', 'moderation', 'admin'],
+        },
+      });
+    }
     if (lifeguard.user) {
       lifeguard.user.setPresence({
         activity: {
