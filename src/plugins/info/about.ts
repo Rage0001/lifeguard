@@ -32,19 +32,43 @@ export const command = new Command(
 
     const embed = new MessageEmbed()
       .setTitle('About Lifeguard')
-      .addField(
-        'Git Commit',
-        `[${gitCommitID}](${gitCommitURL}) (https://github.com/lifeguardbot/lifeguard/)`
-      )
-      .addField('Node Version', nodeVersion)
-      .addField('Discord.js Version', discordjsVersion)
-      .addField('Lifeguard Version', lifeguardVersion)
-      .addField('System OS', `${type()} ${release()} (${platform()})`, true)
-      .addField(
-        'System Memory Usage',
-        `${Math.round((heapUsed / heapTotal) * 100)}%`,
-        true
-      )
+      // .addField(
+      //   'Git Commit',
+      //   `[${gitCommitID}](${gitCommitURL}) (https://github.com/lifeguardbot/lifeguard/)`
+      // )
+      // .addField('Node Version', nodeVersion)
+      // .addField('Discord.js Version', discordjsVersion)
+      // .addField('Lifeguard Version', lifeguardVersion)
+      // .addField('System OS', `${type()} ${release()} (${platform()})`, true)
+      // .addField(
+      //   'System Memory Usage',
+      //   `${Math.round((heapUsed / heapTotal) * 100)}%`,
+      //   true
+      // )
+      .addFields([
+        {
+          name: 'Git Commit',
+          value: `[${gitCommitID}](${gitCommitURL}) (https://github.com/lifeguardbot/lifeguard/)`,
+        },
+        {
+          name: 'Node Version',
+          value: nodeVersion,
+        },
+        {
+          name: 'Discord.js Version',
+          value: discordjsVersion,
+        },
+        {
+          name: 'System OS',
+          value: `${type()} ${release()} (${platform()})`,
+          inline: true,
+        },
+        {
+          name: 'System Memory Usage',
+          value: `${Math.round((heapUsed / heapTotal) * 100)}%`,
+          inline: true,
+        },
+      ])
       .setColor(0x7289da)
       .setFooter(
         `Executed By ${msg.author.tag}`,

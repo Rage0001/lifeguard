@@ -7,7 +7,7 @@ export const command = new Command(
     const path = args[0];
     switch (cmd) {
       case 'get':
-        const guild = await lifeguard.db.guilds.findOne({ id: msg.guild?.id });
+        const guild = await lifeguard.db.guilds.findById(msg.guild?.id);
         if (guild) {
           const config = guild['config'];
           if (path) {
@@ -27,17 +27,10 @@ export const command = new Command(
         break;
 
       case 'set':
-        const res = await lifeguard.db.guilds.findOneAndUpdate(
-          {
-            id: msg.guild?.id,
-          },
-          {
-            $set: { [`config.${path}`]: JSON.parse(args[1]) },
-          }
-        );
-        if (res.ok) {
-          msg.channel.send('Value has been set successfully');
-        }
+        await lifeguard.db.guilds.findByIdAndUpdate(msg.guild?.id, {
+          $set: { [`config.${path}`]: JSON.parse(args[1]) },
+        });
+        msg.channel.send('Value has been set successfully');
         break;
 
       default:

@@ -6,13 +6,19 @@ export const command = new Command(
   async (lifeguard, msg, args) => {
     const u = parseUser(args[0]);
     try {
-      await lifeguard.db.users.findOneAndUpdate(
-        { id: u },
-        { $set: { blacklisted: true } },
-        { returnOriginal: false }
+      // await lifeguard.db.users.findOneAndUpdate(
+      //   { id: u },
+      //   { $set: { blacklisted: true } },
+      //   { new: true }
+      // );
+      const res = await lifeguard.db.users.updateOne(
+        { _id: u },
+        { blacklisted: true }
       );
+      console.log(res);
       msg.channel.send(`<@${u}> was sucessfully blacklisted`);
     } catch (err) {
+      console.log(err);
       msg.channel.send(err.message);
     }
   },

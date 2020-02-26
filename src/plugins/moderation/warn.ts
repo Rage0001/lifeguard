@@ -1,6 +1,7 @@
 import { UserInfraction } from '@models/User';
 import { Command } from '@plugins/Command';
 import { parseUser } from '@util/parseUser';
+import { infraction } from '@lifeguard/database/Infraction';
 
 export const command = new Command(
   'warn',
@@ -8,33 +9,22 @@ export const command = new Command(
     // Parse user id from mention
     const u = parseUser(uid);
     try {
-      // Create Infracion
-      const inf: UserInfraction = {
+      // Create Infraction
+      const inf = await lifeguard.db.infractions.create({
         action: 'Warn',
         active: true,
         guild: msg.guild?.id as string,
-        id: (await lifeguard.db.users.findOne({ id: u }))?.infractions
-          .length as number,
         moderator: msg.author.id,
         reason: reason.join(' '),
-        time: new Date(),
-      };
-
-      // Update User in Database
-      await lifeguard.db.users.findOneAndUpdate(
-        { id: u },
-        { $push: { infractions: inf } },
-        { returnOriginal: false }
-      );
+        user: u,
+      });
 
       // Get User
       const member = await msg.guild?.members.fetch(u);
 
       // Tell moderator action was sucessfull
       msg.channel.send(
-        `${member?.user.tag} was warned by ${msg.author.tag} for \`${
-          reason.length > 0 ? reason.join(' ') : 'No Reason Specified'
-        }\``
+        `${member?.user.tag} was warned by ${msg.author.tag} for \`${inf.reason}\``
       );
     } catch (err) {
       msg.channel.send(err.message);

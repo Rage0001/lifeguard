@@ -9,40 +9,27 @@ export const command = new Command(
     const u = parseUser(uid);
     try {
       // Create Infraction
-      const inf: UserInfraction = {
+      const inf = await lifeguard.db.infractions.create({
         action: 'Kick',
         active: true,
         guild: msg.guild?.id as string,
-        id: (await lifeguard.db.users.findOne({ id: u }))?.infractions
-          .length as number,
         moderator: msg.author.id,
         reason: reason.join(' '),
-        time: new Date(),
-      };
-
-      // Update User in Database
-      await lifeguard.db.users.findOneAndUpdate(
-        { id: u },
-        { $push: { infractions: inf } },
-        { returnOriginal: false }
-      );
+        user: u,
+      });
 
       // Get User
       const member = await msg.guild?.members.fetch(u);
       // Notify User about Action
       member?.send(
-        `You have been kicked from **${msg.guild?.name}** for \`${reason.join(
-          ' '
-        )}\``
+        `You have been kicked from **${msg.guild?.name}** for \`${inf.reason}\``
       );
       // Ban the User
       member?.kick(reason.join(' '));
 
       // Tell moderator action was successful
       msg.channel.send(
-        `${member?.user.tag} was kicked by ${msg.author.tag} for \`${
-          reason.length > 0 ? reason.join(' ') : 'No Reason Specified'
-        }\``
+        `${member?.user.tag} was kicked by ${msg.author.tag} for \`${inf.reason}\``
       );
     } catch (err) {
       msg.channel.send(err.message);
