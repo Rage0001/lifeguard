@@ -8,16 +8,18 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: [10.x, 12.x, 13.x]
 
     steps:
       - uses: actions/checkout@v2
+      - name: Move Dependent Files
+        run: |
+          mv src/config/bot.template.ts src/config/bot.ts
+          mv src/config/mongodb.template.ts src/config/mongodb.ts
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: mv src/config/bot.template.ts src/config/bot.ts
-      - run: mv src/config/mongodb.template.ts src/config/mongodb.ts
       - run: npm install
       - run: npm test
         env:
