@@ -6,11 +6,6 @@ export const command = new Command(
   async (lifeguard, msg, args) => {
     const u = parseUser(args[0]);
     try {
-      // await lifeguard.db.users.findOneAndUpdate(
-      //   { id: u },
-      //   { $set: { blacklisted: true } },
-      //   { new: true }
-      // );
       const res = await lifeguard.db.users.updateOne(
         { _id: u },
         { blacklisted: true }
