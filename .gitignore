@@ -109,5 +109,6 @@ dist
 
 # Config Files
 src/config/*
+!src/config/*.template.ts
 build/*
 
