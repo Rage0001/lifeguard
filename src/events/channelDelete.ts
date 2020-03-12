@@ -3,7 +3,7 @@ import { GuildChannel, TextChannel } from 'discord.js';
 import { createModlogEmbed } from '@lifeguard/util/createModlogEmbed';
 
 export const event = new Event(
-  'channelCreate',
+  'channelDelete',
   async (lifeguard, channel: GuildChannel) => {
     const dbGuild = await lifeguard.db.guilds.findById(channel.guild.id);
     if (dbGuild?.config.channels?.logging) {
@@ -12,7 +12,7 @@ export const event = new Event(
       ) as TextChannel;
 
       const auditLog = await channel.guild.fetchAuditLogs({
-        type: 'CHANNEL_CREATE',
+        type: 'CHANNEL_DELETE',
       });
       const auditLogEntry = auditLog.entries.first();
 
@@ -21,8 +21,8 @@ export const event = new Event(
           avatar: auditLogEntry?.executor.avatarURL() as string,
           tag: auditLogEntry?.executor.tag as string,
         },
-        event: 'Channel Create',
-        message: `:pencil: ${channel} **${channel.name}** (${channel.id})`,
+        event: 'Channel Delete',
+        message: `:pencil: #${channel.name} (${channel.id})`,
       });
 
       modlog.send(embed);
