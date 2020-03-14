@@ -49,7 +49,6 @@ export const command = new Command(
         msg,
         defaultEmbed,
         dbUser,
-        console,
       },
       { filename: msg.guild?.id.toString() }
     );

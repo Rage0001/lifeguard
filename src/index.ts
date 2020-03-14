@@ -18,14 +18,24 @@ PluginLoader().then(plugins => {
 lifeguard.db
   .connect()
   .then(() => {
-    console.log('Connected to MongoDB');
+    lifeguard.logger.info('Connected to MongoDB');
   })
-  .catch(err => console.error(err));
+  .catch(err => lifeguard.logger.error(err));
 
 lifeguard.login(token).then(() => {
   if (lifeguard.user) {
-    console.log(
+    lifeguard.logger.info(
       `Logged in to ${lifeguard.user.username}#${lifeguard.user.discriminator}`
     );
   }
+});
+
+process.on('uncaughtException', err => {
+  if (err.stack) {
+    lifeguard.logger.error(err.stack);
+  }
+});
+
+process.on('unhandledRejection', err => {
+  lifeguard.logger.error(JSON.stringify(err, null, 2));
 });

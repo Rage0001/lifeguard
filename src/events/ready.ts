@@ -3,7 +3,8 @@ import { promisify } from 'util';
 import { exec } from 'child_process';
 
 export const event = new Event('ready', async lifeguard => {
-  console.log('Connected to Discord');
+  // console.log('Connected to Discord');
+  lifeguard.logger.info('Connected to Discord');
   if (process.env.NODE_ENV !== 'DEV') {
     lifeguard.user?.setPresence({
       activity: {
