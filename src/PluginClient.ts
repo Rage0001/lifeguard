@@ -3,11 +3,24 @@ import { Plugin } from '@plugins/Plugin';
 import { Database } from '@util/Database';
 import { Client, ClientOptions, Collection } from 'discord.js';
 import { Level, Logger } from 'verborum';
+import { LifeguardEvents } from './events/Event';
+
+export interface PluginClient {
+  on<K extends keyof LifeguardEvents>(
+    event: K,
+    listener: (...args: LifeguardEvents[K]) => void
+  ): this;
+  once<K extends keyof LifeguardEvents>(
+    event: K,
+    listener: (...args: LifeguardEvents[K]) => void
+  ): this;
+}
 
 export class PluginClient extends Client {
   plugins!: Collection<string, Plugin>;
   db: Database;
   logger: Logger;
+
   constructor(options?: ClientOptions) {
     super(options);
     this.db = new Database({

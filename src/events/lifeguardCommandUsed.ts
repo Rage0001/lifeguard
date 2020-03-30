@@ -2,7 +2,7 @@ import { calcUserLevel } from '@assertions/userLevel';
 import { prefix } from '@config/bot';
 import { Event } from '@events/Event';
 import { PluginClient } from '@lifeguard/PluginClient';
-import { UserDoc } from '@models/User';
+import { UserDoc } from '@lifeguard/database/User';
 import { Message, Guild } from 'discord.js';
 
 function parseContent(content: string) {

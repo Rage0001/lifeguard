@@ -1,6 +1,6 @@
 import { Message, PermissionString } from 'discord.js';
 import { PluginClient } from '@lifeguard/PluginClient';
-import { UserDoc } from '@models/User';
+import { UserDoc } from '@lifeguard/database/User';
 
 type CommandFunction = (
   lifeguard: PluginClient,

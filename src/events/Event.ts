@@ -1,8 +1,26 @@
 import { PluginClient } from '../PluginClient';
+import {
+  ClientEvents,
+  Message,
+  MessageReaction,
+  GuildChannel,
+  User,
+} from 'discord.js';
+import { UserDoc } from '@lifeguard/database/User';
 
-// tslint:disable-next-line: no-any
-type EventFunc = (lifeguard: PluginClient, ...args: any[]) => void;
+export interface LifeguardEvents extends ClientEvents {
+  lifeguardCommandUsed: [Message, UserDoc];
+  starboardReactionAdd: [MessageReaction];
+  channelCreate: [GuildChannel];
+  channelDelete: [GuildChannel];
+  messageReactionAdd: [MessageReaction, User];
+}
 
-export class Event {
-  constructor(public name: string, public func: EventFunc) {}
+type EventFunc<K extends keyof LifeguardEvents> = (
+  lifeguard: PluginClient,
+  ...args: LifeguardEvents[K]
+) => void;
+
+export class Event<K extends keyof LifeguardEvents> {
+  constructor(public name: K, public func: EventFunc<K>) {}
 }
