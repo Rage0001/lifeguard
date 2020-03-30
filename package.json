@@ -32,7 +32,7 @@
   "dependencies": {
     "@types/mongodb": "^3.3.14",
     "@types/mongoose": "^5.7.1",
-    "discord.js": "github:discordjs/discord.js",
+    "discord.js": "^12.1.1",
     "module-alias": "^2.2.2",
     "mongodb": "^3.5.2",
     "mongoose": "^5.9.1",
