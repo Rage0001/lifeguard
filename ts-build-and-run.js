@@ -1,41 +1,44 @@
 #!/usr/bin/env node
 
 /* Modules */
-const chalk = require('chalk');
-const { spawn } = require('child_process');
-const { watch } = require('chokidar');
-const ora = require('ora');
-const { join, resolve } = require('path');
+const chalk = require("chalk");
+const { spawn } = require("child_process");
+const { watch } = require("chokidar");
+const ora = require("ora");
+const { platform } = require("os");
+const { join, resolve } = require("path");
+
+const isWin = platform() === "win32" ? ".cmd" : "";
 
 function tslint() {
   return new Promise(async (res, rej) => {
     const spinner = ora({
-      text: '(tslint): Starting TSLint',
-      color: 'gray',
+      text: "(tslint): Starting TSLint",
+      color: "gray"
     }).start();
 
     let cp = await spawn(
-      `${join(resolve(__dirname, 'node_modules'), '.bin', 'tslint')}`,
-      ['-p', resolve(__dirname)]
+      join(resolve(__dirname, "node_modules"), ".bin", `tslint${isWin}`),
+      ["-p", resolve(__dirname)]
     );
 
     const errors = [];
 
-    cp.stdout.setEncoding('utf8');
-    cp.stdout.on('data', data => {
+    cp.stdout.setEncoding("utf8");
+    cp.stdout.on("data", data => {
       const err = String(data).trim();
       errors.push(err);
       console.error(`(tslint): ${err}`);
     });
 
-    cp.stdout.on('end', () => {
+    cp.stdout.on("end", () => {
       if (errors.length <= 0) {
-        spinner.succeed('(tslint): Linting Successful');
+        spinner.succeed("(tslint): Linting Successful");
         res(cp);
       }
     });
 
-    cp.on('error', err => {
+    cp.on("error", err => {
       err ? rej(err) : null;
       spinner.fail(`(tslint): ${err.stack}`);
     });
@@ -45,34 +48,34 @@ function tslint() {
 function tsc() {
   return new Promise(async (res, rej) => {
     const spinner = ora({
-      text: '(tsc): Starting Build',
-      color: 'gray',
+      text: "(tsc): Starting Build",
+      color: "gray"
     }).start();
 
     let cp = await spawn(
-      `${join(resolve(__dirname, 'node_modules'), '.bin', 'tsc')}`,
-      ['-p', resolve(__dirname)]
+      join(resolve(__dirname, "node_modules"), ".bin", `tsc${isWin}`),
+      ["-p", resolve(__dirname)]
     );
 
     const errors = [];
 
-    cp.stdout.setEncoding('utf8');
-    cp.stdout.on('data', data => {
+    cp.stdout.setEncoding("utf8");
+    cp.stdout.on("data", data => {
       const err = String(data).trim();
       errors.push(err);
     });
 
-    cp.stdout.on('end', () => {
+    cp.stdout.on("end", () => {
       if (errors.length <= 0) {
-        spinner.succeed('(tsc): Build Successful');
+        spinner.succeed("(tsc): Build Successful");
         res(cp);
       } else {
-        spinner.fail('(tsc): Build Errored');
+        spinner.fail("(tsc): Build Errored");
         errors.forEach(err => console.log(err));
       }
     });
 
-    cp.on('error', err => {
+    cp.on("error", err => {
       err ? rej(err) : null;
       spinner.fail(`(tsc): ${err.stack}`);
     });
@@ -81,35 +84,35 @@ function tsc() {
 
 async function bot() {
   let cp = spawn(
-    'node',
-    [join(resolve(__dirname, 'build'), 'src', 'index.js')],
+    "node",
+    [join(resolve(__dirname, "build"), "src", "index.js")],
     {
       shell: true,
-      env: { FORCE_COLOR: true },
+      env: { FORCE_COLOR: true }
     }
   );
 
-  cp.stdout.setEncoding('utf8');
-  cp.stdout.on('data', data => {
+  cp.stdout.setEncoding("utf8");
+  cp.stdout.on("data", data => {
     const msg = String(data).trim();
     console.log(`(bot): ${msg}`);
   });
 
-  cp.on('error', err => {
+  cp.on("error", err => {
     err ? rej(err) : null;
-    console.error(`${chalk.red('✘')} (bot): ${err.stack}`);
+    console.error(`${chalk.red("✘")} (bot): ${err.stack}`);
   });
 
   return cp;
 }
 
-const watcher = watch(resolve(__dirname, 'src'), {
-  persistent: true,
+const watcher = watch(resolve(__dirname, "src"), {
+  persistent: true
 });
 
-const spinner = ora('Watching Files for Changes');
+const spinner = ora("Watching Files for Changes");
 
-watcher.once('ready', async () => {
+watcher.once("ready", async () => {
   let lint = await tslint();
   let build = await tsc();
   let p = await bot();
@@ -118,15 +121,15 @@ watcher.once('ready', async () => {
   console.log();
 
   process.stdin.resume();
-  process.stdin.setEncoding('utf8');
+  process.stdin.setEncoding("utf8");
 
   async function restart() {
     process.stdout.cursorTo(0, 0);
     process.stdout.clearScreenDown();
 
-    p.kill('SIGINT');
+    p.kill("SIGINT");
 
-    p.once('close', async () => {
+    p.once("close", async () => {
       lint.removeAllListeners();
       lint.unref();
       lint = await tslint();
@@ -143,25 +146,25 @@ watcher.once('ready', async () => {
       console.log();
 
       process.stdin.resume();
-      process.stdin.setEncoding('utf8');
+      process.stdin.setEncoding("utf8");
     });
   }
 
-  watcher.on('all', () => {
+  watcher.on("all", () => {
     process.stdout.cursorTo(0, 0);
     process.stdout.clearScreenDown();
-    console.log('Restarting due to File Changes');
+    console.log("Restarting due to File Changes");
     setTimeout(() => restart(), 2000);
   });
 
-  process.stdin.on('data', data => {
-    if (String(data).trim() === 'rs') {
-      watcher.emit('all');
+  process.stdin.on("data", data => {
+    if (String(data).trim() === "rs") {
+      watcher.emit("all");
     }
   });
 });
 
-watcher.on('error', err => {
+watcher.on("error", err => {
   spinner.fail();
   console.error(err.stack);
 });
