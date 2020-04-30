@@ -1,5 +1,5 @@
-import { defaultEmbed } from './DefaultEmbed';
-import { EmbedFieldData } from 'discord.js';
+import { defaultEmbed } from "./DefaultEmbed";
+import { EmbedFieldData, MessageEmbed } from "discord.js";
 
 interface ModlogEmbedActor {
   avatar: string;
@@ -13,7 +13,7 @@ interface ModlogEmbedContent {
   message?: string;
 }
 
-export function createModlogEmbed(content: ModlogEmbedContent) {
+export function createModlogEmbed(content: ModlogEmbedContent): MessageEmbed {
   return defaultEmbed()
     .setAuthor(content.actor.tag, content.actor.avatar)
     .setTitle(content.event)

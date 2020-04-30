@@ -1,15 +1,16 @@
-import { UserInfraction } from '@models/User';
 import { Command } from '@plugins/Command';
 import { parseUser } from '@util/parseUser';
+import { InfractionDoc } from '@lifeguard/database/Infraction';
+import { GuildMember } from 'discord.js';
 
-export const command = new Command(
+export const command: Command = new Command(
   'kick',
   async (lifeguard, msg, [uid, ...reason]) => {
     // Parse user id from mention
-    const u = parseUser(uid);
+    const u: string = parseUser(uid);
     try {
       // Create Infraction
-      const inf = await lifeguard.db.infractions.create({
+      const inf: InfractionDoc = await lifeguard.db.infractions.create({
         action: 'Kick',
         active: true,
         guild: msg.guild?.id as string,
@@ -18,8 +19,10 @@ export const command = new Command(
         user: u,
       });
 
+      lifeguard.pending.kicks.set(inf.user, inf.moderator);
+
       // Get User
-      const member = await msg.guild?.members.fetch(u);
+      const member: GuildMember | undefined = await msg.guild?.members.fetch(u);
       // Notify User about Action
       member?.send(
         `You have been kicked from **${msg.guild?.name}** for \`${inf.reason}\``

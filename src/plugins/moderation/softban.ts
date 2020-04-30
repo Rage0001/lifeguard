@@ -1,15 +1,16 @@
-import { UserInfraction } from '@models/User';
 import { Command } from '@plugins/Command';
 import { parseUser } from '@util/parseUser';
+import { InfractionDoc } from '@lifeguard/database/Infraction';
+import { GuildMember } from 'discord.js';
 
-export const command = new Command(
+export const command: Command = new Command(
   'softban',
   async (lifeguard, msg, [uid, ...reason]) => {
     // Parse user id from mention
-    const u = parseUser(uid);
+    const u: string = parseUser(uid);
     try {
       // Create Infraction
-      const inf = await lifeguard.db.infractions.create({
+      const inf: InfractionDoc = await lifeguard.db.infractions.create({
         action: 'Ban',
         active: true,
         guild: msg.guild?.id as string,
@@ -18,20 +19,27 @@ export const command = new Command(
         user: u,
       });
 
+      lifeguard.pending.bans.set(inf.user, inf.moderator);
+
       // Get User
-      const member = await msg.guild?.members.fetch(u);
+      const member: GuildMember | undefined = await msg.guild?.members.fetch(u);
       // Notify user of action
       member?.send(
-        `You have been soft-banned from **${msg.guild?.name}** for \`${inf.reason}`
+        `You have been soft-banned from **${msg.guild?.name}** for \`${
+          inf.reason ?? 'No Reason Specified'
+        }`
       );
       // Ban User
-      member?.ban({ reason: reason.join(' '), days: 7 });
+      await member?.ban({ reason: inf.reason, days: 7 });
       // Unban User
-      await msg.guild?.members.unban(u, reason.join(' '));
+      await msg.guild?.members.unban(u, inf.reason);
+      lifeguard.pending.unbans.set(inf.user, inf.moderator);
 
       // Tell moderator action was successfull
       msg.channel.send(
-        `${member?.user.tag} was soft-banned by ${msg.author.tag} for \`${inf.reason}`
+        `${member?.user.tag} was soft-banned by ${msg.author.tag} for \`${
+          inf.reason ?? 'No Reason Specified'
+        }`
       );
     } catch (err) {
       msg.channel.send(err.message);

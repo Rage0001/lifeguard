@@ -42,6 +42,12 @@ function tslint() {
       err ? rej(err) : null;
       spinner.fail(`(tslint): ${err.stack}`);
     });
+
+    cp.once("close", () => {
+      cp.stdout.removeAllListeners();
+      cp.removeAllListeners();
+      cp.unref();
+    });
   });
 }
 
@@ -79,6 +85,12 @@ function tsc() {
       err ? rej(err) : null;
       spinner.fail(`(tsc): ${err.stack}`);
     });
+
+    cp.once("close", () => {
+      cp.stdout.removeAllListeners();
+      cp.removeAllListeners();
+      cp.unref();
+    });
   });
 }
 
@@ -103,6 +115,12 @@ async function bot() {
     console.error(`${chalk.red("✘")} (bot): ${err.stack}`);
   });
 
+  cp.once("close", () => {
+    cp.stdout.removeAllListeners();
+    cp.removeAllListeners();
+    cp.unref();
+  });
+
   return cp;
 }
 
@@ -116,6 +134,7 @@ watcher.once("ready", async () => {
   let lint = await tslint();
   let build = await tsc();
   let p = await bot();
+
   console.log();
   spinner.start().succeed();
   console.log();
@@ -124,12 +143,10 @@ watcher.once("ready", async () => {
   process.stdin.setEncoding("utf8");
 
   async function restart() {
-    process.stdout.cursorTo(0, 0);
-    process.stdout.clearScreenDown();
+    p.once("restart", async () => {
+      process.stdout.cursorTo(0, 0);
+      process.stdout.clearScreenDown();
 
-    p.kill("SIGINT");
-
-    p.once("close", async () => {
       lint.removeAllListeners();
       lint.unref();
       lint = await tslint();
@@ -141,6 +158,7 @@ watcher.once("ready", async () => {
       p.removeAllListeners();
       p.unref();
       p = await bot();
+
       console.log();
       spinner.start().succeed();
       console.log();
@@ -148,6 +166,11 @@ watcher.once("ready", async () => {
       process.stdin.resume();
       process.stdin.setEncoding("utf8");
     });
+
+    p.kill("SIGINT");
+    if (p.killed) {
+      p.emit("restart");
+    }
   }
 
   watcher.on("all", () => {
@@ -159,7 +182,10 @@ watcher.once("ready", async () => {
 
   process.stdin.on("data", data => {
     if (String(data).trim() === "rs") {
-      watcher.emit("all");
+      process.stdout.cursorTo(0, 0);
+      process.stdout.clearScreenDown();
+      console.log("Restarting as requested by user");
+      setTimeout(() => restart(), 2000);
     }
   });
 });

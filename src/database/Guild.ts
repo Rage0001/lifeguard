@@ -1,6 +1,6 @@
 import { Document, Schema, model } from 'mongoose';
 
-interface GuildConfigStarboardMessage {
+export interface GuildConfigStarboardMessage {
   id: string;
   starboardID: string;
   count: number;
@@ -14,7 +14,7 @@ const guildConfigStarboardMessageSchema: Schema = new Schema({
   content: { type: String, required: true },
 });
 
-interface GuildConfigStarboard {
+export interface GuildConfigStarboard {
   emoji: string;
   minCount: number;
   ignoredChannels: string[];
@@ -28,7 +28,7 @@ const guildConfigStarboardSchema: Schema = new Schema({
   messages: { type: [guildConfigStarboardMessageSchema], default: [] },
 });
 
-interface GuildConfigRoles {
+export interface GuildConfigRoles {
   muted: string;
   moderator: string;
 }
@@ -38,12 +38,12 @@ const guildConfigRolesSchema: Schema = new Schema({
   moderator: { type: String, required: true, default: '' },
 });
 
-interface GuildConfigChannels {
+export interface GuildConfigChannels {
   logging: string;
   starboard: string;
 }
 
-interface GuildConfig {
+export interface GuildConfig {
   blacklisted: boolean;
   channels: GuildConfigChannels;
   enabledPlugins: string[];

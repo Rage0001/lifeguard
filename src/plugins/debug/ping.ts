@@ -1,28 +1,24 @@
-import { Command } from '@plugins/Command';
-import { defaultEmbed } from '@util/DefaultEmbed';
+import { Command } from "@plugins/Command";
+import { defaultEmbed } from "@util/DefaultEmbed";
+import { MessageEmbed } from "discord.js";
 
-export const command = new Command(
-  'ping',
+export const command: Command = new Command(
+  "ping",
   async (lifeguard, msg, args) => {
-    const m = await msg.channel.send('Ping?');
+    const m = await msg.channel.send("Ping?");
     m.delete({ timeout: 100 });
 
-    const embed = defaultEmbed()
-      .setTitle('Pong! :ping_pong:')
-      // .addField('Bot Latency', `${Math.round(lifeguard.ws.ping)}ms`)
-      // .addField(
-      //   'Message Latency',
-      //   `${m.createdTimestamp - msg.createdTimestamp}ms`
-      // )
+    const embed: MessageEmbed = defaultEmbed()
+      .setTitle("Pong! :ping_pong:")
       .addFields([
         {
-          name: 'Bot Latency',
-          value: `${Math.round(lifeguard.ws.ping)}ms`,
+          name: "Bot Latency",
+          value: `${Math.round(lifeguard.ws.ping)}ms`
         },
         {
-          name: 'Message Latency',
-          value: `${m.createdTimestamp - msg.createdTimestamp}ms`,
-        },
+          name: "Message Latency",
+          value: `${m.createdTimestamp - msg.createdTimestamp}ms`
+        }
       ])
       .setFooter(
         `Executed By ${msg.author.tag}`,
@@ -33,6 +29,6 @@ export const command = new Command(
   },
   {
     level: 0,
-    usage: ['ping'],
+    usage: ["ping"]
   }
 );

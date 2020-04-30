@@ -4,14 +4,11 @@ import { token } from '@config/bot';
 import { EventLoader } from '@events/eventLoader';
 import { PluginClient } from '@lifeguard/PluginClient';
 import { PluginLoader } from '@plugins/pluginLoader';
-import { StructureLoader } from '@structures/structureLoader';
 
-StructureLoader();
-
-const lifeguard = new PluginClient();
+const lifeguard: PluginClient = new PluginClient();
 
 EventLoader(lifeguard);
-PluginLoader().then(plugins => {
+PluginLoader().then((plugins) => {
   lifeguard.plugins = plugins;
 });
 
@@ -19,23 +16,32 @@ lifeguard.db
   .connect()
   .then(() => {
     lifeguard.logger.info('Connected to MongoDB');
+    lifeguard.login(token).then(() => {
+      if (lifeguard.user) {
+        lifeguard.logger.info(
+          `Logged in to ${lifeguard.user.username}#${lifeguard.user.discriminator}`
+        );
+      }
+    });
   })
-  .catch(err => lifeguard.logger.error(err));
+  .catch((err) => lifeguard.logger.error(err));
 
-lifeguard.login(token).then(() => {
-  if (lifeguard.user) {
-    lifeguard.logger.info(
-      `Logged in to ${lifeguard.user.username}#${lifeguard.user.discriminator}`
-    );
-  }
-});
-
-process.on('uncaughtException', err => {
+process.on('uncaughtException', (err) => {
   if (err.stack) {
     lifeguard.logger.error(err.stack);
   }
 });
 
-process.on('unhandledRejection', err => {
+process.on('SIGINT', () => {
+  lifeguard.logger.info('Received Ctrl-C, Shutting Down Gracefully');
+  lifeguard.destroy();
+  lifeguard.db.disconnect().then(() => {
+    process.exit();
+  });
+});
+
+process.on('unhandledRejection', (err) => {
+  console.log(err);
   lifeguard.logger.error(JSON.stringify(err, null, 2));
+  process.exit();
 });

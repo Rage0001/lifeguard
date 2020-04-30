@@ -1,10 +1,10 @@
 import { Command } from '@plugins/Command';
 import { parseUser } from '@util/parseUser';
 
-export const command = new Command(
+export const command: Command = new Command(
   'blacklist',
   async (lifeguard, msg, args) => {
-    const u = parseUser(args[0]);
+    const u: string = parseUser(args[0]);
     try {
       const res = await lifeguard.db.users.updateOne(
         { _id: u },

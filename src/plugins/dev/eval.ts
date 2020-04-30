@@ -1,9 +1,9 @@
-import { Command } from '@plugins/Command';
-import { defaultEmbed } from '@util/DefaultEmbed';
-import { inspect } from 'util';
-import { runInNewContext } from 'vm';
+import { Command } from "@plugins/Command";
+import { defaultEmbed } from "@util/DefaultEmbed";
+import { inspect } from "util";
+import { runInNewContext } from "vm";
 
-function parseBlock(script: string) {
+function parseBlock(script: string): string {
   const cbr = /^(([ \t]*`{3,4})([^\n]*)([\s\S]+?)(^[ \t]*\2))/gm;
   const result = cbr.exec(script);
   if (result) {
@@ -23,7 +23,7 @@ async function run(
       ctx,
       opts
     );
-    if (typeof result !== 'string') {
+    if (typeof result !== "string") {
       return inspect(result);
     }
     return result;
@@ -32,58 +32,54 @@ async function run(
   }
 }
 
-function makeCodeBlock(data: string, lang?: string) {
+function makeCodeBlock(data: string, lang?: string): string {
   return `\`\`\`${lang}\n${data}\n\`\`\``;
 }
 
-export const command = new Command(
-  'eval',
+export const command: Command = new Command(
+  "eval",
   async (lifeguard, msg, args, dbUser) => {
-    const start = Date.now();
+    const start: number = Date.now();
 
-    const script = parseBlock(args.join(' '));
-    const exec = await run(
+    const script: string = parseBlock(args.join(" "));
+    const exec: string | Error = await run(
       script,
       {
         lifeguard,
         msg,
         defaultEmbed,
-        dbUser,
+        dbUser
       },
       { filename: msg.guild?.id.toString() }
     );
 
-    const end = Date.now();
+    const end: number = Date.now();
 
-    if (typeof exec === 'string') {
+    if (typeof exec === "string") {
       const embed = defaultEmbed()
-        // .addField('Input', makeCodeBlock(script, 'js'))
-        // .addField('Output', makeCodeBlock(exec, 'js'))
         .addFields([
           {
-            name: 'Input',
-            value: makeCodeBlock(script, 'js'),
+            name: "Input",
+            value: makeCodeBlock(script, "js")
           },
           {
-            name: 'Output',
-            value: makeCodeBlock(exec, 'js'),
-          },
+            name: "Output",
+            value: makeCodeBlock(exec, "js")
+          }
         ])
         .setFooter(`Script Executed in ${end - start}ms`);
       msg.channel.send(embed);
     } else {
       const embed = defaultEmbed()
-        // .addField('Input', makeCodeBlock(script, 'js'))
-        // .addField('Output', makeCodeBlock(`${exec.name}: ${exec.message}`))
         .addFields([
           {
-            name: 'Input',
-            value: makeCodeBlock(script, 'js'),
+            name: "Input",
+            value: makeCodeBlock(script, "js")
           },
           {
-            name: 'Output',
-            value: makeCodeBlock(`${exec.name}: ${exec.message}`),
-          },
+            name: "Output",
+            value: makeCodeBlock(`${exec.name}: ${exec.message}`)
+          }
         ])
         .setFooter(`Script Executed in ${end - start}ms`);
       msg.channel.send(embed);
@@ -91,6 +87,6 @@ export const command = new Command(
   },
   {
     level: 5,
-    usage: ['eval {code}'],
+    usage: ["eval {code}"]
   }
 );

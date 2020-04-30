@@ -1,12 +1,12 @@
-import { Command } from '@plugins/Command';
-import { TextChannel } from 'discord.js';
+import { Command } from "@plugins/Command";
+import { TextChannel } from "discord.js";
 
-export const command = new Command(
-  'slowmode',
+export const command: Command = new Command(
+  "slowmode",
   async (lifeguard, msg, args) => {
     const [cmd, time] = args;
     switch (cmd) {
-      case 'set':
+      case "set":
         if (msg.guild) {
           (msg.channel as TextChannel).setRateLimitPerUser(+time);
           msg.channel.send(
@@ -15,7 +15,7 @@ export const command = new Command(
         }
         break;
 
-      case 'off':
+      case "off":
         if (msg.guild) {
           (msg.channel as TextChannel).setRateLimitPerUser(0);
           msg.channel.send(`Slowmode has been turned off`);
@@ -28,6 +28,6 @@ export const command = new Command(
   },
   {
     level: 1,
-    usage: ['slowmode set {time}', 'slowmode off'],
+    usage: ["slowmode set {time}", "slowmode off"]
   }
 );

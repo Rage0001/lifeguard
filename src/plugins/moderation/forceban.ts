@@ -1,60 +1,48 @@
-import { UserInfraction } from '@models/User';
 import { Command } from '@plugins/Command';
 import { parseUser } from '@util/parseUser';
 import { GuildMember, User } from 'discord.js';
+import { InfractionDoc } from '@lifeguard/database/Infraction';
 
-export const command = new Command(
+export const command: Command = new Command(
   'forceban',
   async (lifeguard, msg, [uid, ...reason]) => {
     // Parse user id from mention
-    const u = parseUser(uid);
+    const u: string = parseUser(uid);
     try {
-      // // Create Infraction
-      // const inf: UserInfraction = {
-      //   action: 'Ban',
-      //   active: true,
-      //   guild: msg.guild?.id as string,
-      //   id: (await lifeguard.db.users.findOne({ id: u }))?.infractions
-      //     .length as number,
-      //   moderator: msg.author.id,
-      //   reason: reason.join(' '),
-      //   time: new Date(),
-      // };
-
-      // // Update User in Database
-      // await lifeguard.db.users.findOneAndUpdate(
-      //   { id: u },
-      //   { $push: { infractions: inf } },
-      //   { returnOriginal: false }
-      // );
-
-      const inf = await lifeguard.db.infractions.create({
+      const inf: InfractionDoc = await lifeguard.db.infractions.create({
         action: 'Ban',
         active: true,
         guild: msg.guild?.id,
         moderator: msg.author.id,
+        reason: reason.join(' '),
         user: u,
       });
 
+      lifeguard.pending.bans.set(inf.user, inf.moderator);
+
       // Ban user from guild
-      const member = await msg.guild?.members.ban(u, {
+      const member:
+        | string
+        | User
+        | GuildMember
+        | undefined = await msg.guild?.members.ban(u, {
         reason: inf.reason,
       });
 
       // Retreive user tag
-      let tag;
+      let tag: string;
       if (member instanceof GuildMember) {
         tag = member.user.tag;
       } else if (member instanceof User) {
         tag = member.tag;
       } else {
-        tag = member;
+        tag = member as string;
       }
 
       // Tell moderator ban was successful
       msg.channel.send(
-        `${tag} was force-banned by ${msg.author.toString()} for \`${
-          inf.reason
+        `${tag} was force-banned by ${msg.author} for \`${
+          inf.reason ?? 'No Reason Specified'
         }\``
       );
     } catch (err) {
