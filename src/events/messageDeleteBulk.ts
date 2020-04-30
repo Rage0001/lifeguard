@@ -31,18 +31,19 @@ export const event = new Event(
       if (auditLogEntry.reason) {
         modlog.send(
           `:wastebasket: **${
-            (auditLogEntry.extra as any).count
-          } messages** in **#${auditLogEntry.target.name}** were deleted by **${
-            mod?.tag ?? auditLogEntry.executor.tag
-          }** for \`${auditLogEntry.reason}\``
+            (auditLogEntry.extra as { count: number }).count
+          } messages** in **#${
+            auditLogEntry.target.name
+          }** were deleted by **${mod?.tag ??
+            auditLogEntry.executor.tag}** for \`${auditLogEntry.reason}\``
         );
       } else {
         modlog.send(
           `:wastebasket: **${
-            (auditLogEntry.extra as any).count
-          } messages** in **#${auditLogEntry.target.name}** were deleted by **${
-            mod?.tag ?? auditLogEntry.executor.tag
-          }**`
+            (auditLogEntry.extra as { count: number }).count
+          } messages** in **#${
+            auditLogEntry.target.name
+          }** were deleted by **${mod?.tag ?? auditLogEntry.executor.tag}**`
         );
       }
     }

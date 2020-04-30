@@ -5,9 +5,9 @@ import { assert } from '@lifeguard/util/assert';
 
 interface Diff {
   op: string;
-  path: (string | number)[];
-  val: any;
-  oldVal?: any;
+  path: Array<string | number>;
+  val: string;
+  oldVal?: string;
 }
 
 export const event = new Event(
@@ -29,12 +29,12 @@ export const event = new Event(
       const orig = { ...oldMessage.toJSON() };
       const upd = { ...newMessage.toJSON() };
 
-      const diff = getDiff(orig, upd, true).filter((d) => d.op === 'update');
+      const diff = getDiff(orig, upd, true).filter(d => d.op === 'update');
 
       const ignoredKeys = ['editedTimestamp', 'cleanContent'];
 
       diff
-        .filter((d) => !ignoredKeys.includes(d.path.join('.')))
+        .filter(d => !ignoredKeys.includes(d.path.join('.')))
         .forEach((d: Diff) => {
           modlog.send(
             `:pencil: **#${newMessage.author?.tag}**'s message's ${d.path.join(

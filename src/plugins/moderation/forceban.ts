@@ -41,9 +41,8 @@ export const command: Command = new Command(
 
       // Tell moderator ban was successful
       msg.channel.send(
-        `${tag} was force-banned by ${msg.author} for \`${
-          inf.reason ?? 'No Reason Specified'
-        }\``
+        `${tag} was force-banned by ${msg.author} for \`${inf.reason ??
+          'No Reason Specified'}\``
       );
     } catch (err) {
       msg.channel.send(err.message);

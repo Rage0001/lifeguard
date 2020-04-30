@@ -8,7 +8,7 @@ import { PluginLoader } from '@plugins/pluginLoader';
 const lifeguard: PluginClient = new PluginClient();
 
 EventLoader(lifeguard);
-PluginLoader().then((plugins) => {
+PluginLoader().then(plugins => {
   lifeguard.plugins = plugins;
 });
 
@@ -24,9 +24,9 @@ lifeguard.db
       }
     });
   })
-  .catch((err) => lifeguard.logger.error(err));
+  .catch(err => lifeguard.logger.error(err));
 
-process.on('uncaughtException', (err) => {
+process.on('uncaughtException', err => {
   if (err.stack) {
     lifeguard.logger.error(err.stack);
   }
@@ -40,7 +40,7 @@ process.on('SIGINT', () => {
   });
 });
 
-process.on('unhandledRejection', (err) => {
+process.on('unhandledRejection', err => {
   console.log(err);
   lifeguard.logger.error(JSON.stringify(err, null, 2));
   process.exit();

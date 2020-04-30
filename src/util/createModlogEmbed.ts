@@ -1,5 +1,5 @@
-import { defaultEmbed } from "./DefaultEmbed";
-import { EmbedFieldData, MessageEmbed } from "discord.js";
+import { defaultEmbed } from './DefaultEmbed';
+import { EmbedFieldData, MessageEmbed } from 'discord.js';
 
 interface ModlogEmbedActor {
   avatar: string;

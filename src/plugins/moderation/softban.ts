@@ -25,9 +25,9 @@ export const command: Command = new Command(
       const member: GuildMember | undefined = await msg.guild?.members.fetch(u);
       // Notify user of action
       member?.send(
-        `You have been soft-banned from **${msg.guild?.name}** for \`${
-          inf.reason ?? 'No Reason Specified'
-        }`
+        `You have been soft-banned from **${
+          msg.guild?.name
+        }** for \`${inf.reason ?? 'No Reason Specified'}`
       );
       // Ban User
       await member?.ban({ reason: inf.reason, days: 7 });
@@ -37,9 +37,9 @@ export const command: Command = new Command(
 
       // Tell moderator action was successfull
       msg.channel.send(
-        `${member?.user.tag} was soft-banned by ${msg.author.tag} for \`${
-          inf.reason ?? 'No Reason Specified'
-        }`
+        `${member?.user.tag} was soft-banned by ${
+          msg.author.tag
+        } for \`${inf.reason ?? 'No Reason Specified'}`
       );
     } catch (err) {
       msg.channel.send(err.message);

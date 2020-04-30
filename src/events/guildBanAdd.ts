@@ -26,9 +26,9 @@ export const event = new Event(
       const mod = lifeguard.users.resolve(modID ?? '');
 
       modlog.send(
-        `:hammer: **${auditLogEntry.target.tag}** was banned by **${
-          mod?.tag ?? auditLogEntry.executor.tag
-        }** for \`${auditLogEntry.reason ?? 'No Reason Specified'}\``
+        `:hammer: **${auditLogEntry.target.tag}** was banned by **${mod?.tag ??
+          auditLogEntry.executor.tag}** for \`${auditLogEntry.reason ??
+          'No Reason Specified'}\``
       );
     }
   }

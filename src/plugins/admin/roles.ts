@@ -1,7 +1,7 @@
-import { Command } from "@plugins/Command";
+import { Command } from '@plugins/Command';
 
 export const command: Command = new Command(
-  "roles",
+  'roles',
   async (lifeguard, msg) => {
     const roleList: string[] | undefined = msg.guild?.roles?.cache
       .sort((ra, rb) => rb.position - ra.position)
@@ -15,7 +15,7 @@ export const command: Command = new Command(
         blocks[currentBlockIndex].length > 1990 ||
         blocks[currentBlockIndex].concat(`\n${r}`).length > 1990
       ) {
-        blocks.push("");
+        blocks.push('');
         currentBlockIndex++;
       }
 
@@ -26,6 +26,6 @@ export const command: Command = new Command(
   },
   {
     level: 1,
-    usage: ["roles"]
+    usage: ['roles'],
   }
 );

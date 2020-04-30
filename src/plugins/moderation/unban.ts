@@ -50,9 +50,9 @@ export const command: Command = new Command(
       await msg.guild?.members.unban(user.id, reason.join(' '));
       lifeguard.pending.unbans.set(user.id, msg.author.id);
       msg.channel.send(
-        `${user.tag} was unbanned by ${msg.author.tag} for \`${
-          reason.join(' ') ?? 'No Reason Specified'
-        }\``
+        `${user.tag} was unbanned by ${msg.author.tag} for \`${reason.join(
+          ' '
+        ) ?? 'No Reason Specified'}\``
       );
     } catch (err) {
       msg.channel.send(err.message);

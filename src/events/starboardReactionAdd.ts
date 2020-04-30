@@ -1,9 +1,9 @@
-import { Event } from "@events/Event";
-import { defaultEmbed } from "@util/DefaultEmbed";
-import { TextChannel, MessageReaction } from "discord.js";
+import { Event } from '@events/Event';
+import { defaultEmbed } from '@util/DefaultEmbed';
+import { TextChannel, MessageReaction } from 'discord.js';
 
 export const event = new Event(
-  "starboardReactionAdd",
+  'starboardReactionAdd',
   async (lifeguard, reaction: MessageReaction) => {
     const dbGuild = await lifeguard.db.guilds.findById(
       reaction.message.guild?.id
@@ -19,24 +19,21 @@ export const event = new Event(
       ) {
         console.log(reaction.count, starboard.minCount);
         if (reaction.count && reaction.count >= starboard.minCount) {
-          const starboardMessage = starboard.messages.find(m =>
-            m.id === reaction.message.id
+          const starboardMessage = starboard.messages.find(
+            m => m.id === reaction.message.id
           );
           if (starboardMessage) {
-            const starboardMessageInChannel = await starboardChannel.messages
-              .fetch(
-                starboardMessage.starboardID
-              );
+            const starboardMessageInChannel = await starboardChannel.messages.fetch(
+              starboardMessage.starboardID
+            );
             starboardMessage.count = reaction.count ?? starboardMessage.count;
             const embed = defaultEmbed()
               .setAuthor(
                 starboardMessageInChannel?.author.tag,
-                starboardMessageInChannel?.author.avatarURL() ?? ""
+                starboardMessageInChannel?.author.avatarURL() ?? ''
               )
               .setDescription(
-                `${reaction.message.content}\n\n ➥ [Jump To Message](https://discordapp.com/channels/${reaction
-                  .message.guild
-                  ?.id}/${reaction.message.channel.id}/${reaction.message.id})`
+                `${reaction.message.content}\n\n ➥ [Jump To Message](https://discordapp.com/channels/${reaction.message.guild?.id}/${reaction.message.channel.id}/${reaction.message.id})`
               );
             starboardMessageInChannel?.edit(
               `${starboard.emoji} ${reaction.count} ${reaction.message.channel} (${reaction.message.id})`,
@@ -46,12 +43,10 @@ export const event = new Event(
             const embed = defaultEmbed()
               .setAuthor(
                 reaction.message.author.tag,
-                reaction.message.author.avatarURL() ?? ""
+                reaction.message.author.avatarURL() ?? ''
               )
               .setDescription(
-                `${reaction.message.content}\n\n ➥ [Jump To Message](https://discordapp.com/channels/${reaction
-                  .message.guild
-                  ?.id}/${reaction.message.channel.id}/${reaction.message.id})`
+                `${reaction.message.content}\n\n ➥ [Jump To Message](https://discordapp.com/channels/${reaction.message.guild?.id}/${reaction.message.channel.id}/${reaction.message.id})`
               );
             const starboardMessage = await starboardChannel.send(
               `${starboard.emoji} ${reaction.count} ${reaction.message.channel} (${reaction.message.id})`,
@@ -61,7 +56,7 @@ export const event = new Event(
               id: reaction.message.id,
               starboardID: starboardMessage.id,
               content: reaction.message.content,
-              count: reaction.count ?? 0
+              count: reaction.count ?? 0,
             });
           }
           // await lifeguard.db.guilds.updateOne(
@@ -69,7 +64,7 @@ export const event = new Event(
           //   { $set: { 'config.starboard': starboard } }
           // );
           await lifeguard.db.guilds.findByIdAndUpdate(dbGuild._id, {
-            $set: { "config.starboard": starboard }
+            $set: { 'config.starboard': starboard },
           });
         }
       }

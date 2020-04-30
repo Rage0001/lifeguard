@@ -1,11 +1,11 @@
-import { Event } from "@events/Event";
-import { MessageReaction, User } from "discord.js";
+import { Event } from '@events/Event';
+import { MessageReaction, User } from 'discord.js';
 
 export const event = new Event(
-  "messageReactionAdd",
+  'messageReactionAdd',
   async (lifeguard, reaction: MessageReaction, user: User) => {
     await lifeguard.db.users.findByIdAndUpdate(user.id, {
-      $inc: { "stats.totalTimesReacted": 1 }
+      $inc: { 'stats.totalTimesReacted': 1 },
     });
 
     const dbGuild = await lifeguard.db.guilds.findById(
@@ -15,7 +15,7 @@ export const event = new Event(
       dbGuild?.config.channels.starboard &&
       reaction.emoji.name === dbGuild?.config.starboard?.emoji
     ) {
-      lifeguard.emit("starboardReactionAdd", reaction);
+      lifeguard.emit('starboardReactionAdd', reaction);
     }
   }
 );

@@ -22,7 +22,7 @@ export class Database {
 
   disconnect(): Promise<void> {
     return new Promise((res, rej) => {
-      disconnect((err) => {
+      disconnect(err => {
         if (err) {
           rej(err);
         } else {

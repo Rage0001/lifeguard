@@ -5,9 +5,9 @@ import { assert } from '@lifeguard/util/assert';
 
 interface Diff {
   op: string;
-  path: (string | number)[];
-  val: any;
-  oldVal?: any;
+  path: Array<string | number>;
+  val: string;
+  oldVal?: string;
 }
 
 export const event = new Event(
@@ -27,7 +27,7 @@ export const event = new Event(
       const auditLogEntry = auditLog.entries.first();
       const changes = auditLogEntry?.changes ?? [];
       if (changes.length > 0) {
-        changes.forEach((change) => {
+        changes.forEach(change => {
           modlog.send(
             `:pencil: **#${newMember.user?.tag}**'s ${change.key} was updated by **${auditLogEntry?.executor.tag}**.\n**Old:** ${change.old}\n**New:** ${change.new}`
           );
@@ -36,12 +36,12 @@ export const event = new Event(
         const orig = { ...oldMember.toJSON(), user: oldMember.user?.toJSON() };
         const upd = { ...newMember.toJSON(), user: newMember.user?.toJSON() };
 
-        const diff = getDiff(orig, upd, true).filter((d) => d.op === 'update');
+        const diff = getDiff(orig, upd, true).filter(d => d.op === 'update');
 
         const ignoredKeys = ['displayName'];
 
         diff
-          .filter((d) => !ignoredKeys.includes(d.path.join('.')))
+          .filter(d => !ignoredKeys.includes(d.path.join('.')))
           .forEach((d: Diff) => {
             modlog.send(
               `:pencil: **#${newMember.user?.tag}**'s ${d.path.join(

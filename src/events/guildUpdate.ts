@@ -16,7 +16,7 @@ export const event = new Event(
       });
       const auditLogEntry = auditLog.entries.first();
       const changes = auditLogEntry?.changes ?? [];
-      changes.forEach((change) => {
+      changes.forEach(change => {
         modlog.send(
           `:pencil: **${newGuild.name}**'s ${change.key} was updated by **${auditLogEntry?.executor.tag}**.\n**Old:** ${change.old}\n**New:** ${change.new}`
         );
