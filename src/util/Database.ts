@@ -20,7 +20,7 @@ export class Database {
     });
   }
 
-  disconnect(): Promise<any> {
+  disconnect(): Promise<void> {
     return new Promise((res, rej) => {
       disconnect((err) => {
         if (err) {
