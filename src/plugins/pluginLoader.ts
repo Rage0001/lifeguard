@@ -10,7 +10,7 @@ export async function PluginLoader() {
 
   const plugins: Collection<string, Plugin> = new Collection<string, Plugin>();
 
-  const pluginDir = './build/src/plugins';
+  const pluginDir = './build/plugins';
   const folders: string[] = await readDir(pluginDir);
   for await (const folder of folders) {
     const folderDir = `${pluginDir}/${folder}`;

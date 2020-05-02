@@ -46,14 +46,14 @@
     "verborum": "^1.6.1"
   },
   "_moduleAliases": {
-    "@lifeguard": "./build/src",
+    "@lifeguard": "./build",
     "@lifeguard/base": "./",
-    "@assertions": "./build/src/assertions",
-    "@config": "./build/src/config",
-    "@events": "./build/src/events",
-    "@models": "./build/src/models",
-    "@plugins": "./build/src/plugins",
-    "@structures": "./build/src/structures",
-    "@util": "./build/src/util"
+    "@assertions": "./build/assertions",
+    "@config": "./build/config",
+    "@events": "./build/events",
+    "@models": "./build/models",
+    "@plugins": "./build/plugins",
+    "@structures": "./build/structures",
+    "@util": "./build/util"
   }
 }

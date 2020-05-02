@@ -6,7 +6,7 @@ import { promisify } from 'util';
 const readDir = promisify(readdir);
 
 export async function EventLoader(lifeguard: PluginClient) {
-  const eventFiles = await readDir('./build/src/events');
+  const eventFiles = await readDir('./build/events');
 
   for await (const file of eventFiles) {
     if (file.endsWith('js') && file !== 'Event.js') {
