@@ -1,7 +1,7 @@
-import { Command } from '@plugins/Command';
-import { parseUser } from '@util/parseUser';
-import { InfractionDoc } from '@lifeguard/database/Infraction';
-import { GuildMember } from 'discord.js';
+import {Command} from '@plugins/Command';
+import {parseUser} from '@util/parseUser';
+import {InfractionDoc} from '@lifeguard/database/Infraction';
+import {GuildMember} from 'discord.js';
 
 export const command: Command = new Command(
   'ban',
@@ -27,17 +27,18 @@ export const command: Command = new Command(
 
       // Notify User about Action
       await member?.send(
-        `You have been banned from **${msg.guild?.name}** for \`${inf.reason ??
-          'No Reason Specified'}\``
+        `You have been banned from **${msg.guild?.name}** for \`${
+          inf.reason ?? 'No Reason Specified'
+        }\``
       );
       // Ban User
-      await member?.ban({ reason: inf.reason });
+      await member?.ban({reason: inf.reason});
 
       // Tell moderator action was successful
       msg.channel.send(
-        `${member?.user.tag} was banned by ${
-          msg.author.tag
-        } for \`${inf.reason ?? 'No Reason Specified'}\``
+        `${member?.user.tag} was banned by ${msg.author.tag} for \`${
+          inf.reason ?? 'No Reason Specified'
+        }\``
       );
     } catch (err) {
       msg.channel.send(err.message);

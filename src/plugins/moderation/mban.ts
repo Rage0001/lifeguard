@@ -1,5 +1,5 @@
-import { Command } from '@plugins/Command';
-import { command as ban } from '@plugins/moderation/ban';
+import {Command} from '@plugins/Command';
+import {command as ban} from '@plugins/moderation/ban';
 
 export const command: Command = new Command(
   'mban',

@@ -1,7 +1,7 @@
-import { Command } from '@plugins/Command';
-import { parseUser } from '@util/parseUser';
-import { InfractionDoc } from '@lifeguard/database/Infraction';
-import { GuildMember } from 'discord.js';
+import {Command} from '@plugins/Command';
+import {parseUser} from '@util/parseUser';
+import {InfractionDoc} from '@lifeguard/database/Infraction';
+import {GuildMember} from 'discord.js';
 
 export const command: Command = new Command(
   'softban',
@@ -25,21 +25,21 @@ export const command: Command = new Command(
       const member: GuildMember | undefined = await msg.guild?.members.fetch(u);
       // Notify user of action
       member?.send(
-        `You have been soft-banned from **${
-          msg.guild?.name
-        }** for \`${inf.reason ?? 'No Reason Specified'}`
+        `You have been soft-banned from **${msg.guild?.name}** for \`${
+          inf.reason ?? 'No Reason Specified'
+        }`
       );
       // Ban User
-      await member?.ban({ reason: inf.reason, days: 7 });
+      await member?.ban({reason: inf.reason, days: 7});
       // Unban User
       await msg.guild?.members.unban(u, inf.reason);
       lifeguard.pending.unbans.set(inf.user, inf.moderator);
 
       // Tell moderator action was successfull
       msg.channel.send(
-        `${member?.user.tag} was soft-banned by ${
-          msg.author.tag
-        } for \`${inf.reason ?? 'No Reason Specified'}`
+        `${member?.user.tag} was soft-banned by ${msg.author.tag} for \`${
+          inf.reason ?? 'No Reason Specified'
+        }`
       );
     } catch (err) {
       msg.channel.send(err.message);

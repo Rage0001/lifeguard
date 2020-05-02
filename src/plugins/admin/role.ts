@@ -1,6 +1,6 @@
-import { Command } from '@plugins/Command';
-import { parseUser } from '@util/parseUser';
-import { Role, GuildMember } from 'discord.js';
+import {Command} from '@plugins/Command';
+import {parseUser} from '@util/parseUser';
+import {Role, GuildMember} from 'discord.js';
 
 export const command: Command = new Command(
   'role',

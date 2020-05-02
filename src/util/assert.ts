@@ -1,4 +1,4 @@
-import { AssertionError } from 'assert';
+import {AssertionError} from 'assert';
 
 export function assert(assertion: boolean, msg: string): asserts assertion {
   if (!assertion) {

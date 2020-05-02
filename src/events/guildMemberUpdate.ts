@@ -1,7 +1,7 @@
-import { Event } from '@events/Event';
-import { TextChannel } from 'discord.js';
-import { getDiff } from 'recursive-diff';
-import { assert } from '@lifeguard/util/assert';
+import {Event} from '@events/Event';
+import {TextChannel} from 'discord.js';
+import {getDiff} from 'recursive-diff';
+import {assert} from '@lifeguard/util/assert';
 
 interface Diff {
   op: string;
@@ -33,8 +33,8 @@ export const event = new Event(
           );
         });
       } else {
-        const orig = { ...oldMember.toJSON(), user: oldMember.user?.toJSON() };
-        const upd = { ...newMember.toJSON(), user: newMember.user?.toJSON() };
+        const orig = {...oldMember.toJSON(), user: oldMember.user?.toJSON()};
+        const upd = {...newMember.toJSON(), user: newMember.user?.toJSON()};
 
         const diff = getDiff(orig, upd, true).filter(d => d.op === 'update');
 

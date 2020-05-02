@@ -1,5 +1,5 @@
-import { Command } from '@plugins/Command';
-import { parseUser } from '@util/parseUser';
+import {Command} from '@plugins/Command';
+import {parseUser} from '@util/parseUser';
 
 export const command: Command = new Command(
   'blacklist',
@@ -7,8 +7,8 @@ export const command: Command = new Command(
     const u: string = parseUser(args[0]);
     try {
       const res = await lifeguard.db.users.updateOne(
-        { _id: u },
-        { blacklisted: true }
+        {_id: u},
+        {blacklisted: true}
       );
       console.log(res);
       msg.channel.send(`<@${u}> was sucessfully blacklisted`);

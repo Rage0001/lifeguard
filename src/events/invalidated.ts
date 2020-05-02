@@ -1,6 +1,6 @@
-import { Event } from '@events/Event';
+import {Event} from '@events/Event';
 
 export const event = new Event('invalidated', async lifeguard => {
   lifeguard.logger.error('Client session has invalidated.');
-  process.exit();
+  throw new Error('Client session has invalidated.');
 });

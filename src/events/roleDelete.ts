@@ -1,6 +1,6 @@
-import { Event } from '@events/Event';
-import { TextChannel } from 'discord.js';
-import { assert } from '@lifeguard/util/assert';
+import {Event} from '@events/Event';
+import {TextChannel} from 'discord.js';
+import {assert} from '@lifeguard/util/assert';
 
 export const event = new Event('roleDelete', async (lifeguard, role) => {
   const dbGuild = await lifeguard.db.guilds.findById(role.guild.id);

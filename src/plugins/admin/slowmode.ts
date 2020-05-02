@@ -1,5 +1,5 @@
-import { Command } from '@plugins/Command';
-import { TextChannel } from 'discord.js';
+import {Command} from '@plugins/Command';
+import {TextChannel} from 'discord.js';
 
 export const command: Command = new Command(
   'slowmode',
@@ -18,7 +18,7 @@ export const command: Command = new Command(
       case 'off':
         if (msg.guild) {
           (msg.channel as TextChannel).setRateLimitPerUser(0);
-          msg.channel.send(`Slowmode has been turned off`);
+          msg.channel.send('Slowmode has been turned off');
         }
         break;
 

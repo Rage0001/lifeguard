@@ -1,12 +1,13 @@
 {
   "extends": "./node_modules/gts/tsconfig-google.json",
   "compilerOptions": {
-    "rootDir": "src",
+    "resolveJsonModule": true,
+    "rootDir": ".",
     "outDir": "build",
     "baseUrl": "./src",
     "paths": {
       "@lifeguard/*": ["./*"],
-      "@lifegaurd/base/*": ["../*"],
+      "@base/*": ["../*"],
       "@assertions/*": ["./assertions/*"],
       "@config/*": ["./config/*"],
       "@events/*": ["./events/*"],

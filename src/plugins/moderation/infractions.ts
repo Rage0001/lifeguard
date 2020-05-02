@@ -1,14 +1,14 @@
-import { Command } from '@plugins/Command';
-import { MessageAttachment, MessageEmbed } from 'discord.js';
-import { defaultEmbed } from '@lifeguard/util/DefaultEmbed';
-import { InfractionDoc } from '@lifeguard/database/Infraction';
+import {Command} from '@plugins/Command';
+import {MessageAttachment, MessageEmbed} from 'discord.js';
+import {defaultEmbed} from '@lifeguard/util/DefaultEmbed';
+import {InfractionDoc} from '@lifeguard/database/Infraction';
 
 export const command: Command = new Command(
   'infractions',
   async (lifeguard, msg, [cmd, ...args]) => {
     let infID: string;
     switch (cmd) {
-      case 'archive':
+      case 'archive': {
         const guildInfractions: InfractionDoc[] = await lifeguard.db.infractions.find(
           {
             guild: msg.guild?.id,
@@ -22,7 +22,8 @@ export const command: Command = new Command(
           )
         );
         break;
-      case 'info':
+      }
+      case 'info': {
         [infID] = args;
         if (!infID) {
           msg.channel.send('You must specify an infraction ID.');
@@ -35,7 +36,7 @@ export const command: Command = new Command(
           }
         );
         if (!inf) {
-          msg.channel.send(`No infraction could be found using that ID.`);
+          msg.channel.send('No infraction could be found using that ID.');
           break;
         }
         const embed: MessageEmbed = defaultEmbed()
@@ -51,15 +52,17 @@ export const command: Command = new Command(
           );
         msg.channel.send(embed);
         break;
-      case 'delete':
+      }
+      case 'delete': {
         [infID] = args;
         if (!infID) {
           msg.channel.send('You must specify an infraction ID.');
           break;
         }
-        await lifeguard.db.infractions.deleteOne({ id: +infID });
+        await lifeguard.db.infractions.deleteOne({id: +infID});
         msg.channel.send(`Successfully deleted infraction ${infID}`);
         break;
+      }
       default:
         break;
     }

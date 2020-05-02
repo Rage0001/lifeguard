@@ -1,6 +1,6 @@
-import { Event } from '@events/Event';
-import { TextChannel, User } from 'discord.js';
-import { assert } from '@lifeguard/util/assert';
+import {Event} from '@events/Event';
+import {TextChannel, User} from 'discord.js';
+import {assert} from '@lifeguard/util/assert';
 import * as dayjs from 'dayjs';
 
 function accountIsNew(creationTimestamp: number) {

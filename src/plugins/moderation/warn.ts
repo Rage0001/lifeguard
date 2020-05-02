@@ -1,7 +1,7 @@
-import { Command } from '@plugins/Command';
-import { parseUser } from '@util/parseUser';
-import { InfractionDoc } from '@lifeguard/database/Infraction';
-import { GuildMember } from 'discord.js';
+import {Command} from '@plugins/Command';
+import {parseUser} from '@util/parseUser';
+import {InfractionDoc} from '@lifeguard/database/Infraction';
+import {GuildMember} from 'discord.js';
 
 export const command: Command = new Command(
   'warn',

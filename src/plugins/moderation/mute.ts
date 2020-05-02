@@ -1,14 +1,14 @@
-import { Command } from '@plugins/Command';
-import { defaultEmbed } from '@util/DefaultEmbed';
-import { parseUser } from '@util/parseUser';
-import { InfractionDoc } from '@lifeguard/database/Infraction';
-import { GuildMember, MessageEmbed } from 'discord.js';
+import {Command} from '@plugins/Command';
+import {defaultEmbed} from '@util/DefaultEmbed';
+import {parseUser} from '@util/parseUser';
+import {InfractionDoc} from '@lifeguard/database/Infraction';
+import {GuildMember, MessageEmbed} from 'discord.js';
 
 export const command: Command = new Command(
   'mute',
   async (lifeguard, msg, [uid, ...reason]) => {
     // Get guild from db
-    const guild = await lifeguard.db.guilds.findOne({ id: msg.guild?.id });
+    const guild = await lifeguard.db.guilds.findOne({id: msg.guild?.id});
     // Check if muted role exists
     if (guild?.config.roles?.muted) {
       // Parse user id from mention

@@ -1,6 +1,6 @@
-import { Event } from '@events/Event';
-import { promisify } from 'util';
-import { exec } from 'child_process';
+import {Event} from '@events/Event';
+import {promisify} from 'util';
+import {exec} from 'child_process';
 
 export const event = new Event('ready', async lifeguard => {
   // console.log('Connected to Discord');
@@ -15,7 +15,7 @@ export const event = new Event('ready', async lifeguard => {
     });
   } else {
     const run = promisify(exec);
-    const { stdout: gitCommitString } = await run(
+    const {stdout: gitCommitString} = await run(
       "git log -n 1 --pretty='format:%C(auto)%h | %s'"
     );
     lifeguard.user?.setPresence({

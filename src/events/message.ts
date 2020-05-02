@@ -1,6 +1,6 @@
-import { prefix } from '@config/bot';
-import { Event } from '@events/Event';
-import { Message } from 'discord.js';
+import {prefix} from '@config/bot';
+import {Event} from '@events/Event';
+import {Message} from 'discord.js';
 
 export const event = new Event('message', async (lifeguard, msg: Message) => {
   let dbUser = await lifeguard.db.users.findById(msg.author.id);
@@ -41,7 +41,7 @@ export const event = new Event('message', async (lifeguard, msg: Message) => {
     dbUser.stats.totalSentAttachments += msg.attachments.size;
 
     await lifeguard.db.users.findByIdAndUpdate(dbUser._id, {
-      $set: { stats: dbUser.stats },
+      $set: {stats: dbUser.stats},
     });
   }
 

@@ -1,9 +1,9 @@
-import { calcUserLevel } from '@assertions/userLevel';
-import { prefix } from '@config/bot';
-import { Event } from '@events/Event';
-import { PluginClient } from '@lifeguard/PluginClient';
-import { UserDoc } from '@lifeguard/database/User';
-import { Message, Guild } from 'discord.js';
+import {calcUserLevel} from '@assertions/userLevel';
+import {prefix} from '@config/bot';
+import {Event} from '@events/Event';
+import {PluginClient} from '@lifeguard/PluginClient';
+import {UserDoc} from '@lifeguard/database/User';
+import {Message, Guild} from 'discord.js';
 
 function parseContent(content: string) {
   const split = content.split(' ');

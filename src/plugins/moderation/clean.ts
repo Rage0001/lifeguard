@@ -1,6 +1,6 @@
-import { Command } from '@plugins/Command';
-import { defaultEmbed } from '@util/DefaultEmbed';
-import { Collection, Message } from 'discord.js';
+import {Command} from '@plugins/Command';
+import {defaultEmbed} from '@util/DefaultEmbed';
+import {Collection, Message} from 'discord.js';
 
 export const command: Command = new Command(
   'clean',
@@ -33,7 +33,7 @@ export const command: Command = new Command(
         count = +c;
 
         messages = await msg.channel.messages.fetch({}, true);
-        messages = messages.filter((m) => m.author.bot).array();
+        messages = messages.filter(m => m.author.bot).array();
         messages.length = count;
         // messages.forEach(m => m.delete());
         await msg.channel.bulkDelete(messages, true);
@@ -52,7 +52,7 @@ export const command: Command = new Command(
         count = +c;
 
         messages = await msg.channel.messages.fetch({}, true);
-        messages = messages.filter((m) => m.author.id === id).array();
+        messages = messages.filter(m => m.author.id === id).array();
         messages.length = count + 1;
         // messages.forEach(m => m.delete());
         await msg.channel.bulkDelete(messages, true);
@@ -71,7 +71,7 @@ export const command: Command = new Command(
         count = +c;
 
         messages = await msg.channel.messages.fetch(
-          { before: id, limit: count },
+          {before: id, limit: count},
           true
         );
         // messages.forEach(m => m.delete());
@@ -91,7 +91,7 @@ export const command: Command = new Command(
         count = +c;
 
         messages = await msg.channel.messages.fetch(
-          count ? { after: id, limit: count } : { after: id },
+          count ? {after: id, limit: count} : {after: id},
           true
         );
         // messages.forEach(m => m.delete());
@@ -109,8 +109,8 @@ export const command: Command = new Command(
       case 'between':
         [firstID, secondID, ...reason] = args;
 
-        messages = await msg.channel.messages.fetch({ after: firstID }, true);
-        messages = messages.filter((m) => m.id <= secondID);
+        messages = await msg.channel.messages.fetch({after: firstID}, true);
+        messages = messages.filter(m => m.id <= secondID);
         // messages.forEach(m => m.delete());
         await msg.channel.bulkDelete(messages, true);
 

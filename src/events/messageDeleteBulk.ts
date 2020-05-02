@@ -1,6 +1,6 @@
-import { Event } from '@events/Event';
-import { assert } from '@lifeguard/util/assert';
-import { TextChannel, User, Message, GuildChannel } from 'discord.js';
+import {Event} from '@events/Event';
+import {assert} from '@lifeguard/util/assert';
+import {TextChannel, GuildChannel} from 'discord.js';
 
 export const event = new Event(
   'messageDeleteBulk',
@@ -31,19 +31,18 @@ export const event = new Event(
       if (auditLogEntry.reason) {
         modlog.send(
           `:wastebasket: **${
-            (auditLogEntry.extra as { count: number }).count
-          } messages** in **#${
-            auditLogEntry.target.name
-          }** were deleted by **${mod?.tag ??
-            auditLogEntry.executor.tag}** for \`${auditLogEntry.reason}\``
+            (auditLogEntry.extra as {count: number}).count
+          } messages** in **#${auditLogEntry.target.name}** were deleted by **${
+            mod?.tag ?? auditLogEntry.executor.tag
+          }** for \`${auditLogEntry.reason}\``
         );
       } else {
         modlog.send(
           `:wastebasket: **${
-            (auditLogEntry.extra as { count: number }).count
-          } messages** in **#${
-            auditLogEntry.target.name
-          }** were deleted by **${mod?.tag ?? auditLogEntry.executor.tag}**`
+            (auditLogEntry.extra as {count: number}).count
+          } messages** in **#${auditLogEntry.target.name}** were deleted by **${
+            mod?.tag ?? auditLogEntry.executor.tag
+          }**`
         );
       }
     }

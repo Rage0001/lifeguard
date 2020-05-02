@@ -1,16 +1,16 @@
-import { Command } from '@plugins/Command';
-import { t as typy } from 'typy';
-import { GuildDoc, GuildConfig } from '@lifeguard/database/Guild';
+import {Command} from '@plugins/Command';
+import {t as typy} from 'typy';
+import {GuildDoc, GuildConfig} from '@lifeguard/database/Guild';
 
 export const command = new Command(
   'config',
   async (lifeguard, msg, [cmd, ...args]) => {
     const path: string = args[0];
+    const guild: GuildDoc | null = await lifeguard.db.guilds.findById(
+      msg.guild?.id
+    );
     switch (cmd) {
       case 'get':
-        const guild: GuildDoc | null = await lifeguard.db.guilds.findById(
-          msg.guild?.id
-        );
         if (guild) {
           const config: GuildConfig = guild['config'];
           if (path) {
@@ -31,7 +31,7 @@ export const command = new Command(
 
       case 'set':
         await lifeguard.db.guilds.findByIdAndUpdate(msg.guild?.id, {
-          $set: { [`config.${path}`]: JSON.parse(args[1]) },
+          $set: {[`config.${path}`]: JSON.parse(args[1])},
         });
         msg.channel.send('Value has been set successfully');
         break;

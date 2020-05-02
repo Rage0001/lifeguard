@@ -1,5 +1,5 @@
-import { Command } from '@plugins/Command';
-import { command as kick } from '@plugins/moderation/kick';
+import {Command} from '@plugins/Command';
+import {command as kick} from '@plugins/moderation/kick';
 
 export const command: Command = new Command(
   'mkick',

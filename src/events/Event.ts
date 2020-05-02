@@ -1,4 +1,4 @@
-import { PluginClient } from '../PluginClient';
+import {PluginClient} from '../PluginClient';
 import {
   ClientEvents,
   Message,
@@ -6,7 +6,7 @@ import {
   GuildChannel,
   User,
 } from 'discord.js';
-import { UserDoc } from '@lifeguard/database/User';
+import {UserDoc} from '@lifeguard/database/User';
 
 export interface LifeguardEvents extends ClientEvents {
   lifeguardCommandUsed: [Message, UserDoc];

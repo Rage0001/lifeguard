@@ -1,7 +1,7 @@
-import { Command } from '@plugins/Command';
-import { defaultEmbed } from '@util/DefaultEmbed';
-import { inspect } from 'util';
-import { runInNewContext } from 'vm';
+import {Command} from '@plugins/Command';
+import {defaultEmbed} from '@util/DefaultEmbed';
+import {inspect} from 'util';
+import {runInNewContext} from 'vm';
 
 function parseBlock(script: string): string {
   const cbr = /^(([ \t]*`{3,4})([^\n]*)([\s\S]+?)(^[ \t]*\2))/gm;
@@ -50,7 +50,7 @@ export const command: Command = new Command(
         defaultEmbed,
         dbUser,
       },
-      { filename: msg.guild?.id.toString() }
+      {filename: msg.guild?.id.toString()}
     );
 
     const end: number = Date.now();

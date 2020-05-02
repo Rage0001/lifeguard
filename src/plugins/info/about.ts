@@ -1,35 +1,33 @@
-import { Command } from '@plugins/Command';
-import { exec } from 'child_process';
-import { MessageEmbed } from 'discord.js';
-import { platform, release, type } from 'os';
-import { resolve } from 'path';
-import { promisify } from 'util';
-import { defaultEmbed } from '@lifeguard/util/DefaultEmbed';
+import {Command} from '@plugins/Command';
+import {exec} from 'child_process';
+import {MessageEmbed} from 'discord.js';
+import {platform, release, type} from 'os';
+import {resolve} from 'path';
+import {promisify} from 'util';
+import {defaultEmbed} from '@lifeguard/util/DefaultEmbed';
 
 export const command: Command = new Command(
   'about',
-  async (lifeguard, msg, args) => {
+  async (_lifeguard, msg) => {
     // Convert child_process#exec to async/await
     const run = promisify(exec);
 
     // Get Git Commit ID
-    const { stdout: gitCommitID } = await run('git rev-parse HEAD', {
+    const {stdout: gitCommitID} = await run('git rev-parse HEAD', {
       cwd: resolve(__dirname),
     });
     const gitCommitURL = `https://github.com/lifeguardbot/lifeguard/commit/${gitCommitID}`;
 
     // Get Node Version
-    const { stdout: nodeVersion } = await run('node -v');
+    const {stdout: nodeVersion} = await run('node -v');
 
     // Get Discord.js Version
-    const { version: discordjsVersion } = require('discord.js/package.json');
+    const {version: discordjsVersion} = await import('discord.js/package.json');
 
     // Get Lifeguard Version
-    const {
-      version: lifeguardVersion,
-    } = require('@lifeguard/base/package.json');
+    const {version: lifeguardVersion} = await import('@base/package.json');
 
-    const { heapUsed, heapTotal } = process.memoryUsage();
+    const {heapUsed, heapTotal} = process.memoryUsage();
 
     const embed: MessageEmbed = defaultEmbed()
       .setTitle('About Lifeguard')

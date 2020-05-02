@@ -1,6 +1,6 @@
-import { Event } from '@events/Event';
-import { defaultEmbed } from '@util/DefaultEmbed';
-import { TextChannel, MessageReaction } from 'discord.js';
+import {Event} from '@events/Event';
+import {defaultEmbed} from '@util/DefaultEmbed';
+import {TextChannel, MessageReaction} from 'discord.js';
 
 export const event = new Event(
   'starboardReactionAdd',
@@ -64,7 +64,7 @@ export const event = new Event(
           //   { $set: { 'config.starboard': starboard } }
           // );
           await lifeguard.db.guilds.findByIdAndUpdate(dbGuild._id, {
-            $set: { 'config.starboard': starboard },
+            $set: {'config.starboard': starboard},
           });
         }
       }

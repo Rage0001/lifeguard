@@ -1,16 +1,16 @@
-import { calcUserLevel } from '@assertions/userLevel';
-import { Command } from '@plugins/Command';
-import { Plugin } from '@plugins/Plugin';
-import { defaultEmbed } from '@util/DefaultEmbed';
-import { Collection, Guild, GuildMember, MessageEmbed } from 'discord.js';
-import { PluginClient } from '@lifeguard/PluginClient';
+import {calcUserLevel} from '@assertions/userLevel';
+import {Command} from '@plugins/Command';
+import {Plugin} from '@plugins/Plugin';
+import {defaultEmbed} from '@util/DefaultEmbed';
+import {Collection, Guild, GuildMember, MessageEmbed} from 'discord.js';
+import {PluginClient} from '@lifeguard/PluginClient';
 
 async function convertPlugins(
   lifeguard: PluginClient,
   plugins: Collection<string, Plugin>,
   member: GuildMember,
   guild: Guild
-): Promise<Array<{ name: string; cmds: string[] } | null>> {
+): Promise<Array<{name: string; cmds: string[]} | null>> {
   const guildDB = await lifeguard.db.guilds.findById(guild.id);
   return plugins
     .map((plugin, key) => {
@@ -59,7 +59,7 @@ export const command: Command = new Command(
 
       for (const plugin of plugins) {
         if (plugin?.cmds && plugin.cmds.length > 0) {
-          embed.addFields({ name: plugin.name, value: plugin.cmds.join('\n') });
+          embed.addFields({name: plugin.name, value: plugin.cmds.join('\n')});
         }
       }
 
@@ -83,10 +83,10 @@ export const command: Command = new Command(
         );
         options.map(([key, val]) => {
           if (key === 'usage') {
-            embed.addFields({ name: key, value: val.join('\n') });
+            embed.addFields({name: key, value: val.join('\n')});
             return;
           }
-          embed.addFields({ name: key, value: `${val}` });
+          embed.addFields({name: key, value: `${val}`});
         });
 
         msg.channel.send(embed);

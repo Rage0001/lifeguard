@@ -1,8 +1,8 @@
-import { Command } from '@plugins/Command';
-import { defaultEmbed } from '@util/DefaultEmbed';
-import { parseUser } from '@util/parseUser';
-import { GuildDoc } from '@lifeguard/database/Guild';
-import { GuildMember, MessageEmbed } from 'discord.js';
+import {Command} from '@plugins/Command';
+import {defaultEmbed} from '@util/DefaultEmbed';
+import {parseUser} from '@util/parseUser';
+import {GuildDoc} from '@lifeguard/database/Guild';
+import {GuildMember, MessageEmbed} from 'discord.js';
 
 export const command: Command = new Command(
   'unmute',

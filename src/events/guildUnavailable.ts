@@ -1,7 +1,7 @@
-import { Event } from '@events/Event';
-import { TextChannel } from 'discord.js';
-import { systemLogChannel } from '@lifeguard/config/bot';
-import { assert } from '@lifeguard/util/assert';
+import {Event} from '@events/Event';
+import {TextChannel} from 'discord.js';
+import {systemLogChannel} from '@lifeguard/config/bot';
+import {assert} from '@lifeguard/util/assert';
 
 export const event = new Event('guildUnavailable', async (lifeguard, guild) => {
   const modlog = lifeguard.channels.resolve(systemLogChannel);

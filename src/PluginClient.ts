@@ -1,10 +1,10 @@
-import { name, url } from '@config/mongodb';
-import { Plugin } from '@plugins/Plugin';
-import { Database } from '@util/Database';
-import { Client, ClientOptions, Collection } from 'discord.js';
+import {name, url} from '@config/mongodb';
+import {Plugin} from '@plugins/Plugin';
+import {Database} from '@util/Database';
+import {Client, ClientOptions, Collection} from 'discord.js';
 import * as Cache from 'lru-cache';
-import { Level, Logger } from 'verborum';
-import { LifeguardEvents } from './events/Event';
+import {Level, Logger} from 'verborum';
+import {LifeguardEvents} from './events/Event';
 
 interface PendingCacheStore {
   bans: Cache<string, string>;

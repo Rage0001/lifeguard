@@ -1,12 +1,12 @@
-import { Command } from '@plugins/Command';
-import { defaultEmbed } from '@util/DefaultEmbed';
-import { MessageEmbed } from 'discord.js';
+import {Command} from '@plugins/Command';
+import {defaultEmbed} from '@util/DefaultEmbed';
+import {MessageEmbed} from 'discord.js';
 
 export const command: Command = new Command(
   'ping',
-  async (lifeguard, msg, args) => {
+  async (lifeguard, msg) => {
     const m = await msg.channel.send('Ping?');
-    m.delete({ timeout: 100 });
+    m.delete({timeout: 100});
 
     const embed: MessageEmbed = defaultEmbed()
       .setTitle('Pong! :ping_pong:')

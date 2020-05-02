@@ -1,7 +1,7 @@
-import { Command } from '@plugins/Command';
-import { parseUser } from '@util/parseUser';
-import { GuildMember, User } from 'discord.js';
-import { InfractionDoc } from '@lifeguard/database/Infraction';
+import {Command} from '@plugins/Command';
+import {parseUser} from '@util/parseUser';
+import {GuildMember, User} from 'discord.js';
+import {InfractionDoc} from '@lifeguard/database/Infraction';
 
 export const command: Command = new Command(
   'forceban',
@@ -41,8 +41,9 @@ export const command: Command = new Command(
 
       // Tell moderator ban was successful
       msg.channel.send(
-        `${tag} was force-banned by ${msg.author} for \`${inf.reason ??
-          'No Reason Specified'}\``
+        `${tag} was force-banned by ${msg.author} for \`${
+          inf.reason ?? 'No Reason Specified'
+        }\``
       );
     } catch (err) {
       msg.channel.send(err.message);

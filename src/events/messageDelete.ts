@@ -1,6 +1,6 @@
-import { Event } from '@events/Event';
-import { TextChannel } from 'discord.js';
-import { assert } from '@lifeguard/util/assert';
+import {Event} from '@events/Event';
+import {TextChannel} from 'discord.js';
+import {assert} from '@lifeguard/util/assert';
 
 export const event = new Event('messageDelete', async (lifeguard, message) => {
   const dbGuild = await lifeguard.db.guilds.findById(message.guild?.id);

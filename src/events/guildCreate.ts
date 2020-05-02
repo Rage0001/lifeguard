@@ -1,7 +1,7 @@
-import { Event } from '@events/Event';
-import { Guild, TextChannel } from 'discord.js';
-import { systemLogChannel } from '@lifeguard/config/bot';
-import { assert } from '@lifeguard/util/assert';
+import {Event} from '@events/Event';
+import {Guild, TextChannel} from 'discord.js';
+import {systemLogChannel} from '@lifeguard/config/bot';
+import {assert} from '@lifeguard/util/assert';
 
 export const event = new Event(
   'guildCreate',

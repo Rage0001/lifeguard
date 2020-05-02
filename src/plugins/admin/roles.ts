@@ -1,4 +1,4 @@
-import { Command } from '@plugins/Command';
+import {Command} from '@plugins/Command';
 
 export const command: Command = new Command(
   'roles',
