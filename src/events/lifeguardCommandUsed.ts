@@ -1,9 +1,10 @@
-import {calcUserLevel} from '@assertions/userLevel';
-import {prefix} from '@config/bot';
+import {Guild, Message} from 'discord.js';
+
 import {Event} from '@events/Event';
 import {PluginClient} from '@lifeguard/PluginClient';
 import {UserDoc} from '@lifeguard/database/User';
-import {Message, Guild} from 'discord.js';
+import {calcUserLevel} from '@assertions/userLevel';
+import {prefix} from '@config/bot';
 
 function parseContent(content: string) {
   const split = content.split(' ');
@@ -20,7 +21,10 @@ async function getCommandFromPlugin(
   const guildDB = await lifeguard.db.guilds.findById(guild.id);
   const plugin = lifeguard.plugins.find(p => p.has(cmdName));
   if (plugin) {
-    if (guildDB?.config.enabledPlugins?.includes(plugin.name)) {
+    if (
+      guildDB?.config.plugins.has(plugin.name) &&
+      guildDB?.config.plugins.get(plugin.name)?.enabled
+    ) {
       return plugin?.get(cmdName);
     } else {
       return undefined;
@@ -32,7 +36,10 @@ async function getCommandFromPlugin(
         if (p.name === 'dev') {
           return [...p.values()];
         }
-        if (guildDB?.config.enabledPlugins?.includes(p.name)) {
+        if (
+          guildDB?.config.plugins.has(p.name) &&
+          guildDB?.config.plugins.get(p.name)?.enabled
+        ) {
           return [...p.values()];
         } else {
           return [];

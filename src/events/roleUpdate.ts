@@ -1,7 +1,10 @@
+import {Guild, GuildAuditLogsFetchOptions, User} from 'discord.js';
+
 import {Event} from '@events/Event';
-import {TextChannel} from 'discord.js';
-import {getDiff} from 'recursive-diff';
 import {assert} from '@lifeguard/util/assert';
+import {getDiff} from 'recursive-diff';
+import {strFmt} from '@lifeguard/util/strFmt';
+import {toSnake} from '@lifeguard/util/camelToSnake';
 
 interface Diff {
   op: string;
@@ -13,43 +16,60 @@ interface Diff {
 export const event = new Event(
   'roleUpdate',
   async (lifeguard, oldRole, newRole) => {
-    const dbGuild = await lifeguard.db.guilds.findById(newRole.guild.id);
-    if (dbGuild?.config.channels?.logging) {
-      const modlog = newRole.guild.channels.resolve(
-        dbGuild.config.channels.logging
-      );
+    assert(newRole.guild instanceof Guild, `${newRole.guild} is not a Guild`);
 
-      assert(modlog instanceof TextChannel, `${modlog} is not a TextChannel`);
+    const logChannels = await lifeguard.getLogChannels(
+      newRole.guild.id,
+      event.name
+    );
 
-      const auditLog = await newRole.guild.fetchAuditLogs({
-        type: 'ROLE_UPDATE',
+    logChannels.forEach(async modlog => {
+      const auditLog = await modlog.guild.fetchAuditLogs({
+        type: toSnake(event.name) as GuildAuditLogsFetchOptions['type'],
       });
       const auditLogEntry = auditLog.entries.first();
+
+      const orig = {...oldRole.toJSON()};
+      const upd = {...newRole.toJSON()};
+
+      const diff = getDiff(orig, upd, true).filter(d => d.op === 'update');
+      const ignoredKeys = [''];
+
       const changes = auditLogEntry?.changes ?? [];
-      if (changes.length > 0) {
-        changes.forEach(change => {
+      changes.forEach(change => {
+        assert(
+          auditLogEntry?.executor instanceof User,
+          `${auditLogEntry?.executor} is not a User`
+        );
+
+        modlog.send(
+          strFmt(
+            ":pencil: **@${role}**'s ${change} was updated by **${user}**.\n**Old:** ${oldVal}\n**New:** ${val}",
+            {
+              role: newRole.name,
+              change: change.key,
+              user: auditLogEntry.executor.tag,
+              oldVal: change.old,
+              val: change.new,
+            }
+          )
+        );
+      });
+      diff
+        .filter(d => !ignoredKeys.includes(d.path.join('.')))
+        .forEach((d: Diff) => {
           modlog.send(
-            `:pencil: **@${newRole.name}**'s ${change.key} was updated by **${auditLogEntry?.executor.tag}**.\n**Old:** ${change.old}\n**New:** ${change.new}`
+            strFmt(
+              ":pencil: **@${role}**'s ${change} was updated.\n**Old:** ${oldVal}\n**New:** ${val}",
+              {
+                role: newRole.name,
+                change: d.path.join('.'),
+                oldVal: JSON.stringify(d.oldVal),
+                val: JSON.stringify(d.val),
+              }
+            )
           );
         });
-      } else {
-        const orig = {...oldRole.toJSON()};
-        const upd = {...newRole.toJSON()};
-
-        const diff = getDiff(orig, upd, true).filter(d => d.op === 'update');
-
-        const ignoredKeys: string[] = [];
-
-        diff
-          .filter(d => !ignoredKeys.includes(d.path.join('.')))
-          .forEach((d: Diff) => {
-            modlog.send(
-              `:pencil: **@${newRole.name}**'s ${d.path.join(
-                '.'
-              )} was updated.\n**Old:** ${d.oldVal}\n**New:** ${d.val}`
-            );
-          });
-      }
-    }
+    });
   }
 );

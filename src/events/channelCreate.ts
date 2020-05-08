@@ -1,26 +1,24 @@
 import {Event} from '@events/Event';
-import {GuildChannel, TextChannel} from 'discord.js';
-import {assert} from '@lifeguard/util/assert';
+import {GuildAuditLogsFetchOptions} from 'discord.js';
+import {strFmt} from '@lifeguard/util/strFmt';
+import {toSnake} from '@lifeguard/util/camelToSnake';
 
-export const event = new Event(
-  'channelCreate',
-  async (lifeguard, channel: GuildChannel) => {
-    const dbGuild = await lifeguard.db.guilds.findById(channel.guild?.id);
-    if (dbGuild?.config.channels?.logging) {
-      const modlog = channel.guild.channels.resolve(
-        dbGuild.config.channels.logging
-      );
+export const event = new Event('channelCreate', async (lifeguard, channel) => {
+  const logChannels = await lifeguard.getLogChannels(
+    channel.guild.id,
+    event.name
+  );
 
-      assert(modlog instanceof TextChannel, `${modlog} is not a TextChannel`);
-
-      const auditLog = await channel.guild.fetchAuditLogs({
-        type: 'CHANNEL_CREATE',
-      });
-      const auditLogEntry = auditLog.entries.first();
-
-      modlog.send(
-        `:new: **#${channel.name}** was created by **${auditLogEntry?.executor.tag}**`
-      );
-    }
-  }
-);
+  logChannels.forEach(async modlog => {
+    const auditLog = await modlog.guild.fetchAuditLogs({
+      type: toSnake(event.name) as GuildAuditLogsFetchOptions['type'],
+    });
+    const auditLogEntry = auditLog.entries.first();
+    modlog.send(
+      strFmt(':new: **#{name}** was created by **{user}**.', {
+        name: channel.name,
+        user: auditLogEntry?.executor.tag as string,
+      })
+    );
+  });
+});

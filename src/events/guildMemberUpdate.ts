@@ -1,7 +1,8 @@
 import {Event} from '@events/Event';
-import {TextChannel} from 'discord.js';
-import {getDiff} from 'recursive-diff';
+import {User} from 'discord.js';
 import {assert} from '@lifeguard/util/assert';
+import {getDiff} from 'recursive-diff';
+import {strFmt} from '@lifeguard/util/strFmt';
 
 interface Diff {
   op: string;
@@ -13,23 +14,36 @@ interface Diff {
 export const event = new Event(
   'guildMemberUpdate',
   async (lifeguard, oldMember, newMember) => {
-    const dbGuild = await lifeguard.db.guilds.findById(newMember.guild.id);
-    if (dbGuild?.config.channels?.logging) {
-      const modlog = newMember.guild.channels.resolve(
-        dbGuild.config.channels.logging
-      );
+    const logChannels = await lifeguard.getLogChannels(
+      newMember.guild.id,
+      event.name
+    );
 
-      assert(modlog instanceof TextChannel, `${modlog} is not a TextChannel`);
-
-      const auditLog = await newMember.guild.fetchAuditLogs({
+    logChannels.forEach(async modlog => {
+      const auditLog = await modlog.guild.fetchAuditLogs({
         type: 'MEMBER_UPDATE',
       });
+
       const auditLogEntry = auditLog.entries.first();
       const changes = auditLogEntry?.changes ?? [];
+
       if (changes.length > 0) {
         changes.forEach(change => {
+          assert(
+            newMember.user instanceof User,
+            `${newMember.user} is not a User`
+          );
           modlog.send(
-            `:pencil: **#${newMember.user?.tag}**'s ${change.key} was updated by **${auditLogEntry?.executor.tag}**.\n**Old:** ${change.old}\n**New:** ${change.new}`
+            strFmt(
+              ":pencil: **{member}**'s ${change} was updated by {user}.\n**Old:** ${oldVal}\n**New:** ${val}",
+              {
+                member: newMember.user.tag,
+                change: change.key,
+                user: auditLogEntry?.executor.tag as string,
+                oldVal: change.old,
+                val: change.new,
+              }
+            )
           );
         });
       } else {
@@ -37,19 +51,29 @@ export const event = new Event(
         const upd = {...newMember.toJSON(), user: newMember.user?.toJSON()};
 
         const diff = getDiff(orig, upd, true).filter(d => d.op === 'update');
-
         const ignoredKeys = ['displayName'];
 
         diff
           .filter(d => !ignoredKeys.includes(d.path.join('.')))
           .forEach((d: Diff) => {
+            assert(
+              newMember.user instanceof User,
+              `${newMember.user} is not a User`
+            );
+
             modlog.send(
-              `:pencil: **#${newMember.user?.tag}**'s ${d.path.join(
-                '.'
-              )} was updated.\n**Old:** ${d.oldVal}\n**New:** ${d.val}`
+              strFmt(
+                ":pencil: **{member}**'s ${change} was updated.\n**Old:** ${oldVal}\n**New:** ${val}",
+                {
+                  member: newMember.user.tag,
+                  change: d.path.join('.'),
+                  oldVal: d.oldVal as string,
+                  val: d.val as string,
+                }
+              )
             );
           });
       }
-    }
+    });
   }
 );

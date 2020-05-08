@@ -1,32 +1,36 @@
 import {Event} from '@events/Event';
+import {User} from 'discord.js';
 import {assert} from '@lifeguard/util/assert';
-import {TextChannel, User} from 'discord.js';
+import {strFmt} from '@lifeguard/util/strFmt';
 
-export const event = new Event('guildBanAdd', async (lifeguard, guild) => {
-  const dbGuild = await lifeguard.db.guilds.findById(guild.id);
-  if (dbGuild?.config.channels?.logging) {
-    const modlog = guild.channels.resolve(dbGuild.config.channels.logging);
+export const event = new Event(
+  'guildBanAdd',
+  async (lifeguard, guild, user) => {
+    const logChannels = await lifeguard.getLogChannels(guild.id, event.name);
 
-    assert(modlog instanceof TextChannel, `${modlog} is not a TextChannel`);
+    logChannels.forEach(async modlog => {
+      const auditLog = await modlog.guild.fetchAuditLogs({
+        type: 'MEMBER_BAN_ADD',
+      });
+      const auditLogEntry = auditLog.entries.first();
 
-    const auditLog = await guild.fetchAuditLogs({
-      type: 'MEMBER_BAN_ADD',
+      assert(
+        auditLogEntry?.target instanceof User,
+        `${auditLogEntry?.target} is not a User`
+      );
+
+      const modID = lifeguard.pending.bans.get(auditLogEntry.target.id);
+      const mod = lifeguard.users.resolve(modID ?? auditLogEntry.executor.id);
+
+      assert(mod instanceof User, `${mod} is not a User`);
+
+      modlog.send(
+        strFmt(':hammer: **{name}** was banned by **{mod}** for `{reason}`.', {
+          name: auditLogEntry.target.tag ?? user.tag,
+          mod: mod.tag,
+          reason: auditLogEntry.reason ?? 'No Reason Specified',
+        })
+      );
     });
-
-    const auditLogEntry = auditLog.entries.first();
-
-    assert(
-      auditLogEntry?.target instanceof User,
-      `${auditLogEntry?.target} is not a user`
-    );
-
-    const modID = lifeguard.pending.bans.get(auditLogEntry.target.id);
-    const mod = lifeguard.users.resolve(modID ?? '');
-
-    modlog.send(
-      `:hammer: **${auditLogEntry.target.tag}** was banned by **${
-        mod?.tag ?? auditLogEntry.executor.tag
-      }** for \`${auditLogEntry.reason ?? 'No Reason Specified'}\``
-    );
   }
-});
+);

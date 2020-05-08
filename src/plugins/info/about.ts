@@ -1,10 +1,11 @@
-import {Command} from '@plugins/Command';
-import {exec} from 'child_process';
-import {MessageEmbed} from 'discord.js';
 import {platform, release, type} from 'os';
-import {resolve} from 'path';
-import {promisify} from 'util';
+
+import {Command} from '@plugins/Command';
+import {MessageEmbed} from 'discord.js';
 import {defaultEmbed} from '@lifeguard/util/DefaultEmbed';
+import {exec} from 'child_process';
+import {promisify} from 'util';
+import {resolve} from 'path';
 
 export const command: Command = new Command(
   'about',

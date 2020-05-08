@@ -1,9 +1,10 @@
-import {calcUserLevel} from '@assertions/userLevel';
+import {Collection, Guild, GuildMember, MessageEmbed} from 'discord.js';
+
 import {Command} from '@plugins/Command';
 import {Plugin} from '@plugins/Plugin';
-import {defaultEmbed} from '@util/DefaultEmbed';
-import {Collection, Guild, GuildMember, MessageEmbed} from 'discord.js';
 import {PluginClient} from '@lifeguard/PluginClient';
+import {calcUserLevel} from '@assertions/userLevel';
+import {defaultEmbed} from '@util/DefaultEmbed';
 
 async function convertPlugins(
   lifeguard: PluginClient,
@@ -13,10 +14,10 @@ async function convertPlugins(
 ): Promise<Array<{name: string; cmds: string[]} | null>> {
   const guildDB = await lifeguard.db.guilds.findById(guild.id);
   return plugins
-    .map((plugin, key) => {
-      if (guildDB?.config.enabledPlugins?.includes(plugin.name)) {
+    .map(plugin => {
+      if (guildDB?.config.plugins.has(plugin.name)) {
         return {
-          name: key,
+          name: plugin.name,
           cmds: [...plugin.values()]
             .filter(cmd => !cmd.options.hidden)
             .filter(cmd => calcUserLevel(member, guild) >= cmd.options.level)

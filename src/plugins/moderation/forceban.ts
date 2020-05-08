@@ -1,7 +1,8 @@
-import {Command} from '@plugins/Command';
-import {parseUser} from '@util/parseUser';
 import {GuildMember, User} from 'discord.js';
+
+import {Command} from '@plugins/Command';
 import {InfractionDoc} from '@lifeguard/database/Infraction';
+import {parseUser} from '@util/parseUser';
 
 export const command: Command = new Command(
   'forceban',

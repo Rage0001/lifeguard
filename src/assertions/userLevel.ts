@@ -1,4 +1,4 @@
-import {GuildMember, Guild} from 'discord.js';
+import {Guild, GuildMember} from 'discord.js';
 import {developers} from '@config/bot';
 
 export function calcUserLevel(user: GuildMember, guild: Guild) {

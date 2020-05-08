@@ -1,5 +1,6 @@
-import {Command} from '@plugins/Command';
 import {Collection, Message} from 'discord.js';
+
+import {Command} from '@plugins/Command';
 
 export const command: Command = new Command(
   'archive',

@@ -1,25 +1,32 @@
-import {Event} from '@events/Event';
-import {Guild, TextChannel} from 'discord.js';
-import {systemLogChannel} from '@lifeguard/config/bot';
-import {assert} from '@lifeguard/util/assert';
+import {ClientUser, TextChannel} from 'discord.js';
 
-export const event = new Event(
-  'guildDelete',
-  async (lifeguard, guild: Guild) => {
-    lifeguard.user?.setPresence({
+import {Event} from '@events/Event';
+import {assert} from '@lifeguard/util/assert';
+import {strFmt} from '@lifeguard/util/strFmt';
+import {systemLogChannel} from '@lifeguard/config/bot';
+
+export const event = new Event('guildCreate', (lifeguard, guild) => {
+  const modlog = lifeguard.channels.resolve(systemLogChannel);
+  assert(modlog instanceof TextChannel, `${modlog} is not a TextChannel`);
+  if (lifeguard.readyTimestamp) {
+    assert(
+      lifeguard.user instanceof ClientUser,
+      `${lifeguard.user} is not a ClientUser`
+    );
+
+    lifeguard.user.setPresence({
       activity: {
         name: `${lifeguard.users.cache.size} people in the pool`,
         type: 'WATCHING',
       },
       status: 'online',
     });
-    const modlog = lifeguard.channels.resolve(systemLogChannel);
-    assert(
-      modlog instanceof TextChannel,
-      `${systemLogChannel} is not a TextChannel`
-    );
+
     modlog.send(
-      `:outbox_tray: **${lifeguard.user?.tag}** has left **${guild.name}**`
+      strFmt(':inbox_tray: **{lifeguard}** has left **{name}**.', {
+        lifeguard: lifeguard.user.tag,
+        name: guild.name,
+      })
     );
   }
-);
+});

@@ -1,8 +1,9 @@
+import {GuildMember, MessageEmbed} from 'discord.js';
+
 import {Command} from '@plugins/Command';
+import {InfractionDoc} from '@lifeguard/database/Infraction';
 import {defaultEmbed} from '@util/DefaultEmbed';
 import {parseUser} from '@util/parseUser';
-import {InfractionDoc} from '@lifeguard/database/Infraction';
-import {GuildMember, MessageEmbed} from 'discord.js';
 
 export const command: Command = new Command(
   'mute',

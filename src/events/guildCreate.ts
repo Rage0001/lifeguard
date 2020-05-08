@@ -1,46 +1,36 @@
+import {ClientUser, TextChannel} from 'discord.js';
+
 import {Event} from '@events/Event';
-import {Guild, TextChannel} from 'discord.js';
-import {systemLogChannel} from '@lifeguard/config/bot';
 import {assert} from '@lifeguard/util/assert';
+import {strFmt} from '@lifeguard/util/strFmt';
+import {systemLogChannel} from '@lifeguard/config/bot';
 
-export const event = new Event(
-  'guildCreate',
-  async (lifeguard, guild: Guild) => {
-    const modlog = lifeguard.channels.resolve(systemLogChannel);
+export const event = new Event('guildCreate', (lifeguard, guild) => {
+  const modlog = lifeguard.channels.resolve(systemLogChannel);
+  assert(modlog instanceof TextChannel, `${modlog} is not a TextChannel`);
+  if (lifeguard.readyTimestamp) {
     assert(
-      modlog instanceof TextChannel,
-      `${systemLogChannel} is not a TextChannel`
+      lifeguard.user instanceof ClientUser,
+      `${lifeguard.user} is not a ClientUser`
     );
-    if (lifeguard.readyTimestamp) {
-      modlog.send(
-        `:inbox_tray: **${lifeguard.user?.tag}** has joined **${guild.name}** (${guild.memberCount} users)`
-      );
-    }
 
-    if (!(await lifeguard.db.guilds.findById(guild.id))) {
-      await lifeguard.db.guilds.create({
-        _id: guild.id,
-        config: {
-          blacklisted: false,
-          enabledPlugins: [
-            'debug',
-            'dev',
-            'global',
-            'info',
-            'moderation',
-            'admin',
-          ],
-        },
-      });
-    }
-    if (lifeguard.user) {
-      lifeguard.user.setPresence({
-        activity: {
-          name: `${lifeguard.users.cache.size} people in the pool`,
-          type: 'WATCHING',
-        },
-        status: 'online',
-      });
-    }
+    lifeguard.user.setPresence({
+      activity: {
+        name: `${lifeguard.users.cache.size} people in the pool`,
+        type: 'WATCHING',
+      },
+      status: 'online',
+    });
+
+    modlog.send(
+      strFmt(
+        ':inbox_tray: **{lifeguard}** has joined **{name}** ({memberCount} users).',
+        {
+          lifeguard: lifeguard.user.tag,
+          name: guild.name,
+          memberCount: guild.memberCount.toString(),
+        }
+      )
+    );
   }
-);
+});

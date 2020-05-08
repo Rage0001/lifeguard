@@ -1,24 +1,38 @@
+import {
+  Guild,
+  GuildAuditLogsFetchOptions,
+  GuildChannel,
+  TextChannel,
+  User,
+} from 'discord.js';
+
 import {Event} from '@events/Event';
 import {assert} from '@lifeguard/util/assert';
-import {TextChannel, GuildChannel} from 'discord.js';
+import {strFmt} from '@lifeguard/util/strFmt';
+import {toSnake} from '@lifeguard/util/camelToSnake';
 
 export const event = new Event(
   'messageDeleteBulk',
   async (lifeguard, messages) => {
     const msgs = [...messages.values()];
-    const dbGuild = await lifeguard.db.guilds.findById(msgs[0].guild?.id);
-    if (dbGuild?.config.channels?.logging) {
-      const modlog = msgs[0].guild?.channels.resolve(
-        dbGuild.config.channels.logging
-      );
 
-      assert(modlog instanceof TextChannel, `${modlog} is not a TextChannel`);
+    assert(msgs[0].guild instanceof Guild, `${msgs[0].guild} is not a Guild`);
 
-      const auditLog = await msgs[0].guild?.fetchAuditLogs({
-        type: 'MESSAGE_BULK_DELETE',
+    const logChannels = await lifeguard.getLogChannels(
+      msgs[0].guild.id,
+      event.name
+    );
+
+    logChannels.forEach(async modlog => {
+      const auditLog = await modlog.guild.fetchAuditLogs({
+        type: toSnake(event.name) as GuildAuditLogsFetchOptions['type'],
       });
+      const auditLogEntry = auditLog.entries.first();
 
-      const auditLogEntry = auditLog?.entries.first();
+      assert(
+        msgs[0].channel instanceof TextChannel,
+        `${msgs[0].channel} is not a TextChannel`
+      );
 
       assert(
         auditLogEntry?.target instanceof GuildChannel,
@@ -26,25 +40,20 @@ export const event = new Event(
       );
 
       const modID = lifeguard.pending.cleans.get(auditLogEntry.target.id);
-      const mod = lifeguard.users.resolve(modID ?? '');
+      const mod = lifeguard.users.resolve(modID ?? auditLogEntry.executor.tag);
 
-      if (auditLogEntry.reason) {
-        modlog.send(
-          `:wastebasket: **${
-            (auditLogEntry.extra as {count: number}).count
-          } messages** in **#${auditLogEntry.target.name}** were deleted by **${
-            mod?.tag ?? auditLogEntry.executor.tag
-          }** for \`${auditLogEntry.reason}\``
-        );
-      } else {
-        modlog.send(
-          `:wastebasket: **${
-            (auditLogEntry.extra as {count: number}).count
-          } messages** in **#${auditLogEntry.target.name}** were deleted by **${
-            mod?.tag ?? auditLogEntry.executor.tag
-          }**`
-        );
-      }
-    }
+      assert(mod instanceof User, `${mod} is not a User`);
+
+      modlog.send(
+        strFmt(
+          ':wastebasket: {count} messages in **#{channel}** were deleted by **{user}**.',
+          {
+            count: (auditLogEntry.extra as {count: number}).count.toString(),
+            channel: auditLogEntry.target.name,
+            user: mod.tag,
+          }
+        )
+      );
+    });
   }
 );

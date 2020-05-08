@@ -1,7 +1,8 @@
 import {Event, LifeguardEvents} from '@events/Event';
+
 import {PluginClient} from '@lifeguard/PluginClient';
-import {readdir} from 'fs';
 import {promisify} from 'util';
+import {readdir} from 'fs';
 
 const readDir = promisify(readdir);
 

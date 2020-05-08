@@ -1,7 +1,10 @@
-import {Event} from '@events/Event';
-import {TextChannel, User} from 'discord.js';
-import {assert} from '@lifeguard/util/assert';
 import * as dayjs from 'dayjs';
+
+import {GuildMember, User} from 'discord.js';
+
+import {Event} from './Event';
+import {assert} from '@lifeguard/util/assert';
+import {strFmt} from '@lifeguard/util/strFmt';
 
 function accountIsNew(creationTimestamp: number) {
   const threshold = 604800000; //1 week in ms
@@ -10,18 +13,25 @@ function accountIsNew(creationTimestamp: number) {
 }
 
 export const event = new Event('guildMemberAdd', async (lifeguard, member) => {
-  const dbGuild = await lifeguard.db.guilds.findById(member.guild.id);
-  if (dbGuild?.config.channels?.logging) {
-    const modlog = member.guild.channels.resolve(
-      dbGuild.config.channels.logging
-    );
-    assert(modlog instanceof TextChannel, `${modlog} is not a TextChannel`);
+  assert(member instanceof GuildMember, `${member} is not a GuildMember`);
+
+  const logChannels = await lifeguard.getLogChannels(
+    member.guild.id,
+    event.name
+  );
+
+  logChannels.forEach(modlog => {
     assert(member.user instanceof User, `${member.user} is not a User`);
-    const isNew = accountIsNew(member.user.createdTimestamp);
+
     modlog.send(
-      `:inbox_tray: **${member.user.tag}** has joined. ${
-        isNew ? ':new: ' : ''
-      }\`created ${dayjs(member.user.createdAt).format('DD/MM/YYYY')}\``
+      strFmt(
+        ':inbox_tray: **{user}** has joined. {isNew} `created {creationDate}`.',
+        {
+          user: member.user.tag,
+          isNew: accountIsNew(member.user.createdTimestamp) ? ':new:' : '',
+          creationDate: dayjs(member.user.createdAt).format('DD/MM/YYYY'),
+        }
+      )
     );
-  }
+  });
 });

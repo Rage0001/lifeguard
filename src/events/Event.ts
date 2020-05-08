@@ -1,16 +1,18 @@
-import {PluginClient} from '../PluginClient';
 import {
   ClientEvents,
+  GuildChannel,
   Message,
   MessageReaction,
-  GuildChannel,
   User,
 } from 'discord.js';
+
+import {PluginClient} from '../PluginClient';
+import {StarboardConfig} from '@lifeguard/database/Guild';
 import {UserDoc} from '@lifeguard/database/User';
 
 export interface LifeguardEvents extends ClientEvents {
   lifeguardCommandUsed: [Message, UserDoc];
-  starboardReactionAdd: [MessageReaction];
+  starboardReactionAdd: [[string, StarboardConfig], MessageReaction];
   channelCreate: [GuildChannel];
   channelDelete: [GuildChannel];
   messageReactionAdd: [MessageReaction, User];

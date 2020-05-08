@@ -1,6 +1,6 @@
 import {Command} from '@plugins/Command';
-import {defaultEmbed} from '@util/DefaultEmbed';
 import {MessageEmbed} from 'discord.js';
+import {defaultEmbed} from '@util/DefaultEmbed';
 
 export const command: Command = new Command(
   'ping',

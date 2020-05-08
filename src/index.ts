@@ -1,9 +1,9 @@
 import 'module-alias/register';
 
-import {token} from '@config/bot';
 import {EventLoader} from '@events/eventLoader';
 import {PluginClient} from '@lifeguard/PluginClient';
 import {PluginLoader} from '@plugins/pluginLoader';
+import {token} from '@config/bot';
 
 const lifeguard: PluginClient = new PluginClient();
 

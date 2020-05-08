@@ -1,6 +1,7 @@
+import {GuildConfig, GuildDoc} from '@lifeguard/database/Guild';
+
 import {Command} from '@plugins/Command';
 import {t as typy} from 'typy';
-import {GuildDoc, GuildConfig} from '@lifeguard/database/Guild';
 
 export const command = new Command(
   'config',

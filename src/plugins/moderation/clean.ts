@@ -1,6 +1,7 @@
+import {Collection, Message} from 'discord.js';
+
 import {Command} from '@plugins/Command';
 import {defaultEmbed} from '@util/DefaultEmbed';
-import {Collection, Message} from 'discord.js';
 
 export const command: Command = new Command(
   'clean',

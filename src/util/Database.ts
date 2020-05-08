@@ -1,7 +1,7 @@
-import {connect, ConnectionOptions, disconnect, Model} from 'mongoose';
-import {guild, GuildDoc} from '@lifeguard/database/Guild';
-import {user, UserDoc} from '@lifeguard/database/User';
-import {infraction, InfractionDoc} from '@lifeguard/database/Infraction';
+import {ConnectionOptions, Model, connect, disconnect} from 'mongoose';
+import {GuildDoc, guild} from '@lifeguard/database/Guild';
+import {InfractionDoc, infraction} from '@lifeguard/database/Infraction';
+import {UserDoc, user} from '@lifeguard/database/User';
 
 interface DatabaseConfig {
   url: string;

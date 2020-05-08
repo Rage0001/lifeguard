@@ -1,6 +1,6 @@
 import {Event} from '@events/Event';
-import {promisify} from 'util';
 import {exec} from 'child_process';
+import {promisify} from 'util';
 
 export const event = new Event('ready', async lifeguard => {
   // console.log('Connected to Discord');

@@ -1,34 +1,53 @@
+import {Guild, GuildAuditLogsFetchOptions, TextChannel, User} from 'discord.js';
+
 import {Event} from '@events/Event';
-import {TextChannel} from 'discord.js';
 import {assert} from '@lifeguard/util/assert';
+import {strFmt} from '@lifeguard/util/strFmt';
+import {toSnake} from '@lifeguard/util/camelToSnake';
 
 export const event = new Event('messageDelete', async (lifeguard, message) => {
-  const dbGuild = await lifeguard.db.guilds.findById(message.guild?.id);
-  if (dbGuild?.config.channels?.logging) {
-    const modlog = message.guild?.channels.resolve(
-      dbGuild.config.channels.logging
-    );
+  assert(message.guild instanceof Guild, `${message.guild} is not a Guild`);
 
-    assert(modlog instanceof TextChannel, `${modlog} is not a TextChannel`);
+  const logChannels = await lifeguard.getLogChannels(
+    message.guild.id,
+    event.name
+  );
 
-    const auditLog = await message.guild?.fetchAuditLogs({
-      type: 'MESSAGE_DELETE',
+  logChannels.forEach(async modlog => {
+    const auditLog = await modlog.guild.fetchAuditLogs({
+      type: toSnake(event.name) as GuildAuditLogsFetchOptions['type'],
     });
-    const auditLogEntry = auditLog?.entries.first();
+    const auditLogEntry = auditLog.entries.first();
 
+    assert(message.author instanceof User, `${message.author} is not a User`);
     assert(
       message.channel instanceof TextChannel,
       `${message.channel} is not a TextChannel`
     );
 
-    if (auditLogEntry) {
+    if (Date.now() - (auditLogEntry?.createdTimestamp as number) <= 10000) {
       modlog.send(
-        `:wastebasket: A message by **${message.author?.tag}** in **#${message.channel.name}** was deleted by **${auditLogEntry.executor.tag}**\n\`\`\`${message.content}\`\`\``
+        strFmt(
+          ':wastebasket: A message by **{author}** in **#{channel}** was deleted by **{user}**.\n```{content}```',
+          {
+            author: message.author.tag,
+            channel: message.channel.name,
+            user: auditLogEntry?.executor.tag as string,
+            content: message.content ?? '',
+          }
+        )
       );
     } else {
       modlog.send(
-        `:wastebasket: A message by **@${message.author?.tag}** in **#${message.channel.name}** was deleted\n\`\`\`${message.content}\`\`\``
+        strFmt(
+          ':wastebasket: A message by **{author}** in **#{channel}** was deleted.\n```{content}```',
+          {
+            author: message.author.tag,
+            channel: message.channel.name,
+            content: message.content ?? '',
+          }
+        )
       );
     }
-  }
+  });
 });

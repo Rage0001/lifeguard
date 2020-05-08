@@ -1,7 +1,8 @@
-import {Command} from '@plugins/Command';
 import {MessageAttachment, MessageEmbed} from 'discord.js';
-import {defaultEmbed} from '@lifeguard/util/DefaultEmbed';
+
+import {Command} from '@plugins/Command';
 import {InfractionDoc} from '@lifeguard/database/Infraction';
+import {defaultEmbed} from '@lifeguard/util/DefaultEmbed';
 
 export const command: Command = new Command(
   'infractions',

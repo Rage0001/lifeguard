@@ -1,27 +1,31 @@
+import {Guild, GuildAuditLogsFetchOptions} from 'discord.js';
+
 import {Event} from '@events/Event';
-import {TextChannel, GuildChannel} from 'discord.js';
 import {assert} from '@lifeguard/util/assert';
+import {strFmt} from '@lifeguard/util/strFmt';
+import {toSnake} from '@lifeguard/util/camelToSnake';
 
 export const event = new Event('inviteCreate', async (lifeguard, invite) => {
-  assert(
-    invite.channel instanceof GuildChannel,
-    `${invite.channel} is not a TextChannel`
+  assert(invite.guild instanceof Guild, `${invite} is not a Guild`);
+
+  const logChannels = await lifeguard.getLogChannels(
+    invite.guild.id,
+    event.name
   );
-  const dbGuild = await lifeguard.db.guilds.findById(invite.channel.guild?.id);
-  if (dbGuild?.config.channels?.logging) {
-    const modlog = invite.channel.guild.channels.resolve(
-      dbGuild.config.channels.logging
-    );
 
-    assert(modlog instanceof TextChannel, `${modlog} is not a TextChannel`);
-
-    const auditLog = await invite.channel.guild.fetchAuditLogs({
-      type: 'INVITE_CREATE',
+  logChannels.forEach(async modlog => {
+    const auditLog = await modlog.guild.fetchAuditLogs({
+      type: toSnake(event.name) as GuildAuditLogsFetchOptions['type'],
     });
     const auditLogEntry = auditLog.entries.first();
-
     modlog.send(
-      `:new: An invite with the url **<${invite.url}>** was created by **${auditLogEntry?.executor.tag}**`
+      strFmt(
+        ':new: An invite with the url **<{url}>** was created by **{user}**',
+        {
+          url: invite.url,
+          user: auditLogEntry?.executor.tag as string,
+        }
+      )
     );
-  }
+  });
 });

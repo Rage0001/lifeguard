@@ -1,6 +1,6 @@
-import {prefix} from '@config/bot';
 import {Event} from '@events/Event';
 import {Message} from 'discord.js';
+import {prefix} from '@config/bot';
 
 export const event = new Event('message', async (lifeguard, msg: Message) => {
   let dbUser = await lifeguard.db.users.findById(msg.author.id);
@@ -18,18 +18,66 @@ export const event = new Event('message', async (lifeguard, msg: Message) => {
       await lifeguard.db.guilds.create({
         _id: msg.guild.id,
         config: {
-          blacklisted: false,
-          enabledPlugins: [
-            'debug',
-            'dev',
-            'global',
-            'info',
-            'moderation',
-            'admin',
-          ],
+          filter: {
+            channels: new Map(),
+          },
+          logging: {
+            channels: new Map(),
+          },
+          plugins: {
+            dev: {enabled: true},
+            debug: {enabled: true},
+            info: {enabled: true},
+            moderation: {enabled: true},
+            admin: {enabled: true},
+          },
+          starboard: new Map(),
         },
       });
     }
+
+    if (dbGuild) {
+      dbGuild.config.filter.blockedWords.forEach(word => {
+        if (
+          msg.content.includes(word) &&
+          msg.author.id !== lifeguard.user?.id
+        ) {
+          msg.delete({
+            timeout: 1000,
+            reason: `Included blocked word \`${word}\``,
+          });
+        }
+        // TODO: emit event for modlog
+      });
+      const filterChannels = [...dbGuild.config.filter.channels.entries()];
+      filterChannels.forEach(([channel, filter]) => {
+        if (msg.channel.id !== channel) return;
+        filter.blockedWords.forEach(word => {
+          if (
+            msg.content.includes(word) &&
+            msg.author.id !== lifeguard.user?.id
+          ) {
+            msg.delete({
+              timeout: 1000,
+              reason: `Included blocked word \`${word}\``,
+            });
+            // TODO: emit event for modlog
+          }
+        });
+      });
+    }
+  }
+
+  const inviteRegex = /(?:(?:https?):\/\/)?(?:www\.)?(?:disco(?:rd(?:app)?)?).(?:com|gg|io|li|me|net|org)(?:\/(?:invite))?\/([a-zA-Z0-9-.]+)/m;
+  if (inviteRegex.test(msg.content) && msg.author.id !== lifeguard.user?.id) {
+    const invite = inviteRegex.exec(msg.content);
+    if (invite) {
+      msg.delete({
+        timeout: 1000,
+        reason: `Included invite word \`${invite[0]}\``,
+      });
+    }
+    // TODO: emit event for modlog
   }
 
   if (dbUser && dbUser.stats) {
@@ -45,7 +93,7 @@ export const event = new Event('message', async (lifeguard, msg: Message) => {
     });
   }
 
-  if (msg.content.startsWith(prefix)) {
+  if (!msg.deleted && msg.content.startsWith(prefix)) {
     lifeguard.emit('lifeguardCommandUsed', msg, dbUser);
   }
 });

@@ -1,8 +1,9 @@
-import {promisify} from 'util';
-import {readdir, lstat, Stats} from 'fs';
+import {Stats, lstat, readdir} from 'fs';
+
 import {Collection} from 'discord.js';
-import {Plugin} from './Plugin';
 import {Command} from './Command';
+import {Plugin} from './Plugin';
+import {promisify} from 'util';
 
 export async function PluginLoader() {
   const readDir = promisify(readdir);
