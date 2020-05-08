@@ -66,24 +66,25 @@ export const event = new Event('message', async (lifeguard, msg: Message) => {
         });
       });
 
-      //TODO: fix invite deletion
-
-      // if (dbGuild.config.filter.invites) {
-      //   const inviteRegex = /(?:(?:https?):\/\/)?(?:www\.)?(?:disco(?:rd(?:app)?)?).(?:com|gg|io|li|me|net|org)(?:\/(?:invite))?\/([a-zA-Z0-9-.]+)/m;
-      //   if (
-      //     inviteRegex.test(msg.content) &&
-      //     msg.author.id !== lifeguard.user?.id
-      //   ) {
-      //     const invite = inviteRegex.exec(msg.content);
-      //     if (invite) {
-      //       msg.delete({
-      //         timeout: 1000,
-      //         reason: `Included invite word \`${invite[0]}\``,
-      //       });
-      //     }
-      //     // TODO: emit event for modlog
-      //   }
-      // }
+      if (dbGuild.config.filter.invites) {
+        const inviteRegex = /(?:https?:\/\/)?(?:www.)?(?:discord(?:.| |[?(?"?'?dot'?"?)?]?)?(?:gg|io|me|li)|discord(:?app)?.com\/invite)\/+((?:(?!https?)[\w\d-])+)/m;
+        if (
+          inviteRegex.test(msg.content) &&
+          msg.author.id !== lifeguard.user?.id
+        ) {
+          const invite = inviteRegex.exec(msg.content);
+          if (
+            invite &&
+            !dbGuild.config.filter.inviteWhitelist.includes(invite[2])
+          ) {
+            msg.delete({
+              timeout: 1000,
+              reason: `Included invite word \`${invite[0]}\``,
+            });
+          }
+          // TODO: emit event for modlog
+        }
+      }
     }
   }
 
