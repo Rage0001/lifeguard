@@ -2,16 +2,16 @@ import {Command} from '@plugins/Command';
 import {parseUser} from '@util/parseUser';
 
 export const command: Command = new Command(
-  'blacklist',
+  'unblock',
   async (lifeguard, msg, args) => {
     const u: string = parseUser(args[0]);
     try {
       const res = await lifeguard.db.users.updateOne(
         {_id: u},
-        {blacklisted: true}
+        {blocked: false}
       );
       console.log(res);
-      msg.channel.send(`<@${u}> was sucessfully blacklisted`);
+      msg.channel.send(`<@${u}> was sucessfully unblocked`);
     } catch (err) {
       console.log(err);
       msg.channel.send(err.message);
@@ -19,6 +19,6 @@ export const command: Command = new Command(
   },
   {
     level: 4,
-    usage: ['blacklist {user}'],
+    usage: ['block {user}'],
   }
 );

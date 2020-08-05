@@ -6,7 +6,7 @@ import {t as typy} from 'typy';
 export const command = new Command(
   'config',
   async (lifeguard, msg, [cmd, ...args]) => {
-    const path: string = args[0];
+    const path = args.shift();
     const guild: GuildDoc | null = await lifeguard.db.guilds.findById(
       msg.guild?.id
     );
@@ -16,11 +16,11 @@ export const command = new Command(
           const config: GuildConfig = guild['config'];
           if (path) {
             msg.channel.send(
-              `${path} - ${JSON.stringify(
+              `\`\`\`json\n"${path}": ${JSON.stringify(
                 typy(config, path).safeObject,
                 null,
                 2
-              )}`
+              )}\`\`\``
             );
           } else {
             msg.channel.send(
@@ -32,11 +32,17 @@ export const command = new Command(
 
       case 'set':
         await lifeguard.db.guilds.findByIdAndUpdate(msg.guild?.id, {
-          $set: {[`config.${path}`]: JSON.parse(args[1])},
+          $set: {[`config.${path}`]: JSON.parse(args.join(' '))},
         });
         msg.channel.send('Value has been set successfully');
         break;
 
+      case 'push':
+        await lifeguard.db.guilds.findByIdAndUpdate(msg.guild?.id, {
+          $push: {[`config.${path}`]: JSON.parse(args.join(' '))},
+        });
+        msg.channel.send('Value has been pushed successfully');
+        break;
       default:
         break;
     }

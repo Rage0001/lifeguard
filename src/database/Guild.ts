@@ -82,7 +82,7 @@ import {Document, Schema, model} from 'mongoose';
 
 import {prefix} from '@lifeguard/config/bot';
 
-interface FilterChannel {
+export interface FilterChannel {
   blockedWords: string[];
 }
 
@@ -106,6 +106,11 @@ export interface GuildConfig {
     channels: Map<string, FilterChannel>;
     invites: boolean;
     inviteWhitelist: string[];
+    maxMentions: number;
+    maxLines: number;
+    ignoredUsers: string[];
+    ignoredRoles: string[];
+    ignoredChannels: string[];
   };
   logging: {
     enabled: boolean;
@@ -135,15 +140,34 @@ const guildSchema: Schema = new Schema({
     },
     filter: {
       blockedWords: [String],
-      channels: {type: Map, of: {blockedWords: [String]}, required: false},
+      channels: {
+        type: Map,
+        of: {blockedWords: [String]},
+        required: false,
+      },
       invites: {type: Boolean, default: false, required: false},
       inviteWhitelist: [String],
+      maxMentions: {type: Number, default: 0},
+      maxLines: {type: Number, default: 0},
+      ignoredUsers: [String],
+      ignoredRoles: [String],
+      ignoredChannels: [String],
     },
     logging: {
       enabled: {type: Boolean, default: false, required: false},
       channels: {type: Map, of: [String], required: false},
     },
-    plugins: {type: Map, of: {enabled: Boolean}},
+    plugins: {
+      type: Map,
+      of: {enabled: Boolean},
+      default: {
+        info: {enabled: true},
+        moderation: {enabled: true},
+        dev: {enabled: true},
+        debug: {enabled: true},
+        admin: {enabled: true},
+      },
+    },
     starboard: {
       type: Map,
       of: {
@@ -154,9 +178,9 @@ const guildSchema: Schema = new Schema({
       },
     },
     roles: {
-      muted: {type: String, default: false, required: false},
-      moderator: {type: String, default: false, required: false},
-      admin: {type: String, default: false, required: false},
+      muted: {type: String, default: '', required: false},
+      moderator: {type: String, default: '', required: false},
+      admin: {type: String, default: '', required: false},
     },
   },
 });

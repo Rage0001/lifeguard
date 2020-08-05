@@ -26,11 +26,14 @@ export const command: Command = new Command(
       );
 
       // Notify User about Action
-      await member?.send(
-        `You have been banned from **${msg.guild?.name}** for \`${
-          inf.reason ?? 'No Reason Specified'
-        }\``
-      );
+      let memberNotified = true;
+      await member
+        ?.send(
+          `You have been banned from **${msg.guild?.name}** for \`${
+            inf.reason ?? 'No Reason Specified'
+          }\``
+        )
+        .catch(() => (memberNotified = false));
       // Ban User
       await member?.ban({reason: inf.reason});
 
@@ -38,7 +41,7 @@ export const command: Command = new Command(
       msg.channel.send(
         `${member?.user.tag} was banned by ${msg.author.tag} for \`${
           inf.reason ?? 'No Reason Specified'
-        }\``
+        }\` (${memberNotified ? 'User was notified' : 'User was not notified'})`
       );
     } catch (err) {
       msg.channel.send(err.message);

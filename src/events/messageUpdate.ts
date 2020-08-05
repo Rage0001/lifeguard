@@ -47,7 +47,7 @@ export const event = new Event(
 
           modlog.send(
             strFmt(
-              ":pencil: **${author}**'s message's {change} was updated in **#{channel}**.\n**Old:** {oldVal}\n**New:** {val}",
+              ":pencil: **{author}**'s message's {change} was updated in **#{channel}**.\n**Old:** {oldVal}\n**New:** {val}",
               {
                 author: newMessage.author.tag,
                 change: d.path.join('.'),

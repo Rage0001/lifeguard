@@ -21,6 +21,9 @@ async function getCommandFromPlugin(
   const guildDB = await lifeguard.db.guilds.findById(guild.id);
   const plugin = lifeguard.plugins.find(p => p.has(cmdName));
   if (plugin) {
+    if (plugin.name === 'dev') {
+      return plugin?.get(cmdName);
+    }
     if (
       guildDB?.config.plugins.has(plugin.name) &&
       guildDB?.config.plugins.get(plugin.name)?.enabled
@@ -56,7 +59,7 @@ export const event = new Event(
     if (msg.author.bot) {
       return;
     }
-    if (dbUser.blacklisted) {
+    if (dbUser.blocked) {
       return;
     }
     const [cmdName, ...args] = parseContent(msg.content);

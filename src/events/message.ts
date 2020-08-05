@@ -1,5 +1,6 @@
 import {Event} from '@events/Event';
 import {Message} from 'discord.js';
+import {automod} from '@util/automod';
 import {prefix} from '@config/bot';
 
 export const event = new Event('message', async (lifeguard, msg: Message) => {
@@ -37,54 +38,55 @@ export const event = new Event('message', async (lifeguard, msg: Message) => {
     }
 
     if (dbGuild) {
-      dbGuild.config.filter.blockedWords.forEach(word => {
-        if (
-          msg.content.includes(word) &&
-          msg.author.id !== lifeguard.user?.id
-        ) {
-          msg.delete({
-            timeout: 1000,
-            reason: `Included blocked word \`${word}\``,
-          });
-        }
-        // TODO: emit event for modlog
-      });
-      const filterChannels = [...dbGuild.config.filter.channels.entries()];
-      filterChannels.forEach(([channel, filter]) => {
-        if (msg.channel.id !== channel) return;
-        filter.blockedWords.forEach(word => {
-          if (
-            msg.content.includes(word) &&
-            msg.author.id !== lifeguard.user?.id
-          ) {
-            msg.delete({
-              timeout: 1000,
-              reason: `Included blocked word \`${word}\``,
-            });
-            // TODO: emit event for modlog
-          }
-        });
-      });
+      automod(lifeguard, msg, dbGuild);
+      // dbGuild.config.filter.blockedWords.forEach(word => {
+      //   if (
+      //     msg.content.includes(word) &&
+      //     msg.author.id !== lifeguard.user?.id
+      //   ) {
+      //     msg.delete({
+      //       timeout: 1000,
+      //       reason: `Included blocked word \`${word}\``,
+      //     });
+      //   }
+      //   // TODO: emit event for modlog
+      // });
+      // const filterChannels = [...dbGuild.config.filter.channels.entries()];
+      // filterChannels.forEach(([channel, filter]) => {
+      //   if (msg.channel.id !== channel) return;
+      //   filter.blockedWords.forEach(word => {
+      //     if (
+      //       msg.content.includes(word) &&
+      //       msg.author.id !== lifeguard.user?.id
+      //     ) {
+      //       msg.delete({
+      //         timeout: 1000,
+      //         reason: `Included blocked word \`${word}\``,
+      //       });
+      //       // TODO: emit event for modlog
+      //     }
+      //   });
+      // });
 
-      if (dbGuild.config.filter.invites) {
-        const inviteRegex = /(?:https?:\/\/)?(?:www.)?(?:discord(?:.| |[?(?"?'?dot'?"?)?]?)?(?:gg|io|me|li)|discord(:?app)?.com\/invite)\/+((?:(?!https?)[\w\d-])+)/m;
-        if (
-          inviteRegex.test(msg.content) &&
-          msg.author.id !== lifeguard.user?.id
-        ) {
-          const invite = inviteRegex.exec(msg.content);
-          if (
-            invite &&
-            !dbGuild.config.filter.inviteWhitelist.includes(invite[2])
-          ) {
-            msg.delete({
-              timeout: 1000,
-              reason: `Included invite word \`${invite[0]}\``,
-            });
-          }
-          // TODO: emit event for modlog
-        }
-      }
+      // if (dbGuild.config.filter.invites) {
+      //   const inviteRegex = /(?:https?:\/\/)?(?:www.)?(?:discord(?:.| |[?(?"?'?dot'?"?)?]?)?(?:gg|io|me|li)|discord(:?app)?.com\/invite)\/+((?:(?!https?)[\w\d-])+)/m;
+      //   if (
+      //     inviteRegex.test(msg.content) &&
+      //     msg.author.id !== lifeguard.user?.id
+      //   ) {
+      //     const invite = inviteRegex.exec(msg.content);
+      //     if (
+      //       invite &&
+      //       !dbGuild.config.filter.inviteWhitelist.includes(invite[2])
+      //     ) {
+      //       msg.delete({
+      //         timeout: 1000,
+      //         reason: `Included invite word \`${invite[0]}\``,
+      //       });
+      //     }
+      //     // TODO: emit event for modlog
+      //   }
+      // }
     }
   }
 

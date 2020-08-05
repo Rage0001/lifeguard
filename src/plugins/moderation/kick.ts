@@ -24,15 +24,22 @@ export const command: Command = new Command(
       // Get User
       const member: GuildMember | undefined = await msg.guild?.members.fetch(u);
       // Notify User about Action
-      member?.send(
-        `You have been kicked from **${msg.guild?.name}** for \`${inf.reason}\``
-      );
-      // Ban the User
-      member?.kick(reason.join(' '));
+      let memberNotified = true;
+      await member
+        ?.send(
+          `You have been banned from **${msg.guild?.name}** for \`${
+            inf.reason ?? 'No Reason Specified'
+          }\``
+        )
+        .catch(() => (memberNotified = false));
+      // Kick User
+      await member?.kick(inf.reason);
 
       // Tell moderator action was successful
       msg.channel.send(
-        `${member?.user.tag} was kicked by ${msg.author.tag} for \`${inf.reason}\``
+        `${member?.user.tag} was banned by ${msg.author.tag} for \`${
+          inf.reason ?? 'No Reason Specified'
+        }\` (${memberNotified ? 'User was notified' : 'User was not notified'})`
       );
     } catch (err) {
       msg.channel.send(err.message);

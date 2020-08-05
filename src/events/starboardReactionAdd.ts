@@ -36,10 +36,16 @@ export const event = new Event(
 
           starboardMessage.count = reaction.count ?? starboardMessage.count;
 
-          starboardMessageInChannel.edit('', embed);
+          starboardMessageInChannel.edit(
+            `**${reaction.count}** ${reaction.emoji}`,
+            embed
+          );
         }
       } else {
-        const starboardMessageInChannel = await starboard.send('', embed);
+        const starboardMessageInChannel = await starboard.send(
+          `**${reaction.count}** ${reaction.emoji}`,
+          embed
+        );
         config.messages.set(starboardMessageInChannel.id, {
           id: reaction.message.id,
           count: reaction.count,

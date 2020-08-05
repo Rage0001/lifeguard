@@ -23,14 +23,14 @@ const userStatsSchema: Schema = new Schema({
 });
 
 export interface UserDoc extends Document {
-  blacklisted: boolean;
+  blocked: boolean;
   _id: string;
   stats: UserStats;
 }
 
 const userSchema: Schema = new Schema({
   _id: {type: String},
-  blacklisted: {type: Boolean, default: false},
+  blocked: {type: Boolean, default: false},
   stats: {type: userStatsSchema, required: false},
 });
 
