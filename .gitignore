@@ -109,3 +109,5 @@ dist
 
 src/config
 build
+.git
+.idea
