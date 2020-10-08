@@ -1,0 +1,22 @@
+{
+  "extends": "./node_modules/gts/tsconfig-google.json",
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "incremental": true,
+    "rootDir": ".",
+    "outDir": "build",
+    "baseUrl": "./src",
+    "paths": {
+      "@lifeguard/*": ["./*"],
+      "@base/*": ["../*"],
+      "@assertions/*": ["./assertions/*"],
+      "@config/*": ["./config/*"],
+      "@events/*": ["./events/*"],
+      "@models/*": ["./models/*"],
+      "@plugins/*": ["./plugins/*"],
+      "@structures/*": ["./structures/*"],
+      "@util/*": ["./util/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"]
+}

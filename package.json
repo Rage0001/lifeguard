@@ -1,9 +1,60 @@
 {
   "name": "lifeguard",
-  "version": "0.0.1-alpha",
+  "version": "3.0.0-alpha.0",
   "description": "Lifeguard Bot",
-  "main": "dist/bot.js",
+  "main": "build/src/index.js",
   "repository": "https://gitdab.com/lifeguard/bot.git",
   "author": "Rauf",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/bson": "^4.0.1",
+    "@types/module-alias": "^2.0.0",
+    "@types/node": "^10.17.13",
+    "@types/ws": "^6.0.4",
+    "bson": "^4.0.3",
+    "chalk": "^3.0.0",
+    "chokidar": "^3.3.1",
+    "gts": "^2.0.0",
+    "nodemon": "^2.0.4",
+    "ora": "^4.0.3",
+    "prettier": "^2.0.2",
+    "typescript": "~3.8.0"
+  },
+  "scripts": {
+    "check": "gts check src/**/*.ts",
+    "clean": "gts clean src/**/*.ts",
+    "compile": "tsc",
+    "watch": "tsc -w -p .",
+    "fix": "gts fix src/**/*.ts",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run check",
+    "start": "nodemon --watch build build/src/index"
+  },
+  "dependencies": {
+    "@itsrauf/jsonformatter": "^1.1.0",
+    "@types/lru-cache": "^5.1.0",
+    "@types/mongodb": "^3.3.14",
+    "@types/mongoose": "^5.7.1",
+    "dayjs": "^1.8.25",
+    "discord.js": "^12.1.1",
+    "lru-cache": "^5.1.1",
+    "module-alias": "^2.2.2",
+    "mongodb": "^3.5.2",
+    "mongoose": "^5.9.1",
+    "recursive-diff": "^1.0.6",
+    "typy": "^3.3.0",
+    "verborum": "^1.6.1"
+  },
+  "_moduleAliases": {
+    "@lifeguard": "./build/src",
+    "@base": "./build",
+    "@assertions": "./build/src/assertions",
+    "@config": "./build/src/config",
+    "@events": "./build/src/events",
+    "@models": "./build/src/models",
+    "@plugins": "./build/src/plugins",
+    "@structures": "./build/src/structures",
+    "@util": "./build/src/util"
+  }
 }
