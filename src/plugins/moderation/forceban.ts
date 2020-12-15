@@ -4,7 +4,7 @@ import {Command} from '@plugins/Command';
 import {InfractionDoc} from '@lifeguard/database/Infraction';
 import {parseUser} from '@util/parseUser';
 
-export const command: Command = new Command(
+export const command = new Command<string[]>(
   'forceban',
   async (lifeguard, msg, [uid, ...reason]) => {
     // Parse user id from mention

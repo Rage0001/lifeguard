@@ -22,6 +22,7 @@ export const event = new Event(
     logChannels.forEach(async modlog => {
       const auditLog = await modlog.guild.fetchAuditLogs({
         type: 'MEMBER_UPDATE',
+        user: newMember.id,
       });
 
       const auditLogEntry = auditLog.entries.first();
@@ -35,7 +36,7 @@ export const event = new Event(
           );
           modlog.send(
             strFmt(
-              ":pencil: **{member}**'s ${change} was updated by {user}.\n**Old:** ${oldVal}\n**New:** ${val}",
+              ":pencil: **{member}**'s {change} was updated by **{user}**.\n**Old:** {oldVal}\n**New:** {val}",
               {
                 member: newMember.user.tag,
                 change: change.key,

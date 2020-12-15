@@ -3,9 +3,11 @@ import {Stats, lstat, readdir} from 'fs';
 import {Collection} from 'discord.js';
 import {Command} from './Command';
 import {Plugin} from './Plugin';
+import {PluginClient} from '../PluginClient';
+import {performance} from 'perf_hooks';
 import {promisify} from 'util';
 
-export async function PluginLoader() {
+export async function PluginLoader(lifeguard: PluginClient) {
   const readDir = promisify(readdir);
   const stats = promisify(lstat);
 
@@ -17,6 +19,7 @@ export async function PluginLoader() {
     const folderDir = `${pluginDir}/${folder}`;
     const info: Stats = await stats(folderDir);
     if (info.isDirectory()) {
+      const pluginLoadStart = performance.now();
       const plugin: Plugin = new Plugin(folder);
 
       const files: string[] = await readDir(`${folderDir}`);
@@ -31,9 +34,18 @@ export async function PluginLoader() {
         }
       }
 
-      plugins.set(folder, plugin);
+      plugins.set(plugin.name, plugin);
+
+      const pluginLoadEnd = performance.now();
+
+      lifeguard.logger.debug(
+        `[PluginLoader]: Loaded ${plugin.name} (+${Math.round(
+          pluginLoadEnd - pluginLoadStart
+        )}ms)`
+      );
     }
   }
 
-  return plugins;
+  //return plugins;
+  lifeguard.plugins = plugins;
 }

@@ -5,7 +5,7 @@ import {GuildDoc} from '@lifeguard/database/Guild';
 import {defaultEmbed} from '@util/DefaultEmbed';
 import {parseUser} from '@util/parseUser';
 
-export const command: Command = new Command(
+export const command = new Command<string[]>(
   'unmute',
   async (lifeguard, msg, [uid, ...reason]) => {
     // Get guild from database
@@ -42,5 +42,6 @@ export const command: Command = new Command(
   {
     level: 1,
     usage: ['unmute {user} [reason]'],
+    expectedArgs: ['user'],
   }
 );

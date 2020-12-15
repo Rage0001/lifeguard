@@ -36,7 +36,7 @@ function makeCodeBlock(data: string, lang?: string): string {
   return `\`\`\`${lang}\n${data}\n\`\`\``;
 }
 
-export const command: Command = new Command(
+export const command = new Command<string[]>(
   'eval',
   async (lifeguard, msg, args, dbUser) => {
     const start: number = Date.now();

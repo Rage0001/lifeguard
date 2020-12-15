@@ -1,7 +1,7 @@
 import {Command} from '@plugins/Command';
 import {parseUser} from '@util/parseUser';
 
-export const command: Command = new Command(
+export const command = new Command<string[]>(
   'unblock',
   async (lifeguard, msg, args) => {
     const u: string = parseUser(args[0]);

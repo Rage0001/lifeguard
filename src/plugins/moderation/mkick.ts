@@ -1,7 +1,7 @@
 import {Command} from '@plugins/Command';
 import {command as kick} from '@plugins/moderation/kick';
 
-export const command: Command = new Command(
+export const command = new Command<string[]>(
   'mkick',
   async (lifeguard, msg, args) => {
     // Find where '-r' is  in the args

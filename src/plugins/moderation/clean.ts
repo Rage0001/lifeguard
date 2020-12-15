@@ -3,7 +3,7 @@ import {Collection, Message} from 'discord.js';
 import {Command} from '@plugins/Command';
 import {defaultEmbed} from '@util/DefaultEmbed';
 
-export const command: Command = new Command(
+export const command = new Command<string[]>(
   'clean',
   async (lifeguard, msg, [cmd, ...args]) => {
     let id: string,

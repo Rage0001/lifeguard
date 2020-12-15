@@ -51,16 +51,22 @@ export class PluginClient extends Client {
       },
     });
 
+    const loggerLevels = [Level.Error, Level.Info, Level.Warning];
+    if (process.env.NODE_ENV === 'development') {
+      loggerLevels.push(Level.Debug);
+    }
+
     this.logger = new Logger('Lifeguard', {
       colorScheme: {
         useKeywords: false,
         info: '#2196F3',
         warning: '#FFEB3B',
         error: '#f44336',
-        debug: '#ffffff',
+        // debug: '#ffffff',
+        debug: '#2C303F',
       },
       format: '{{clrst}}[{{lvl}}] {{{msg}}}{{clrend}}',
-      levels: [Level.Debug, Level.Error, Level.Info, Level.Warning],
+      levels: loggerLevels,
     });
 
     this.pending = {

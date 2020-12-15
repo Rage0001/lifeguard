@@ -3,7 +3,7 @@ import {GuildConfig, GuildDoc} from '@lifeguard/database/Guild';
 import {Command} from '@plugins/Command';
 import {t as typy} from 'typy';
 
-export const command = new Command(
+export const command = new Command<string[]>(
   'config',
   async (lifeguard, msg, [cmd, ...args]) => {
     const path = args.shift();

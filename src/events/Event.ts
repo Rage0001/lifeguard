@@ -16,6 +16,7 @@ export interface LifeguardEvents extends ClientEvents {
   channelCreate: [GuildChannel];
   channelDelete: [GuildChannel];
   messageReactionAdd: [MessageReaction, User];
+  automodTrigger: [Message, string];
 }
 
 type EventFunc<K extends keyof LifeguardEvents> = (

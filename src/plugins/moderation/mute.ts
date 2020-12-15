@@ -5,7 +5,7 @@ import {InfractionDoc} from '@lifeguard/database/Infraction';
 import {defaultEmbed} from '@util/DefaultEmbed';
 import {parseUser} from '@util/parseUser';
 
-export const command: Command = new Command(
+export const command = new Command<string[]>(
   'mute',
   async (lifeguard, msg, [uid, ...reason]) => {
     // Get guild from db

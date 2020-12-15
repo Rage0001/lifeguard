@@ -1,8 +1,8 @@
-import {Collection, Message} from 'discord.js';
+import {Collection, Message, MessageAttachment} from 'discord.js';
 
 import {Command} from '@plugins/Command';
 
-export const command: Command = new Command(
+export const command = new Command<string[]>(
   'archive',
   async (lifeguard, msg, [cmd, ...args]) => {
     let id: string,
@@ -27,6 +27,13 @@ export const command: Command = new Command(
         );
         msgs.shift();
         lifeguard.logger.debug(msgs.reverse().join('\n'));
+        msg.channel.send(
+          `Archived ${msgs.length}`,
+          new MessageAttachment(
+            Buffer.from(msgs.reverse().join('\n')),
+            `${new Date().toISOString()} - ${msg.channel.id}.txt`
+          )
+        );
 
         break;
       case 'bots':
@@ -133,5 +140,6 @@ export const command: Command = new Command(
       'archive after {id} {count}',
       'archive between {firstID} {secondID}',
     ],
+    expectedArgs: ['string'],
   }
 );

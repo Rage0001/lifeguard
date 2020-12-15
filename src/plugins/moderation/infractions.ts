@@ -4,7 +4,7 @@ import {Command} from '@plugins/Command';
 import {InfractionDoc} from '@lifeguard/database/Infraction';
 import {defaultEmbed} from '@lifeguard/util/DefaultEmbed';
 
-export const command: Command = new Command(
+export const command = new Command<string[]>(
   'infractions',
   async (lifeguard, msg, [cmd, ...args]) => {
     let infID: string;

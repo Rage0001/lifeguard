@@ -1,13 +1,10 @@
-import {GuildMember, Role} from 'discord.js';
+import {GuildMember, Role, User} from 'discord.js';
 
 import {Command} from '@plugins/Command';
-import {parseUser} from '@util/parseUser';
 
-export const command: Command = new Command(
+export const command = new Command<[string, User, string, ...string[]]>(
   'role',
-  async (lifeguard, msg, args) => {
-    const [cmd, uid, rid, ...r] = args;
-    const u: string = parseUser(uid);
+  async (lifeguard, msg, [cmd, u, rid, ...r]) => {
     const role: Role | null | undefined = await msg.guild?.roles.fetch(rid);
     switch (cmd) {
       case 'add':
@@ -40,5 +37,6 @@ export const command: Command = new Command(
       'role add {user} {role id} [reason]',
       'role rmv {user} {role id} [reason]',
     ],
+    expectedArgs: ['string', 'user', 'string'],
   }
 );

@@ -1,13 +1,16 @@
-import {Command} from '@plugins/Command';
-import {GuildMember} from 'discord.js';
-import {InfractionDoc} from '@lifeguard/database/Infraction';
-import {parseUser} from '@util/parseUser';
+import {GuildMember, User} from 'discord.js';
 
-export const command: Command = new Command(
+import {Command} from '@plugins/Command';
+import {InfractionDoc} from '@lifeguard/database/Infraction';
+
+// import {parseUser} from '@util/parseUser';
+
+export const command = new Command<[User, ...string[]]>(
   'ban',
   async (lifeguard, msg, [uid, ...reason]) => {
     // Parse user id from mention
-    const u: string = parseUser(uid);
+    // const u: string = parseUser(uid);
+    const u = uid.id;
     try {
       const inf: InfractionDoc = await lifeguard.db.infractions.create({
         action: 'Ban',
@@ -50,5 +53,6 @@ export const command: Command = new Command(
   {
     level: 1,
     usage: ['ban {user} [reason]'],
+    expectedArgs: ['user', 'string?'],
   }
 );

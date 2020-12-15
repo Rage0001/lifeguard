@@ -2,7 +2,7 @@ import {Command} from '@plugins/Command';
 import {MessageEmbed} from 'discord.js';
 import {defaultEmbed} from '@util/DefaultEmbed';
 
-export const command: Command = new Command(
+export const command = new Command<string[]>(
   'ping',
   async (lifeguard, msg) => {
     const m = await msg.channel.send('Ping?');

@@ -7,7 +7,7 @@ import {exec} from 'child_process';
 import {promisify} from 'util';
 import {resolve} from 'path';
 
-export const command: Command = new Command(
+export const command = new Command<string[]>(
   'about',
   async (_lifeguard, msg) => {
     // Convert child_process#exec to async/await

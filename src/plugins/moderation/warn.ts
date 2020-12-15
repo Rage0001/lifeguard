@@ -3,7 +3,7 @@ import {GuildMember} from 'discord.js';
 import {InfractionDoc} from '@lifeguard/database/Infraction';
 import {parseUser} from '@util/parseUser';
 
-export const command: Command = new Command(
+export const command = new Command<string[]>(
   'warn',
   async (lifeguard, msg, [uid, ...reason]) => {
     // Parse user id from mention
@@ -33,5 +33,6 @@ export const command: Command = new Command(
   {
     level: 1,
     usage: ['warn {user} [reason]'],
+    expectedArgs: ['user'],
   }
 );

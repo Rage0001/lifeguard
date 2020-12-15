@@ -44,7 +44,7 @@ export const event = new Event(
 
         modlog.send(
           strFmt(
-            ":pencil: **@${role}**'s ${change} was updated by **${user}**.\n**Old:** ${oldVal}\n**New:** ${val}",
+            ":pencil: **@${role}**'s ${change} was updated by **{user}**.\n**Old:** {oldVal}\n**New:** {val}",
             {
               role: newRole.name,
               change: change.key,

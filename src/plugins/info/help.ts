@@ -37,7 +37,7 @@ async function convertPlugins(
     });
 }
 
-export const command: Command = new Command(
+export const command = new Command<string[]>(
   'help',
   async (lifeguard, msg, args) => {
     if (!args.length) {
@@ -85,6 +85,13 @@ export const command: Command = new Command(
         options.map(([key, val]) => {
           if (key === 'usage') {
             embed.addFields({name: key, value: val.join('\n')});
+            return;
+          }
+          if (key === 'expectedArgs') {
+            embed.addFields({
+              name: 'expected arguments',
+              value: val.join(', '),
+            });
             return;
           }
           embed.addFields({name: key, value: `${val}`});

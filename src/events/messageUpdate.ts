@@ -45,6 +45,8 @@ export const event = new Event(
             `${newMessage.author} is not a User`
           );
 
+          if (d.path.join('.') === 'content' && d.oldVal === d.val) return;
+
           modlog.send(
             strFmt(
               ":pencil: **{author}**'s message's {change} was updated in **#{channel}**.\n**Old:** {oldVal}\n**New:** {val}",

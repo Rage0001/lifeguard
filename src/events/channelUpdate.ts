@@ -27,7 +27,7 @@ export const event = new Event(
       changes.forEach(change => {
         modlog.send(
           strFmt(
-            ":pencil: **#{name}**'s {change} was updated by **{user}**.\n**Old:** ${oldVal}\n**New:** ${val}",
+            ":pencil: **#{name}**'s {change} was updated by **{user}**.\n**Old:** {oldVal}\n**New:** {val}",
             {
               name: newChannel.name,
               change: change.key,

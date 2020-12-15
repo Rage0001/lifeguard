@@ -1,7 +1,7 @@
 import {Command} from '@plugins/Command';
 import {command as ban} from '@plugins/moderation/ban';
 
-export const command: Command = new Command(
+export const command = new Command<string[]>(
   'mban',
   async (lifeguard, msg, args) => {
     // Find where '-r' is  in the args
@@ -11,7 +11,10 @@ export const command: Command = new Command(
     // Get reason from args
     const reason: string = args.slice(reasonFlagIndex + 1).join(' ');
     // Run ban command for each user
-    users.forEach(user => ban.func(lifeguard, msg, [user, reason]));
+    users.forEach(u => {
+      const user = lifeguard.users.cache.find(usr => usr.id === u);
+      if (user) ban.func(lifeguard, msg, [user, reason]);
+    });
   },
   {
     level: 1,

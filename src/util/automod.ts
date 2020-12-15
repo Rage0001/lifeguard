@@ -3,7 +3,7 @@ import {FilterChannel, GuildDoc} from '@lifeguard/database/Guild';
 import {Message} from 'discord.js';
 import {PluginClient} from '@lifeguard/PluginClient';
 
-function deleteMessage(msg: Message, reason: string) {
+function deleteMessage(lifeguard: PluginClient, msg: Message, reason: string) {
   msg.delete({
     timeout: 1000,
     reason: reason,
@@ -37,18 +37,18 @@ function invites(content: string, whitelist: string[]) {
   return false;
 }
 
-function maxMentions(msg: Message, count = 10) {
+function maxMentions(msg: Message, count: number) {
   const mentionRegex = /(<(?:@(?:!|&)?|#)\d+>)/gm;
-  if (mentionRegex.test(msg.content)) {
-    const mentions = mentionRegex.exec(msg.content);
-    if (mentions && mentions.length >= count) {
-      return mentions.length;
-    }
+  const mentions = [
+    ...new Set([...msg.content.matchAll(mentionRegex)].map(m => m[0])),
+  ];
+  if (mentions.length >= count) {
+    return mentions.length;
   }
   return false;
 }
 
-function maxLines(content: string, count = 10) {
+function maxLines(content: string, count: number) {
   const lines = content.split('\n');
   if (lines.length >= count) {
     return lines.length;
@@ -76,6 +76,7 @@ export function automod(
     );
     if (blockedWordsCheck.length > 0) {
       return deleteMessage(
+        lifeguard,
         msg,
         `Included blocked word \`${blockedWordsCheck[0]}\``
       );
@@ -86,6 +87,7 @@ export function automod(
     ]);
     if (blockedWordsinChannelCheck && blockedWordsinChannelCheck.length > 0) {
       return deleteMessage(
+        lifeguard,
         msg,
         `Included blocked word \`${blockedWordsinChannelCheck[0]}\``
       );
@@ -97,7 +99,11 @@ export function automod(
         dbGuild.config.filter.inviteWhitelist
       );
       if (invitesCheck) {
-        return deleteMessage(msg, `Included invite \`${invitesCheck[0]}\``);
+        return deleteMessage(
+          lifeguard,
+          msg,
+          `Included invite \`${invitesCheck[0]}\``
+        );
       }
     }
 
@@ -107,7 +113,11 @@ export function automod(
         dbGuild.config.filter.maxMentions
       );
       if (maxMentionsCheck) {
-        return deleteMessage(msg, `Included ${maxMentionsCheck} mentions`);
+        return deleteMessage(
+          lifeguard,
+          msg,
+          `Included ${maxMentionsCheck} mentions`
+        );
       }
     }
 
@@ -117,7 +127,7 @@ export function automod(
         dbGuild.config.filter.maxMentions
       );
       if (maxLinesCheck) {
-        return deleteMessage(msg, `Included ${maxLinesCheck} lines`);
+        return deleteMessage(lifeguard, msg, `Included ${maxLinesCheck} lines`);
       }
     }
   }

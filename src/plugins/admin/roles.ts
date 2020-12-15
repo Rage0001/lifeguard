@@ -1,6 +1,6 @@
 import {Command} from '@plugins/Command';
 
-export const command: Command = new Command(
+export const command = new Command<[]>(
   'roles',
   async (lifeguard, msg) => {
     const roleList: string[] | undefined = msg.guild?.roles?.cache

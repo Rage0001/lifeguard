@@ -1,8 +1,8 @@
 import {Command} from '@plugins/Command';
 import {parseUser} from '@util/parseUser';
 
-export const command: Command = new Command(
-  'ban',
+export const command = new Command<string[]>(
+  'unban',
   async (lifeguard, msg, [uid, ...reason]) => {
     try {
       const u: string = parseUser(uid);
