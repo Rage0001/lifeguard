@@ -1,7 +1,7 @@
 import { ClientEvents } from "harmony/mod.ts";
 import type { LifeguardCtx } from "@src/bot.ts";
 
-type EventFunc<K extends keyof ClientEvents> = (
+export type EventFunc<K extends keyof ClientEvents> = (
   ctx: LifeguardCtx,
   ...args: ClientEvents[K]
 ) => void;

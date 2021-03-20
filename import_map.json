@@ -1,6 +1,7 @@
 {
   "imports": {
     "@src/": "./src/",
+    "@events/": "./src/events/",
     "harmony/": "https://deno.land/x/harmony@v1.1.4/",
     ".env": "https://deno.land/x/dotenv@v2.0.0/mod.ts"
   }
