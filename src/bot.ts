@@ -7,3 +7,7 @@ export class Lifeguard extends Client {
     });
   }
 }
+
+export interface LifeguardCtx {
+  lifeguard: Lifeguard;
+}

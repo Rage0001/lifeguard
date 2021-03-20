@@ -1,4 +1,4 @@
-import { Lifeguard } from "./src/bot.ts";
+import { Lifeguard } from "@src/bot.ts";
 import { config } from ".env";
 
 if (!import.meta.main) {
