@@ -3,6 +3,7 @@
     "@src/": "./src/",
     "@events/": "./src/events/",
     "@util/": "./src/util/",
+    "colors": "https://deno.land/std@0.90.0/fmt/colors.ts",
     "harmony/": "https://deno.land/x/harmony@v1.1.4/",
     ".env": "https://deno.land/x/dotenv@v2.0.0/mod.ts"
   }
