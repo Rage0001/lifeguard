@@ -11,6 +11,9 @@ import {
 } from "colors";
 
 export class Logger {
+  info = Logger.info;
+  warn = Logger.warn;
+  error = Logger.error;
   constructor(debugEnabled: boolean) {
     if (!debugEnabled) this.debug = () => {};
   }
@@ -22,15 +25,15 @@ export class Logger {
       ...data
     );
   }
-  info(message: string) {
+  static info(message: string) {
     console.info(`${bgBrightBlue(black("[INFO]"))} ${brightBlue(message)}`);
   }
-  warn(message: string) {
-    console.info(`${bgBrightYellow(black("[INFO]"))} ${brightYellow(message)}`);
+  static warn(message: string) {
+    console.info(`${bgBrightYellow(black("[WARN]"))} ${brightYellow(message)}`);
   }
-  error(message: string, ...data: any[]) {
+  static error(message: string, ...data: any[]) {
     console.error(
-      `${bgBrightRed(black("[DEBUG]"))} ${brightRed(message)}${
+      `${bgBrightRed(black("[ERROR]"))} ${brightRed(message)}${
         data.length > 0 ? "\n" : ""
       }`,
       ...data

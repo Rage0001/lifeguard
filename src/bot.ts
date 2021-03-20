@@ -1,4 +1,5 @@
 import { Client, ClientEvents, GatewayIntents } from "harmony/mod.ts";
+import { Database, DatabaseOpts } from "@database/Database.ts";
 
 import { Event } from "@events/Event.ts";
 import { Logger } from "@util/Logger.ts";
@@ -6,22 +7,30 @@ import { Logger } from "@util/Logger.ts";
 export interface LifeguardCtx {
   lifeguard: Lifeguard;
   logger: Logger;
+  db: Database;
 }
 
 export interface LifeguardOpts {
   debug: boolean;
+  db: DatabaseOpts;
 }
 export class Lifeguard extends Client {
   #ctx: LifeguardCtx;
   logger: Logger;
+  db: Database;
   constructor(public opts: LifeguardOpts) {
     super({
       intents: [GatewayIntents.GUILDS, GatewayIntents.GUILD_MESSAGES],
     });
     this.logger = new Logger(this.opts.debug);
+    this.db = new Database(this.opts.db);
+    this.db.connect().catch((err) => {
+      throw this.logger.error("Failed to connect to the Database(s)", err);
+    });
     this.#ctx = {
       lifeguard: this,
       logger: this.logger,
+      db: this.db,
     };
   }
 
