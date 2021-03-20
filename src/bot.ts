@@ -1,12 +1,23 @@
 import { Client, ClientEvents, GatewayIntents } from "harmony/mod.ts";
 
 import { Event } from "@events/Event.ts";
+import { Logger } from "@util/Logger.ts";
+
+export interface LifeguardCtx {
+  lifeguard: Lifeguard;
+  logger: Logger;
+}
 
 export class Lifeguard extends Client {
+  #ctx: LifeguardCtx;
   constructor() {
     super({
       intents: [GatewayIntents.GUILDS, GatewayIntents.GUILD_MESSAGES],
     });
+    this.#ctx = {
+      lifeguard: this,
+      logger: new Logger(),
+    };
   }
 
   async loadEvents() {
@@ -16,14 +27,7 @@ export class Lifeguard extends Client {
       const event: Event<keyof ClientEvents> = new (
         await import(`@events/${dirEntry.name}`)
       ).default();
-      this.on(event.name, (...args) =>
-        event.func({ lifeguard: this, log: console.log }, ...args)
-      );
+      this.on(event.name, (...args) => event.func(this.#ctx, ...args));
     }
   }
-}
-
-export interface LifeguardCtx {
-  lifeguard: Lifeguard;
-  log: Console["log"];
 }
