@@ -5,5 +5,7 @@ if (!import.meta.main) {
   throw new Error("main.ts must be the program entry point!");
 }
 
-config();
-new Lifeguard().connect();
+config({
+  path: Deno.env.get("LG_ENV")?.startsWith("dev") ? ".env.devel" : ".env",
+});
+new Lifeguard().connect(Deno.env.get("TOKEN"));
