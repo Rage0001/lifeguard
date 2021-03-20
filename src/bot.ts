@@ -8,15 +8,20 @@ export interface LifeguardCtx {
   logger: Logger;
 }
 
+export interface LifeguardOpts {
+  debug: boolean;
+}
 export class Lifeguard extends Client {
   #ctx: LifeguardCtx;
-  constructor() {
+  logger: Logger;
+  constructor(public opts: LifeguardOpts) {
     super({
       intents: [GatewayIntents.GUILDS, GatewayIntents.GUILD_MESSAGES],
     });
+    this.logger = new Logger(this.opts.debug);
     this.#ctx = {
       lifeguard: this,
-      logger: new Logger(),
+      logger: this.logger,
     };
   }
 

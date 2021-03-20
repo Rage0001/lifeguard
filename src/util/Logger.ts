@@ -11,9 +11,14 @@ import {
 } from "colors";
 
 export class Logger {
+  constructor(debugEnabled: boolean) {
+    if (!debugEnabled) this.debug = () => {};
+  }
   debug(message: string, ...data: any[]) {
     console.debug(
-      `${bgBrightBlack(black("[DEBUG]"))} ${white(message)}\n`,
+      `${bgBrightBlack(black("[DEBUG]"))} ${white(message)}${
+        data.length > 0 ? "\n" : ""
+      }`,
       ...data
     );
   }
@@ -25,7 +30,9 @@ export class Logger {
   }
   error(message: string, ...data: any[]) {
     console.error(
-      `${bgBrightRed(black("[DEBUG]"))} ${brightRed(message)}\n`,
+      `${bgBrightRed(black("[DEBUG]"))} ${brightRed(message)}${
+        data.length > 0 ? "\n" : ""
+      }`,
       ...data
     );
   }
