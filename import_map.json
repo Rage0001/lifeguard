@@ -1,6 +1,7 @@
 {
   "imports": {
     "/": "./",
-    "@src": "./src"
+    "@src": "./src",
+    "harmony/": "https://deno.land/x/harmony@v1.1.4/"
   }
 }
