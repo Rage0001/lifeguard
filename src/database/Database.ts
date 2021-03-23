@@ -43,6 +43,12 @@ export class Database {
         );
         return r;
       });
+      await this.Users.loadDocsIntoRedis().then(() =>
+        Logger.info("Loaded Exising Users into Redis")
+      );
+      await this.Guilds.loadDocsIntoRedis().then(() =>
+        Logger.info("Loaded Existing Guilds into Redis")
+      );
     } catch (error) {
       return Promise.reject(error);
     }
