@@ -10,6 +10,7 @@ export interface DatabaseOpts {
     dbName: string;
   };
   redis: RedisConnectOptions;
+  debug?: boolean;
 }
 export class Database {
   mongo: MongoClient;
@@ -33,14 +34,21 @@ export class Database {
         .connect(this.opts.mongo.uri)
         .then(() => Logger.info("Connected to MongoDB"));
       this._db = this.mongo.database(this.opts.mongo.dbName);
-      this.redis = await connect(this.opts.redis).then((r) => {
+      this.redis = await connect(this.opts.redis).then(async (r) => {
         Logger.info("Connected to Redis");
-        r.hset("users", "__exists", "true").catch((err) =>
-          console.error('r.hset("users", "__exists", "true")', err)
-        );
-        r.hset("guilds", "__exists", "true").catch((err) =>
-          console.error('r.hset("guilds", "__exists", "true")', err)
-        );
+        if (this.opts.debug) {
+          await r.del("users", "guilds");
+        }
+        await r
+          .hset("users", "__exists", "true")
+          .catch((err) =>
+            console.error('r.hset("users", "__exists", "true")', err)
+          );
+        await r
+          .hset("guilds", "__exists", "true")
+          .catch((err) =>
+            console.error('r.hset("guilds", "__exists", "true")', err)
+          );
         return r;
       });
       await this.Users.loadDocsIntoRedis().then(() =>
