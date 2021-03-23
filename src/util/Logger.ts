@@ -17,9 +17,9 @@ export class Logger {
   constructor(debugEnabled: boolean) {
     if (!debugEnabled) this.debug = () => {};
   }
-  debug(message: string, ...data: any[]) {
+  debug(message: string, ...data: unknown[]) {
     console.debug(
-      `${bgBrightBlack(black("[DEBUG]"))} ${white(message)}${
+      `${bgBrightBlack(white("[DEBUG]"))} ${white(message)}${
         data.length > 0 ? "\n" : ""
       }`,
       ...data
@@ -31,7 +31,7 @@ export class Logger {
   static warn(message: string) {
     console.info(`${bgBrightYellow(black("[WARN]"))} ${brightYellow(message)}`);
   }
-  static error(message: string, ...data: any[]) {
+  static error(message: string, ...data: unknown[]) {
     console.error(
       `${bgBrightRed(black("[ERROR]"))} ${brightRed(message)}${
         data.length > 0 ? "\n" : ""
