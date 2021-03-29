@@ -3,6 +3,7 @@ import { Redis, RedisConnectOptions, connect } from "redis/mod.ts";
 
 import { Logger } from "@util/Logger.ts";
 import { MongoClient } from "mongo/mod.ts";
+import { timed } from "@util/timed.ts";
 
 export interface DatabaseOpts {
   mongo: {
@@ -26,6 +27,21 @@ export class Database {
 
   get Guilds(): Guild {
     return new Guild(this.redis, this._db.collection("guilds"));
+  }
+
+  async ping() {
+    const [redisPing] = await timed(async () => {
+      return await this.redis.ping();
+    });
+    const [mongoPing] = await timed(async () => {
+      return await this.mongo.runCommand(this._db.name, {
+        ping: 1,
+      });
+    });
+    return {
+      redis: redisPing,
+      mongo: mongoPing,
+    };
   }
 
   async connect() {
