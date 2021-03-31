@@ -29,6 +29,9 @@ try {
     .loadEvents()
     .then(() => lifeguard.logger.debug("Loaded Events"));
   await lifeguard.connect(env.TOKEN);
+  await lifeguard
+    .loadCommands()
+    .then(() => lifeguard.logger.debug("Loaded Commands"));
 } catch (error) {
   console.error(error);
 }
