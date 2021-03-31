@@ -6,7 +6,7 @@ export default class extends Command {
   name = "ping";
   description = "Pings the bot to see if it is alive.";
   handle: CommandHandler = async (ctx, i) => {
-    const dbPing = await ctx.db.ping();
+    const { redis, mongo } = await ctx.db.ping();
     i.respond({
       embeds: [
         new Embed().addFields(
@@ -16,11 +16,11 @@ export default class extends Command {
           },
           {
             name: "Redis Ping:",
-            value: `${dbPing.redis.toFixed(2)}ms`,
+            value: `${redis.toFixed(2)}ms`,
           },
           {
             name: "MongoDB Ping:",
-            value: `${dbPing.mongo.toFixed(2)}ms`,
+            value: `${mongo.toFixed(2)}ms`,
           }
         ),
       ],
