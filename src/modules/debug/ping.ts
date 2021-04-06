@@ -1,11 +1,11 @@
-import { Command, CommandHandler } from "./Command.ts";
+import { Command, CommandHandler } from "@modules/Command.ts";
 
 import { Embed } from "harmony/mod.ts";
 
 export default class extends Command {
   name = "ping";
   description = "Pings the bot to see if it is alive.";
-  handle: CommandHandler = async (ctx, i) => {
+  handler: CommandHandler = async (ctx, i) => {
     const { redis, mongo } = await ctx.db.ping();
     i.respond({
       embeds: [

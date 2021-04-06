@@ -4,7 +4,7 @@
     "@database/": "./src/database/",
     "@database/$schemas": "./src/database/$schemas/main.ts",
     "@events/": "./src/events/",
-    "@commands/": "./src/commands/",
+    "@modules/": "./src/modules/",
     "@util/": "./src/util/",
     ".env": "https://deno.land/x/dotenv@v2.0.0/mod.ts",
     "colors": "https://deno.land/std@0.90.0/fmt/colors.ts",

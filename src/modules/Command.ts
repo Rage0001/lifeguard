@@ -1,14 +1,10 @@
-import {
-  Interaction,
-  SlashCommandHandler,
-  SlashCommandPartial,
-} from "harmony/mod.ts";
+import { Interaction, SlashCommandPartial } from "harmony/mod.ts";
 
 import type { LifeguardCtx } from "@src/bot.ts";
 
 export type CommandHandler = (
   ctx: LifeguardCtx,
-  i: Interaction
+  interaction: Interaction
 ) => Promise<void>;
 
 export abstract class Command implements SlashCommandPartial {
@@ -16,6 +12,6 @@ export abstract class Command implements SlashCommandPartial {
     public name: SlashCommandPartial["name"],
     public description: SlashCommandPartial["description"],
     public options: SlashCommandPartial["options"],
-    public handle: CommandHandler
+    public handler: CommandHandler
   ) {}
 }

@@ -21,6 +21,7 @@ export abstract class Schema<T extends DefaultSchema> {
       return Promise.reject(err);
     }
   }
+
   exists(id: T["id"]) {
     try {
       return this.redis.hexists(this.collection.name, id);
@@ -28,6 +29,27 @@ export abstract class Schema<T extends DefaultSchema> {
       return Promise.reject(err);
     }
   }
+
+  async getAll(): Promise<Map<string, T>> {
+    try {
+      const all = await this.redis.hgetall(this.collection.name);
+      return new Map(
+        (all.reduce((res, item, ind) => {
+          const chunkInd = Math.floor(ind / 2);
+          if (!res[chunkInd]) {
+            res[chunkInd] = [] as string[];
+          }
+          res[chunkInd].push(item);
+          return res;
+        }, [] as string[][]) as [string, string][])
+          .filter(([k, v]) => !k.startsWith("_"))
+          .map(([k, v]) => [k, JSON.parse(v)])
+      );
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
   async findByID(id: T["id"], cache?: boolean): Promise<T> {
     try {
       cache = cache !== undefined ? cache : true;

@@ -28,10 +28,10 @@ try {
   await lifeguard
     .loadEvents()
     .then(() => lifeguard.logger.debug("Loaded Events"));
-  await lifeguard.connect(env.TOKEN);
   await lifeguard
-    .loadCommands()
-    .then(() => lifeguard.logger.debug("Loaded Commands"));
+    .loadModules()
+    .then(() => lifeguard.logger.debug("Loaded Modules"));
+  await lifeguard.connect(env.TOKEN);
 } catch (error) {
   console.error(error);
 }
