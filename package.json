@@ -1,0 +1,56 @@
+{
+  "name": "lifeguard",
+  "version": "0.3.1",
+  "description": "lifeguard discord bot",
+  "keywords": [
+    "discord",
+    "typescript",
+    "lifeguard",
+    "discord.js"
+  ],
+  "main": "./build/bot.js",
+  "type": "module",
+  "scripts": {
+    "precompile": "pnpm run lint",
+    "compile": "swc src -d build",
+    "lint": "prettier --check \"src/**/*.ts\"",
+    "lint:fix": "prettier --write \"src/**/*.ts\"",
+    "start": "node --unhandled-rejections=strict --trace-warnings --trace-uncaught --experimental-specifier-resolution=node build/main.js"
+  },
+  "_moduleAliases": {},
+  "author": "Rauf",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ItsRauf/esmcord.git"
+  },
+  "types": "./build/mod.d.ts",
+  "devDependencies": {
+    "@swc/cli": "^0.1.45",
+    "@swc/core": "^1.2.59",
+    "@types/node": "^14.17.1",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
+    "dotenv": "^8.6.0",
+    "eslint": "^7.27.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.0",
+    "typescript": "^4.3.2"
+  },
+  "engines": {
+    "node": ">=12.2.0"
+  },
+  "dependencies": {
+    "@swc/helpers": "^0.2.12",
+    "@types/module-alias": "^2.0.0",
+    "@types/ws": "^7.4.4",
+    "ansi-colors": "^4.1.1",
+    "discord-api-types": "^0.12.1",
+    "module-alias": "^2.2.2",
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^9.1.1",
+    "ws": "^7.4.6"
+  }
+}
