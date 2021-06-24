@@ -1,28 +1,51 @@
+// {
+//   "compilerOptions": {
+//     "allowSyntheticDefaultImports": true,
+//     "allowUnreachableCode": false,
+//     "allowUnusedLabels": false,
+//     "baseUrl": "./",
+//     "declaration": true,
+//     "declarationMap": true,
+//     "emitDeclarationOnly": true,
+//     "emitDecoratorMetadata": true,
+//     "experimentalDecorators": true,
+//     "forceConsistentCasingInFileNames": true,
+//     "lib": ["ESNext"],
+//     "module": "ESNext",
+//     "moduleResolution": "Node",
+//     "noEmitOnError": true,
+//     "noFallthroughCasesInSwitch": true,
+//     "noImplicitAny": true,
+//     "noImplicitReturns": true,
+//     "outDir": "./dist",
+//     "paths": {
+//       "~/*": ["./src/*"]
+//     },
+//     "pretty": true,
+//     "resolveJsonModule": true,
+//     "rootDir": "src",
+//     "sourceMap": true,
+//     "strict": true,
+//     "target": "ESNext"
+//   },
+//   "include": ["src/**/*.ts", "typings/**/*.ts"],
+//   "exclude": ["node_modules", "build"]
+// }
+
 {
   "compilerOptions": {
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
+    "module": "commonjs",
     "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["ESNext"],
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "noEmitOnError": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "pretty": true,
-    "rootDir": "src",
-    "resolveJsonModule": true,
+    "target": "es2017",
     "sourceMap": true,
-    "strict": true,
-    "target": "ESNext",
-    "baseUrl": "./src",
-    "paths": {}
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "typings/**/*.ts"],
-  "exclude": ["node_modules", "build"]
+  "include": ["src/**/*"]
 }

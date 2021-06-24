@@ -15,7 +15,7 @@
     }
   },
   "module": {
-    "type": "es6",
+    "type": "commonjs",
     "strict": true,
     "lazy": false
   }

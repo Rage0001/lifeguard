@@ -8,16 +8,23 @@
     "lifeguard",
     "discord.js"
   ],
-  "main": "./build/bot.js",
-  "type": "module",
+  "main": "./build/main.js",
   "scripts": {
-    "precompile": "pnpm run lint",
+    "build": "nest build",
     "compile": "swc src -d build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "prettier --check \"src/**/*.ts\"",
     "lint:fix": "prettier --write \"src/**/*.ts\"",
-    "start": "node --unhandled-rejections=strict --trace-warnings --trace-uncaught --experimental-specifier-resolution=node build/main.js"
+    "prebuild": "rimraf dist",
+    "precompile": "pnpm run lint",
+    "start": "nest start",
+    "start:debug": "nest start --debug --watch",
+    "start:dev": "nest start --watch",
+    "start:prod": "node --unhandled-rejections=strict --trace-warnings --trace-uncaught build/main.js"
   },
-  "_moduleAliases": {},
+  "_moduleAliases": {
+    "~": "build/"
+  },
   "author": "Rauf",
   "license": "GPL-3.0",
   "repository": {
@@ -26,6 +33,8 @@
   },
   "types": "./build/mod.d.ts",
   "devDependencies": {
+    "@nestjs/cli": "^7.6.0",
+    "@nestjs/schematics": "^7.3.1",
     "@swc/cli": "^0.1.45",
     "@swc/core": "^1.2.59",
     "@types/node": "^14.17.1",
@@ -43,13 +52,18 @@
     "node": ">=12.2.0"
   },
   "dependencies": {
+    "@nestjs/common": "^7.6.18",
+    "@nestjs/core": "^7.6.18",
     "@swc/helpers": "^0.2.12",
     "@types/module-alias": "^2.0.0",
     "@types/ws": "^7.4.4",
     "ansi-colors": "^4.1.1",
     "discord-api-types": "^0.12.1",
+    "eris": "^0.15.1",
     "module-alias": "^2.2.2",
     "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
+    "rxjs": "^7.1.0",
     "ts-node": "^9.1.1",
     "ws": "^7.4.6"
   }
